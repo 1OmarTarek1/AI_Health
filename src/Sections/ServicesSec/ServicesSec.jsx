@@ -19,20 +19,26 @@ const ServicesSec = () => {
     };
 
     const capture = React.useCallback(() => {
-        if(webcamRef.current) {
+        if (uploadedImg) {
+            setError('An image has already been uploaded.');
+            return;
+        }
+        if (webcamRef.current) {
             const imageSrc = webcamRef.current.getScreenshot();
             setImgSrc(imageSrc);
         } else {
             setError('No webcam found.');
         }
-    }, [webcamRef, setImgSrc]);
+    }, [webcamRef, setImgSrc, uploadedImg]);
 
     const handleImageUpload = (event) => {
-        const file = event.target.files[0];
+        const file = event.target.files[0]; // Get the first file only
         if (file) {
+            setIsWebcamActive(false); // Turn off the webcam
             const reader = new FileReader();
             reader.onloadend = () => {
                 setUploadedImg(reader.result);
+                setImgSrc(null); // Clear any existing imgSrc
             };
             reader.onerror = () => {
                 setError('Failed to load the image.');
