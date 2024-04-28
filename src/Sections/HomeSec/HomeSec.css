@@ -1,0 +1,66 @@
+.homeSec .SectionWrapper{
+    padding: 0px;
+}
+.homeSec .SectionWrapper .imgWrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+.homeSec .SectionWrapper .imgWrapper img{
+    width: auto;
+    height: 100vh;
+    filter: brightness(60%) blur(3px);
+}
+.homeSec .SectionWrapper .effect{
+    position: absolute;
+    inset: 0;
+    width: auto;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    flex-wrap: wrap;
+    background: linear-gradient( transparent, transparent, transparent, var(--color-body));
+}
+.homeContent{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.homeTitle{
+    text-align: center;
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 2.5rem;
+}
+.dis{
+    margin-bottom: 30px;
+    font-size: 14px;
+    max-width: 300px;
+    color: #ffffffa2;
+}
+.homeBtn{
+    text-align: center;
+    padding: 8px 0px;
+    width: 120px;
+    backdrop-filter: blur(7px);
+    font-size: 15px;
+    font-weight: 500;
+    border-radius: 5px;
+    border: 1px solid rgba(255, 255, 255, 0.13);
+    text-transform: uppercase;
+    color: #fff;
+    letter-spacing: .2rem;
+    transition: all .3s;
+    box-shadow: 0px 1px 3px 0px #0000008a;
+}
+.homeBtn:hover{
+    width: 125px;
+    letter-spacing: .4rem;
+    padding-left: 5px;
+    backdrop-filter: blur(10px);
+    color: #fff;
+}

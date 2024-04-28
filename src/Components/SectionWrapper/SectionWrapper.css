@@ -1,0 +1,11 @@
+.SectionWrapper{
+    position: relative;
+    scroll-snap-align: start; 
+    height: calc(100vh);
+    padding-top: 75px;
+    padding-inline: 15px;
+    color: #fff;
+}
+
+
+
