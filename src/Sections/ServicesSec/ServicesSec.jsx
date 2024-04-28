@@ -23,10 +23,11 @@ const ServicesSec = () => {
             const imageSrc = webcamRef.current.getScreenshot();
             setImgSrc(imageSrc);
             setUploadedImg(null); // Clear any existing uploaded image
+            setIsWebcamActive(false); // Turn off the webcam after capturing the photo
         } else {
             setError('No webcam found.');
         }
-    }, [webcamRef, setImgSrc]);
+    }, [webcamRef, setImgSrc, setIsWebcamActive]);
 
     const handleImageUpload = (event) => {
         const file = event.target.files[0]; // Get the first file only
