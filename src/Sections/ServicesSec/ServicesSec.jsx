@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Webcam from 'react-webcam';
 import { SectionWrapper } from '../../Components'
-import pizza from '../../Assets/Images/Pizza.jpg'
+// import pizza from '../../Assets/Images/Pizza.jpg'
 import './ServicesSec.css'
 
 
@@ -28,6 +28,8 @@ const ServicesSec = () => {
                 <div className="takenPhotoWrapper">
                     <Webcam
                     className='webcam'
+                    width={300}
+                    height={200}
                     audio={false}
                     ref={webcamRef}
                     screenshotFormat="image/jpeg"
@@ -35,22 +37,20 @@ const ServicesSec = () => {
                     />
                     <button onClick={capture}>Capture photo</button>
                     {error && <span style={{color:"red"}}>{error}</span>}
-                    {imgSrc && (
-                        <img
-                        src={imgSrc}
-                        alt="Captured"
-                        />
-                    )}
+
                 </div>
 
                 <div className="infoContainer">
                     <div className="partOneWrapper">
                         <div className="imgInfoWrapper">
-                            <img 
-                            src={pizza} 
-                            alt="Chicken Bacon Ranch Pizza" 
+                            {imgSrc && (
+                            <img
+                            className='webcamImg'
+                            src={imgSrc}
+                            alt="Captured"
                             width={200}
                             />
+                            )}
                         </div>
                         <div className="name">
                             Chicken Bacon Ranch Pizza
