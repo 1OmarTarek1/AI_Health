@@ -1,18 +1,21 @@
 import React, { useState } from 'react';
 import Webcam from 'react-webcam';
 import { SectionWrapper } from '../../Components';
+import { FaCamera } from "react-icons/fa";
 import './ServicesSec.css';
 
 const ServicesSec = () => {
     const webcamRef = React.useRef(null);
     const [imgSrc, setImgSrc] = useState(null);
     const [error, setError] = useState(null);
+    const [uploadedImg, setUploadedImg] = useState(null);
+    const [isWebcamActive, setIsWebcamActive] = useState(false);
 
     // Define video constraints for the back camera
     const videoConstraints = {
-        width: 300,
-        height: 200,
-        facingMode: "environment", // 'user' for front and 'environment' for back camera
+        width: "100%",
+        height: "300px",
+        facingMode: "environment",
     };
 
     const capture = React.useCallback(() => {
@@ -24,21 +27,54 @@ const ServicesSec = () => {
         }
     }, [webcamRef, setImgSrc]);
 
+    const handleImageUpload = (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setUploadedImg(reader.result);
+            };
+            reader.onerror = () => {
+                setError('Failed to load the image.');
+            };
+            reader.readAsDataURL(file);
+        } else {
+            setError('No file selected.');
+        }
+    };
+
+    const toggleWebcam = () => {
+        setIsWebcamActive(!isWebcamActive);
+    };
+
     return (
         <>
             <div className="ServicesSec" id='Services'>
                 <SectionWrapper>
                     <div className="takenPhotoWrapper">
-                        <Webcam
-                            audio={false}
-                            height={videoConstraints.height}
-                            ref={webcamRef}
-                            screenshotFormat="image/jpeg"
-                            width={videoConstraints.width}
-                            videoConstraints={videoConstraints}
-                            onUserMediaError={() => setError('Webcam Access Denied!')}
-                        />
-                        <button onClick={capture}>Capture photo</button>
+                        {isWebcamActive && (
+                            <>
+                                <div className="webcamContainer">
+                                    <Webcam
+                                        className='webcam'
+                                        audio={false}
+                                        height={videoConstraints.height}
+                                        ref={webcamRef}
+                                        screenshotFormat="image/jpeg"
+                                        width={videoConstraints.width}
+                                        videoConstraints={videoConstraints}
+                                        onUserMediaError={() => setError('Webcam Access Denied!')}
+                                    />
+                                    <button className='screenBtn' onClick={capture}>
+                                        <FaCamera />
+                                    </button>
+                                </div>
+                            </>
+                        )}
+                        <button onClick={toggleWebcam}>
+                            {isWebcamActive ? 'Turn off camera' : 'Turn on camera'}
+                        </button>
+                        <input type="file" accept="image/*" onChange={handleImageUpload} />
                         {error && <span style={{color:"red"}}>{error}</span>}
                     </div>
 
@@ -47,10 +83,20 @@ const ServicesSec = () => {
                             <div className="imgInfoWrapper">
                                 {imgSrc && (
                                     <img
-                                        className='webcamImg'
-                                        src={imgSrc}
-                                        alt="Captured"
-                                        width={200}
+                                    className='webcamImg'
+                                    src={imgSrc}
+                                    alt="Captured"
+                                    width={200}
+                                    onError={() => setError('Failed to load the captured image.')}
+                                    />
+                                )}
+                                {uploadedImg && (
+                                    <img
+                                    className='uploadedImg'
+                                    src={uploadedImg}
+                                    alt="Uploaded"
+                                    width={100}
+                                    onError={() => setError('Failed to load the uploaded image.')}
                                     />
                                 )}
                             </div>
@@ -59,6 +105,7 @@ const ServicesSec = () => {
                             </div>
                         </div>
                     </div>
+
                 </SectionWrapper>
             </div>
         </>
@@ -66,3 +113,7 @@ const ServicesSec = () => {
 }
 
 export default ServicesSec;
+
+
+
+// facingMode: "user", // 'user' for front and 'environment' for back camera
