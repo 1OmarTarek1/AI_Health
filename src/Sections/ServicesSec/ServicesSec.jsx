@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 import Webcam from 'react-webcam';
 import { SectionWrapper } from '../../Components';
-import { FaCamera } from "react-icons/fa";
+import { FaCamera, FaFireAlt } from "react-icons/fa";
+import { FaDumbbell, FaRadiation, FaShieldHalved, FaXmark } from 'react-icons/fa6';
+
 import './ServicesSec.css';
+import './Media.css';
+import './Webcam.css';
 
 const ServicesSec = () => {
     const webcamRef = React.useRef(null);
@@ -16,6 +20,7 @@ const ServicesSec = () => {
         width: "100%",
         height: "300px",
         facingMode: "environment",
+        // facingMode: "user", // 'user' for front and 'environment' for back camera
     };
 
     const capture = React.useCallback(() => {
@@ -74,11 +79,14 @@ const ServicesSec = () => {
                                 </div>
                             </>
                         )}
-                        <button onClick={toggleWebcam}>
-                            {isWebcamActive ? 'Turn off camera' : 'Turn on camera'}
-                        </button>
-                        <input type="file" accept="image/*" onChange={handleImageUpload} />
-                        {error && <span style={{color:"red"}}>{error}</span>}
+                        <div className="WebBtnContainer">
+                            <button className='mainWebcamBtn' onClick={toggleWebcam}>
+                                {isWebcamActive ? 'Camera Off' : 'Camera On'}
+                            </button>
+                            <input className='upload' id='file-input' type="file" accept="image/*" onChange={handleImageUpload} />
+                            <label id="uploadLabel" htmlFor="file-input">Select a File</label>
+                        </div>
+                        {error && <p style={{color:"red",textAlign:"center", margin:"0", marginTop:"10px"}}>{error}</p>}
                     </div>
 
                     <div className="infoContainer">
@@ -86,7 +94,7 @@ const ServicesSec = () => {
                             <div className="imgInfoWrapper">
                                 {imgSrc && (
                                     <img
-                                    className='webcamImg'
+                                    className='webcamImg mainImg'
                                     src={imgSrc}
                                     alt="Captured"
                                     width={200}
@@ -95,7 +103,7 @@ const ServicesSec = () => {
                                 )}
                                 {uploadedImg && (
                                     <img
-                                    className='uploadedImg'
+                                    className='uploadedImg mainImg'
                                     src={uploadedImg}
                                     alt="Uploaded"
                                     width={100}
@@ -103,10 +111,58 @@ const ServicesSec = () => {
                                     />
                                 )}
                             </div>
-                            <div className="name">
-                                Chicken Bacon Ranch Pizza
+                            <div className="textWrapper">
+                                <div className="foodName">
+                                    Chicken Bacon Ranch Pizza
+                                </div>
+                                <div className="foodDis">
+                                    Smokey bacon, pieces of chicken, 
+                                    gooey melty cheese,
+                                    and creamy ranch were the perfect 
+                                    combo to pile on a chewy crust!
+                                </div>
                             </div>
                         </div>
+
+                        <ul className="foodDetails">
+                            <li className="detailItem">
+                                <div className="miniTitle">
+                                    <FaFireAlt style={{color:"Red"}} />
+                                    <span>Calories</span>
+                                </div>
+                                <div className="titleInfo">
+                                    800cal
+                                </div>
+                            </li>
+                            <li className="detailItem">
+                                <div className="miniTitle">
+                                    <FaDumbbell style={{color:"silver"}} />
+                                    <span>Protein</span>
+                                </div>
+                                <div className="titleInfo">
+                                    100gm
+                                </div>
+                            </li>
+                            <li className="detailItem">
+                                <div className="miniTitle">
+                                    <FaRadiation style={{color:"yellow"}} /> 
+                                    <span>Fats</span>
+                                </div>
+                                <div className="titleInfo">
+                                    50gm
+                                </div>
+                            </li>
+                            <li className="detailItem">
+                                <div className="miniTitle">
+                                    <FaShieldHalved style={{color:"lightGreen"}}/>
+                                    <span>Healthy</span>
+                                </div>
+                                <div className="titleInfo">
+                                    <FaXmark style={{color:"red"}}/>
+                                </div>
+                            </li>
+                        </ul>
+
                     </div>
 
                 </SectionWrapper>
@@ -119,4 +175,3 @@ export default ServicesSec;
 
 
 
-// facingMode: "user", // 'user' for front and 'environment' for back camera

@@ -5,6 +5,14 @@
     padding-top: 85px;
     padding-inline: 14px;
     color: #fff;
+    overflow: auto;
+}
+
+@media screen and (max-width: 768px) {
+    .SectionWrapper{
+        padding-top: 30px;
+        padding-bottom: 65px;
+    }
 }
 
 

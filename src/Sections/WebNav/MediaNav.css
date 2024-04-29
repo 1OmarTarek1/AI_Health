@@ -1,0 +1,66 @@
+@media screen and ( max-width:768px ) {
+    .WebNav{
+        position: absolute;
+        padding: 15px;
+        backdrop-filter: blur(0);
+    }
+    .WebNavContainer{
+        box-shadow: none;
+        border: none;
+    }
+    .pageLinks{
+        display: none !important;
+    }
+
+
+    .MediaWebNav{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        top: 100%;
+        transform: translateY(-100%);
+        z-index: 3000;
+        width: 100%;
+        padding-block: 10px;
+        backdrop-filter: blur(20px);
+        border-top: 1px solid #a0b6fd1e;
+        box-shadow: 0px 0px 4px 0px #00000071;
+    }
+    .MediaNavContainer{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+    }
+    .MediaPageLinks{
+        position: relative;
+        top: 3px;
+        display: flex;
+        justify-content: space-evenly;
+        width: 100%;
+    }
+    .MediaWebNav a {
+        color: var(--color-navLinks);
+    }
+    .MediaWebNav a:hover {
+        color: var(--color-primary);
+    }
+    .MediaWebNav li a{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 0px;
+    }
+    .MediaWebNav .activeLiNav{
+        color: var(--color-primary);
+    }
+    .MediaWebNav li svg{
+        font-size: 18px;
+    }
+    
+    .MediaWebNav .linkText{
+        font-size: 13px;
+    }
+}

@@ -1,5 +1,6 @@
 .homeSec .SectionWrapper{
     padding: 0px;
+    overflow: hidden;
 }
 .homeSec .SectionWrapper .imgWrapper{
     display: flex;

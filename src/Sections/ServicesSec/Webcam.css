@@ -1,0 +1,41 @@
+.ServicesSec .takenPhotoWrapper{
+    background-color: var(--color-components);
+    margin-bottom: 10px;
+    padding: 15px;
+}
+.webcamContainer{
+    position: relative;
+    height: 300px;
+    margin-bottom: 10px;
+    background-color: #0a0618;
+    /* background-image: url("../../Assets/Images/Food-4.jpg");
+    background-position: center;
+    background-size: cover; */
+}
+.WebBtnContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+.upload{
+    display: none;
+}
+.mainWebcamBtn,
+#uploadLabel{
+    text-align: center;
+    border: none;
+    width: 120px;
+    padding-block: 5px;
+    margin-right: 10px;
+    font-size: 13px;
+    border: 1px solid #fff;
+    background-color: transparent;
+    color: #fff;
+    cursor: pointer;
+    transition: all .2s;
+}
+.mainWebcamBtn:hover,
+#uploadLabel:hover{
+
+}
