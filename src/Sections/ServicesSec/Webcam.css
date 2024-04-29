@@ -12,6 +12,11 @@
     background-position: center;
     background-size: cover; */
 }
+.webcam{
+    width: 100%;
+    height: auto;
+}
+
 .WebBtnContainer{
     display: flex;
     justify-content: center;
