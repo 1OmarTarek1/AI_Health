@@ -11,7 +11,7 @@ const WebNav = () => {
         <>
             <div className="WebNav">
                 <div className="WebNavContainer">
-                    <a href='#!' className="logoWrapper">
+                    <a href='#Home' className="logoWrapper">
                         {/* <img className='logoImg' src={logo} alt="Logo" /> */}
                         AI | HEALTH
                     </a>
@@ -33,7 +33,7 @@ const WebNav = () => {
                             </a>
                         </li>
                         <li>
-                            <a href="#!" className='navLi'>
+                            <a href="#Contact" className='navLi'>
                                 <FaSquarePhone />
                                 <div className="linkText">
                                     Contact

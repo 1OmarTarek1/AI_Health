@@ -1,8 +1,9 @@
 .SectionWrapper{
     position: relative;
     scroll-snap-align: start; 
-    /* height: calc(100vh); */
-    padding-top: 85px;
+    /* height: calc(100vh);
+    padding-top: 85px; */
+    padding-top: 50px;
     padding-bottom: 20px;
     padding-inline: 14px;
     color: #fff;

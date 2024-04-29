@@ -30,6 +30,10 @@
     font-weight: 500;
     color: #fff;
 }
+.logoWrapper:hover{
+    text-shadow: 0 0 20px #fff;
+    color: #fff !important;
+}
 .WebNav .logoImg{
     width: 35px;
 }
@@ -57,6 +61,7 @@
     justify-content: center;
     align-items: center;
     gap: 3px;
+    font-weight: 500;
 }
 .WebNav .activeLiNav{
     color: var(--color-primary);

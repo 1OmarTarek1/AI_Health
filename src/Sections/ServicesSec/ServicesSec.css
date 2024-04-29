@@ -4,6 +4,11 @@
 
 }
 
+.allSerCon{
+    background-color: var(--color-components);
+    padding: 15px;
+}
+
 
 .infoContainer{
     display: flex;
@@ -12,7 +17,7 @@
     padding: 8px;
     border: 1px solid #ffffff23;
     border-radius: 5px;
-    background-color: var(--color-components);
+    background-color: var(--color-body);
 }
 
 
@@ -29,8 +34,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 5px solid var(--color-body);
-    background-color: var(--color-body);
+    border: 5px solid var(--color-components);
+    background-color: var(--color-components);
     overflow: hidden;
 }
 .mainImg{

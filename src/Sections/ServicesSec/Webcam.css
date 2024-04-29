@@ -18,9 +18,27 @@
     width: 100%;
     height: auto;
 }
-
+.webcamErr{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    color: rgba(221, 36, 36, 0.863);
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: default;
+}
+.webcamErr svg{
+    position: relative;
+    top: 1px;
+}
 
 .WebBtnContainer{
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -31,19 +49,31 @@
 }
 .mainWebcamBtn,
 #uploadLabel{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
     text-align: center;
     border: none;
-    width: 120px;
+    width: 90px;
     padding-block: 5px;
     margin-right: 10px;
     font-size: 13px;
-    border: 1px solid #fff;
-    background-color: transparent;
+    font-weight: 500;
+    background-color: var(--color-primary);
     color: #fff;
     cursor: pointer;
     transition: all .2s;
 }
 .mainWebcamBtn:hover,
 #uploadLabel:hover{
-
+    border-radius: 5px;
+    filter: brightness(110%);
+    box-shadow: 0 0 10px 0 var(--color-primary) ;
 }
+.mainWebcamBtn:active,
+#uploadLabel:active{
+    filter: brightness(90%);
+}
+
+
