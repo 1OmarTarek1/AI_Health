@@ -5,9 +5,11 @@
 }
 .webcamContainer{
     position: relative;
-    height: 300px;
+    width: 100%;
+    height: auto;
     margin-bottom: 10px;
     background-color: #0a0618;
+    overflow: hidden;
     /* background-image: url("../../Assets/Images/Food-4.jpg");
     background-position: center;
     background-size: cover; */
@@ -16,6 +18,7 @@
     width: 100%;
     height: auto;
 }
+
 
 .WebBtnContainer{
     display: flex;
