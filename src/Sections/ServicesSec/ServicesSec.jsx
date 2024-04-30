@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+// import axios from 'axios';
 import Webcam from 'react-webcam';
 import { SectionWrapper } from '../../Components';
 import { FaCamera, FaFireAlt } from "react-icons/fa";
@@ -54,6 +55,18 @@ const ServicesSec = () => {
     const toggleWebcam = () => {
         setIsWebcamActive(!isWebcamActive);
     };
+
+    // const countLetters = () => {
+    //     axios.post('http://localhost:6002/api/countLetters', { paragraph })
+    //     .then(response => {
+    //         if(response.data.success) {
+    //         setLetterCount(response.data.value);
+    //         }
+    //     })
+    //     .catch(error => {
+    //         console.error('There was an error!', error);
+    //     });
+    // };
 
     return (
         <>

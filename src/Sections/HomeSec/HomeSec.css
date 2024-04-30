@@ -3,27 +3,45 @@
     overflow: hidden;
 }
 .homeSec .SectionWrapper .imgWrapper{
+    width: 100%;
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     overflow: hidden;
 }
 .homeSec .SectionWrapper .imgWrapper img{
-    width: auto;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
     filter: brightness(60%) blur(3px);
 }
 .homeSec .SectionWrapper .effect{
     position: absolute;
     inset: 0;
-    width: auto;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-content: center;
     flex-wrap: wrap;
     background: linear-gradient( transparent, transparent, transparent, var(--color-body));
+}
+@media screen and (max-width:992px) {
+    .homeSec .SectionWrapper 
+    .imgWrapper{
+        width: auto;
+        height: 100vh;
+    }
+    .homeSec .SectionWrapper 
+    .imgWrapper img{
+        width: auto;
+        height: 100vh;
+    }
+    .homeSec .SectionWrapper .effect{
+        width: auto;
+        height: 100vh;
+    }
 }
 .homeContent{
     display: flex;

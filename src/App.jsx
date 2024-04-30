@@ -1,4 +1,5 @@
-import { ContactSec, HomeSec, ServicesSec, WebNav } from './Sections'
+// ContactSec
+import { HomeSec, ServicesSec, WebNav } from './Sections'
 import './App.css';
 
 
@@ -10,7 +11,7 @@ const App = () => {
             <WebNav />
             <HomeSec />
             <ServicesSec />
-            <ContactSec />
+            {/* <ContactSec /> */}
         </div>
         </>
     )

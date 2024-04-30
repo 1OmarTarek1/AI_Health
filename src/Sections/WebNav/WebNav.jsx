@@ -1,5 +1,5 @@
 import { FaHome, FaUserCircle } from 'react-icons/fa'
-import { FaCircleInfo, FaHandHoldingMedical, FaSquarePhone } from 'react-icons/fa6'
+import { FaCircleInfo, FaHandHoldingMedical, FaList, FaSquarePhone } from 'react-icons/fa6'
 // import logo from '../../Assets/Images/logo.png'
 import './WebNav.css'
 import './MediaNav.css'
@@ -33,18 +33,18 @@ const WebNav = () => {
                             </a>
                         </li>
                         <li>
-                            <a href="#Contact" className='navLi'>
-                                <FaSquarePhone />
+                            <a href="#!" className='navLi'>
+                                <FaList  />
                                 <div className="linkText">
-                                    Contact
+                                    Category
                                 </div>
                             </a>
                         </li>
                         <li>
-                            <a href="#!" className='navLi'>
-                                <FaCircleInfo />
+                            <a href="#Contact" className='navLi'>
+                                <FaSquarePhone />
                                 <div className="linkText">
-                                    Info
+                                    Contact
                                 </div>
                             </a>
                         </li>
