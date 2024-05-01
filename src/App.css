@@ -4,7 +4,7 @@
     /* Main Colors */
     --color-darkestB  : #1f1f2b ;
     --color-darkB     : #2c2d3b ;
-    --color-LBlue    : #545bc0 ; 
+    --color-LBlue    : #8b92ee ; 
     --color-light    : #fff    ;
 
     --color-primary  :  var(--color-LBlue);

@@ -72,7 +72,6 @@ const ServicesSec = () => {
         <>
             <div className="ServicesSec" id='Services'>
                 <SectionWrapper>
-                    <div className="allSerCon">
                         <div className="takenPhotoWrapper">
                             {isWebcamActive && (
                                 <>
@@ -114,7 +113,6 @@ const ServicesSec = () => {
                                 </label>
                             </div>
                         </div>
-
                         <div className="infoContainer">
                             <div className="partOneWrapper">
                                 <div className="imgInfoWrapper">
@@ -190,9 +188,6 @@ const ServicesSec = () => {
                             </ul>
 
                         </div>
-                    </div>
-
-
                 </SectionWrapper>
             </div>
         </>

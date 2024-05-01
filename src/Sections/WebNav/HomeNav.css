@@ -1,0 +1,31 @@
+
+/* WebNavContainer */
+.mainContainer:has(.HomePage) 
+.WebNav{
+    padding: 14px 14px 14px 14px;
+}
+.mainContainer:has(.HomePage) 
+.WebNav .WebNavContainer{
+    height: 60px;
+    border: 1px solid #a497e041;
+    border-radius: 5px;
+}
+
+.mainContainer:has(.HomePage) 
+.WebNav li {
+    padding-block: 6px;
+}
+
+@media screen and ( max-width:768px ) {
+    .mainContainer:has(.HomePage) 
+    .WebNav{
+        position: absolute;
+        backdrop-filter: blur(0);
+    }
+    .mainContainer:has(.HomePage) 
+    .WebNav .WebNavContainer{
+        border: none;
+        box-shadow: none;
+        background-color: transparent;
+    }
+}

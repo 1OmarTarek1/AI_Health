@@ -1,0 +1,154 @@
+.MediaWebNav{
+    display: none;
+}
+.WebNav{
+    width: 100%;
+    position: fixed;
+    top: 0;
+    z-index: 3000;
+    background-color: transparent;
+    transition: all .2s;
+}
+
+.WebNavContainer{
+    padding-inline: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 65px;
+    box-shadow: 0px 1px 5px 0px #0000004d;
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid #a497e041;
+    transition: all .2s;
+}
+
+
+.WebNav .logoWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 500;
+    color: #fff;
+}
+.logoWrapper:hover{
+    text-shadow: 0 0 20px #fff;
+    color: #fff !important;
+}
+.WebNav .logoImg{
+    width: 35px;
+}
+
+.WebNav a {
+    color: var(--color-navLinks);
+    transition: all .2s;
+}
+.WebNav a:hover {
+    color: var(--color-primary);
+    
+}
+
+.WebNav .pageLinks {
+    position: relative;
+    top: 3px;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    display: flex;
+    gap: 25px;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/*start Li links style*/
+.WebNav li {
+    position: relative;
+    padding-block: 9px;
+    overflow: hidden;
+    transition: all .2s;
+}
+
+
+.WebNav  li::after{
+    content: "";
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 0%;
+    height: 2px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 0px;
+    box-shadow: 0px 0px 0px 0px transparent;
+    background-color: var(--color-primary);
+    transition: all .2s;
+}
+.WebNav  li:hover::after{
+    content: "";
+    width: 100%;
+    height: 2px;
+    position: absolute;
+    bottom: 0px;
+    background-color: var(--color-primary);
+}
+.WebNav li:has(.active)::after{
+    content: "";
+    width: 100%;
+    height: 2px;
+    position: absolute;
+    bottom: 0px;
+    box-shadow: 0px 0px 3px 0px var(--color-primary);
+    background-color: var(--color-primary);
+    transition: all .2s;
+}
+.WebNav li a{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 3px;
+    font-weight: 500;
+}
+.WebNav .active{
+    color: var(--color-primary);
+    filter: drop-shadow(0px 0px 5px var(--color-primary));
+}
+.WebNav .logoWrapper{
+    filter: unset !important;
+    color: #fff !important;
+}
+
+.WebNav li svg{
+    font-size: 18px;
+}
+
+.WebNav .linkText{
+    font-size: 13px;
+}
+/*end Li links style*/
+
+
+
+
+.WebNav .profileLink{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 92.67px;
+}
+.profileLink svg{
+    font-size: 27px;
+}
+
+
+
+@media screen and ( max-width:768px ) {
+    .WebNav{
+        position: relative;
+    }
+    .WebNavContainer{
+        background-color: #ffffff0c;
+        border: none;
+    }
+}

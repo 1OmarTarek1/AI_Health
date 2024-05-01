@@ -1,20 +1,20 @@
 @media screen and ( max-width:768px ) {
-    .WebNav{
+    /* .WebNav{
         position: absolute;
-        padding: 15px;
         backdrop-filter: blur(0);
     }
     .WebNavContainer{
-        box-shadow: none;
-        border: none;
-    }
+        box-shadow: none !important;
+        border: none !important;
+        
+    } */
     .pageLinks{
         display: none !important;
     }
 
 
     .MediaWebNav{
-        display: flex;
+        display: flex !important;
         justify-content: center;
         align-items: center;
         position: fixed;

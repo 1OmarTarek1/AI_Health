@@ -1,71 +1,56 @@
-.homeSec .SectionWrapper{
+.homeSec {
+    position: relative;
+}
+
+.homeSec .effect {
+    background-image: url('../../Assets/Images/Food-3.jpg'); /* Ensure the path is correct */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 100vh;
     padding: 0px;
     overflow: hidden;
 }
-.homeSec .SectionWrapper .imgWrapper{
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
+
+@media screen and (max-width: 992px) {
+    .homeSec .effect {
+        width: auto;
+        height: 100vh;
+    }
 }
-.homeSec .SectionWrapper .imgWrapper img{
-    width: 100%;
-    height: 100%;
-    filter: brightness(60%) blur(3px);
-}
-.homeSec .SectionWrapper .effect{
+
+.homeContent {
     position: absolute;
     inset: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-content: center;
-    flex-wrap: wrap;
-    background: linear-gradient( transparent, transparent, transparent, var(--color-body));
-}
-@media screen and (max-width:992px) {
-    .homeSec .SectionWrapper 
-    .imgWrapper{
-        width: auto;
-        height: 100vh;
-    }
-    .homeSec .SectionWrapper 
-    .imgWrapper img{
-        width: auto;
-        height: 100vh;
-    }
-    .homeSec .SectionWrapper .effect{
-        width: auto;
-        height: 100vh;
-    }
-}
-.homeContent{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    backdrop-filter: brightness(50%) blur(3px); /* Moved from .homeContent to here */
+    background: linear-gradient(transparent, transparent, transparent, var(--color-body));
+    color: #fff;
 }
-.homeTitle{
+
+.homeTitle {
     text-align: center;
     font-size: 30px;
     font-weight: 700;
     line-height: 2.5rem;
 }
-.dis{
+
+.dis {
     margin-bottom: 30px;
     font-size: 14px;
     max-width: 300px;
     color: #ffffffa2;
 }
-.homeBtn{
+
+.homeBtn {
     text-align: center;
     padding: 8px 0px;
     width: 120px;
-    backdrop-filter: blur(7px);
+    /* Removed backdrop-filter from here */
     font-size: 15px;
     font-weight: 500;
     border-radius: 5px;
@@ -75,11 +60,16 @@
     letter-spacing: .2rem;
     transition: all .2s;
     box-shadow: 0px 1px 3px 0px #0000008a;
+    background: rgba(255, 255, 255, 0.1); /* Added a fallback background */
 }
-.homeBtn:hover{
+
+.homeBtn:hover {
     width: 125px;
     letter-spacing: .4rem;
     padding-left: 5px;
+    border-radius: 5px;
+    /* Added backdrop-filter here for hover effect */
     backdrop-filter: blur(10px);
     color: #fff;
 }
+
