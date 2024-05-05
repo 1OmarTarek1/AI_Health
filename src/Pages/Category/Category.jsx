@@ -1,4 +1,6 @@
 import { PageContainer } from '../../Components'
+import { CategorySec } from '../../Sections'
+
 import './Category.css'
 
 
@@ -9,7 +11,7 @@ const Category = () => {
         <>
             <div className="CategoryPage">
                 <PageContainer>
-                    <h1>CategoryPage</h1>
+                    <CategorySec />
                 </PageContainer>
             </div>
         </>

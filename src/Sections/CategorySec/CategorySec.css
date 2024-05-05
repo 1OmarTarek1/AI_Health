@@ -1,0 +1,40 @@
+.categoryCards{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    transition: all .3s;
+}
+
+.categoryCardsHeader{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    margin-bottom: 15px;
+    background-color: var(--color-body);
+}
+.categoryCardsHeader .HeaderTitle{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+
+@media screen and (max-width:500px) {
+    .categoryCardsHeader{
+        padding: 10px;
+    }
+    .categoryCardsHeader{
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 10px;
+    }
+    .CatHeaderItem{
+        flex: 1 25%;
+    }
+}

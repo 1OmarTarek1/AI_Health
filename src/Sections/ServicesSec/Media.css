@@ -5,52 +5,53 @@
         background-color: transparent;
     }
     
-    .partOneWrapper{
+    .ServicesSec .partOneWrapper{
         max-width: 350px;
         padding-right: 7px;
         margin-right: 7px;
     }
-    .partOneWrapper .foodName{
+    .ServicesSec .partOneWrapper .foodName{
         font-size: 15px;
     }
-    .partOneWrapper .foodDis{
+    .ServicesSec .partOneWrapper .foodDis{
         font-size: 13px;
         line-height: 1rem;
     }
-    .imgInfoWrapper{
+    .ServicesSec .imgInfoWrapper{
         width: 150px;
         height: 111px;
         border: 5px solid var(--color-body);
     }
-    .mainImg{
+    .ServicesSec .mainImg{
         width: auto;
         height: 105px;
     }
-    .infoContainer {
+    .ServicesSec .infoContainer {
         padding: 5px;
     }
-    .infoContainer .foodDetails{
+    .ServicesSec .infoContainer .foodDetails{
         justify-content: space-between;
     }
-    .detailItem {
+    .ServicesSec .detailItem {
         width: 90px;
         gap: 0;
+        row-gap: 5px;
         font-size: 15px;
         line-height: 1.2rem;
         margin-block: 5px;
     }
-    .detailItem .titleInfo{
+    .ServicesSec .detailItem .titleInfo{
         font-size: 12px;
     }
 }
 
 @media screen and (max-width: 768px) {
 
-    .infoContainer{
+    .ServicesSec .infoContainer{
         flex-direction: column;
         padding: 10px;
     }
-    .partOneWrapper{
+    .ServicesSec .partOneWrapper{
         max-width: unset;
         margin-right: unset;
         padding-right: 0;
@@ -62,21 +63,21 @@
         border-right: none;
         border-bottom: 1px solid #ffffff15;
     }
-    .imgInfoWrapper{
+    .ServicesSec .imgInfoWrapper{
         width: 100%;
         height: 100%;
     }
-    .mainImg{
+    .ServicesSec .mainImg{
         width: 100%;
         height: auto;
     }
-    .partOneWrapper .textWrapper{
+    .ServicesSec .partOneWrapper .textWrapper{
         width: 100%;
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
     }
-    .partOneWrapper .foodDis{
+    .ServicesSec .partOneWrapper .foodDis{
         max-width: unset;
     }
 }

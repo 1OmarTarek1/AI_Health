@@ -1,4 +1,17 @@
 .PageContainer{
-    margin: 65px 30px 0px 30px; /* 65 height of nav */
+    margin: 120px 30px 0px 30px; /* 65 height of nav */
     background-color: var(--color-body);
+}
+.PageContainer:has(.ServicesSec){
+    margin: 65px 30px 0px 30px; /* 65 height of nav */
+
+}
+@media screen and (max-width:600px) {
+    .PageContainer{
+        margin: 120px 10px 0px 10px;
+    }
+    .PageContainer:has(.ServicesSec){
+        margin: 65px 10px 0px 10px; 
+    
+    }
 }

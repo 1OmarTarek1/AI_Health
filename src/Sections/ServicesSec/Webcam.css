@@ -59,9 +59,8 @@
     padding-block: 5px;
     margin-right: 10px;
     font-size: 13px;
-    font-weight: 600;
     background-color: var(--color-primary);
-    color: var(--color-body);
+    color: #fff;
     cursor: pointer;
     transition: all .2s;
 }

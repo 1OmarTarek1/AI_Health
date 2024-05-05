@@ -16,7 +16,7 @@ const TabletNav = () => {
                 <div className="MediaNavContainer">
                     <ul className='MediaPageLinks'>
                         <li>
-                            <NavLink to="/" className='navLi activeLiNav'>
+                            <NavLink to="/" className='navLi'>
                                 <FaHome />
                                 <div className="linkText">
                                     Home

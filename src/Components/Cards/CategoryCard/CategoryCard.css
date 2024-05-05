@@ -1,0 +1,98 @@
+.CategoryCard{
+    flex: 1 32%;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    background-color: var(--color-body);
+    border: 1px solid var(--color-body);
+    transition: all .3s;
+    cursor: default;
+}
+.CategoryCard:hover{
+    border: 1px solid var(--color-primary);
+    border-radius: 7px;
+    box-shadow: 0 0 5px 0 var(--color-primary);
+}
+.CategoryCard:hover .cardBody p{
+    color: #ffffffc4;
+}
+.CategoryCard:hover .cardBody .titleInfo{
+    color: var(--color-primary);
+}
+.categoryCards:hover .CategoryCard:not(:hover){
+    filter: blur(3px);
+}
+
+.CategoryCard .cardImgWrapper{
+    width: 100%;
+}
+.CategoryCard .cardImgWrapper img{
+    width: 100%;
+    height: auto;
+}
+.CategoryCard .cardName{
+    margin-top: 10px;
+    font-weight: 500;
+}
+.CategoryCard .cardBody p{
+    padding-block: 10px;
+    margin-block: 10px;
+    border-block: 1px solid var(--color-components);
+    font-size: 14px;
+    color: #ffffff79;
+    transition: all .3s;
+}
+.CategoryCard .foodDetails{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+.CategoryCard .cardBody .detailItem{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.CategoryCard .cardBody .miniTitle{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3px;
+    font-size: 13px;
+    font-weight: 500;
+}
+.CategoryCard .cardBody .titleInfo{
+    font-size: 12px;
+    color: #ffffff79;
+    transition: all .3s;
+}
+
+
+@media screen and (max-width:600px) {
+    .CategoryCard{
+        flex: 1 100%;
+        max-width: 100%;
+    }
+    .CategoryCard .foodDetails{
+        flex-wrap: wrap;
+    }
+}
+@media screen and (max-width:400px) {
+    .CategoryCard{
+        padding: 0;
+    }
+    .CategoryCard .cardName{
+        padding-inline: 10px;
+    }
+    .CategoryCard .cardBody p{
+        margin-inline: 10px;
+        font-size: 13px;
+    }
+    .CategoryCard .foodDetails{
+        padding: 0px 15px 10px 15px;
+    }
+}

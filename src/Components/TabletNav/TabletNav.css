@@ -53,9 +53,6 @@
         align-items: center;
         gap: 0px;
     }
-    .MediaWebNav .activeLiNav{
-        color: var(--color-primary);
-    }
     .MediaWebNav li svg{
         font-size: 18px;
     }
@@ -63,5 +60,10 @@
     .MediaWebNav .linkText{
         font-size: 13px;
         font-weight: 500;
+    }
+    /*active link*/
+    .MediaWebNav li .active{
+        filter: drop-shadow(0px 0px 5px var(--color-primary));
+        color: var(--color-primary);
     }
 }
