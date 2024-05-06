@@ -10,7 +10,7 @@ const CategorySearch = () => {
     return (
         <>
             <div className="CatHeaderItem searchWrapper">
-                <input className="searchInp" type="search" name="" id="searchID" />
+                <input className="searchInp" type="search" placeholder="Search..." id="searchID" />
                 <input type="checkbox" className="searchCheckBx" id="searchBtn" />
                 <label className="searchIcon" htmlFor="searchBtn">
                     <FaSearch />

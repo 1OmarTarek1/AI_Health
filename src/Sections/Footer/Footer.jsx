@@ -13,22 +13,22 @@ const Footer =  () => {
                 </div>
 
                 <div>
-                <a href='' className='me-4 text-reset'>
+                <a href='!#' className='me-4 text-reset'>
                     <MDBIcon fab icon="facebook-f" />
                 </a>
-                <a href='' className='me-4 text-reset'>
+                <a href='!#' className='me-4 text-reset'>
                     <MDBIcon fab icon="twitter" />
                 </a>
-                <a href='' className='me-4 text-reset'>
+                <a href='!#' className='me-4 text-reset'>
                     <MDBIcon fab icon="google" />
                 </a>
-                <a href='' className='me-4 text-reset'>
+                <a href='!#' className='me-4 text-reset'>
                     <MDBIcon fab icon="instagram" />
                 </a>
-                <a href='' className='me-4 text-reset'>
+                <a href='!#' className='me-4 text-reset'>
                     <MDBIcon fab icon="linkedin" />
                 </a>
-                <a href='' className='me-4 text-reset'>
+                <a href='!#' className='me-4 text-reset'>
                     <MDBIcon fab icon="github" />
                 </a>
                 </div>
@@ -118,9 +118,13 @@ const Footer =  () => {
             </section>
 
             <div className='text-center p-4' style={{ backgroundColor: 'rgba(0, 0, 0, 0.05)' }}>
-                © 2021 Copyright:
-                <a className='text-reset fw-bold' href='https://mdbootstrap.com/'>
-                MDBootstrap.com
+                © 2021 Copyright: <a 
+                className='text-reset fw-bold' 
+                href='https://www.linkedin.com/in/omar-tarek-aa2a40293/' 
+                target='_blank' 
+                rel='noreferrer'
+                >
+                    www.LinkedIn/OmarTarek.com
                 </a>
             </div>
 

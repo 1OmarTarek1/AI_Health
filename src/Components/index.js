@@ -14,3 +14,4 @@ export { default as CategoryCard    } from './Cards/CategoryCard/CategoryCard'
 
 
 export { default as ToTopReload    } from './ToTopReload/ScrollToTop'
+export { default as ReloadEffect    } from './ReloadEffect/ReloadEffect'

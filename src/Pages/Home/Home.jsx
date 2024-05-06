@@ -1,4 +1,4 @@
-import { HomeSec, ServicesSec } from '../../Sections'
+import { CategorySec, ContactSec, HomeSec, ServicesSec } from '../../Sections'
 import { PageContainer } from '../../Components'
 import './Home.css'
 
@@ -11,6 +11,8 @@ const Home = () => {
                 <HomeSec />
                 <PageContainer>
                     <ServicesSec />
+                    <CategorySec />
+                    <ContactSec />
                 </PageContainer>
             </div>
         </>

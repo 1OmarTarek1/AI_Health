@@ -24,7 +24,7 @@ const TabletNav = () => {
                             </NavLink>
                         </li>
                         <li>
-                            <NavLink to="/Services" className='navLi'>
+                            <NavLink to="/ServicesPage" className='navLi'>
                                 <FaHandHoldingMedical />
                                 <div className="linkText">
                                     Services

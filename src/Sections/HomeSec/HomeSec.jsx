@@ -1,3 +1,4 @@
+import { NavLink } from 'react-router-dom';
 import './HomeSec.css'
 
 
@@ -15,9 +16,9 @@ const HomeSec = () => {
                         <div className="dis">
                             Lorem ipsum dolor sit amet consectetur.
                         </div>
-                        <a href="#Services" className="homeBtn">
+                        <NavLink to="/ServicesPage" className="homeBtn">
                             <span>Start</span>
-                        </a>
+                        </NavLink>
                     </div>
                 </div>
             </div>

@@ -1,8 +1,8 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { Home, Category } from './Pages';
+import { Home, ServicesPage, Category, Contact, Profile } from './Pages';
 import { Footer, WebNav } from './Sections';
 import './App.css';
-import { ToTopReload } from './Components';
+import { ReloadEffect, ToTopReload } from './Components';
 
 
 
@@ -11,10 +11,14 @@ const App = () => {
         <>
         <Router basename='/testAI'> 
             <div className="mainContainer">
+                <ReloadEffect />
                 <WebNav />
                     <Routes>
-                        <Route path = '/'          element = { < Home     /> } />
-                        <Route path = '/Category'  element = { < Category /> } />
+                        <Route path = '/'               element = { < Home          /> } />
+                        <Route path = '/ServicesPage'   element = { < ServicesPage  /> } />
+                        <Route path = '/Category'       element = { < Category      /> } />
+                        <Route path = '/Contact'        element = { < Contact       /> } />
+                        <Route path = '/Profile'        element = { < Profile       /> } />
                     </Routes>
                     <Footer />
             </div>

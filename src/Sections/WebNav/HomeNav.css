@@ -1,13 +1,22 @@
+.mainContainer:has(.HomePage) 
+.headroom-wrapper{
+    position: absolute;
+    width: 100%;
+    padding: 10px;
+    transition: all .2s;
+}
+.mainContainer:has(.HomePage) 
+.headroom--pinned{
+    padding: 10px;
+    transition: all .2s;
+}
+
 
 /* WebNavContainer */
 .mainContainer:has(.HomePage) 
-.WebNav{
-    padding: 14px 14px 14px 14px;
-}
-.mainContainer:has(.HomePage) 
 .WebNav .WebNavContainer{
     height: 60px;
-    border: 1px solid #a497e041;
+    border: 1px solid #a497e02f;
     border-radius: 5px;
 }
 
@@ -18,14 +27,17 @@
 
 @media screen and ( max-width:768px ) {
     .mainContainer:has(.HomePage) 
-    .WebNav{
-        position: absolute;
-        backdrop-filter: blur(0);
-    }
-    .mainContainer:has(.HomePage) 
     .WebNav .WebNavContainer{
+        backdrop-filter: blur(0);
         border: none;
         box-shadow: none;
         background-color: transparent;
+    }
+    .mainContainer:has(.HomePage) 
+    .WebNav .headroom--pinned
+    .WebNavContainer{
+        backdrop-filter: blur(20px);
+        box-shadow: 0px 1px 5px 0px #0000004d;
+        border: 1px solid #a497e02f;
     }
 }

@@ -1,0 +1,103 @@
+.ReloadEffect{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: 30000;
+    background-color: transparent;
+    transition: all .5s;
+    opacity: 0;
+    visibility: hidden;
+}
+.animate{
+    opacity: 0;
+    visibility: hidden;
+    animation: allEffect 2s linear alternate;
+}
+/*animate*/
+@keyframes allEffect {
+    from{
+        opacity: 1;
+        visibility: visible;
+    }
+    to {
+        opacity: 0;
+        visibility: hidden;
+    }
+}
+
+
+.animate .part{
+    position: relative;
+    flex: 1 50%;
+    transition: all .5s;
+}
+
+
+
+
+
+/*TOP PART*/
+.animate .top-part{
+    background-color: transparent;
+    animation: toTop .5s ease-in alternate;
+}
+@keyframes toTop {
+    from{
+        background-color: #000;
+    }
+    to {
+        transform: translateY( -100% ) ;
+        background-color: #000;
+    }
+}
+
+
+
+/*BOTTOM PART*/
+.animate .bottom-part{
+    background-color: transparent;
+    animation: toBottom .5s ease-in alternate;
+}
+@keyframes toBottom {
+    from{
+        background-color: #000;
+    }
+    to {
+        transform: translateY( 100% ) ;
+        background-color: #000;
+    }
+}
+
+
+/* LOGO Animation */
+.animate .logo-animation{
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    border: 4px solid;
+    border-top-color: #fff ;
+    border-right-color: #fff ;
+    border-left-color: transparent ;
+    border-bottom-color: transparent ;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    animation: loadEffect .8s ease-out alternate;
+}
+
+@keyframes loadEffect {
+    from{
+        transform: translate(-50%, -50%) rotate(0deg);
+        opacity: 1;
+    }
+    to {
+        transform: translate(-50%, -50%) rotate(-360deg);
+        opacity: 0;
+    }
+}
+
+
