@@ -1,10 +1,13 @@
+.loadingMoreRef{
+    min-height: 586.84px;
+    align-items: center;
+}
 .CategoryCard{
     flex: 1 32%;
-    max-width: 100%;
+    max-width: 33%;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
     padding: 15px;
     background-color: var(--color-body);
     border: 1px solid var(--color-body);
@@ -38,12 +41,19 @@
     border-radius: 5px 5px 0px 0px;
 }
 .CategoryCard .cardName{
+    height: 45px;
     margin-top: 10px;
     font-weight: 500;
 }
 .CategoryCard .cardBody p{
+    /* min-height: 100px;
+    max-height: 100px; */
+    height: 100px;
+    padding-right: 10px;
     padding-block: 10px;
     margin-block: 10px;
+    overflow: scroll;
+    overflow-x: hidden;
     border-block: 1px solid var(--color-components);
     font-size: 14px;
     color: #ffffff79;
@@ -75,7 +85,12 @@
     transition: all .3s;
 }
 
-
+@media screen and (max-width:992px) {
+    .CategoryCard{
+        /* flex: 1 100%; */
+        max-width: 100%;
+    }
+}
 @media screen and (max-width:600px) {
     .CategoryCard{
         flex: 1 100%;

@@ -1,5 +1,5 @@
 import { FaFireAlt } from "react-icons/fa";
-import { FaDumbbell, FaRadiation, FaShieldHalved, FaXmark } from 'react-icons/fa6';
+import { FaDumbbell, FaRadiation, FaShieldHalved } from 'react-icons/fa6';
 import './CategoryCard.css'
 
 
@@ -14,14 +14,19 @@ const CategoryCard = ( props ) => {
             <div className="CategoryCard">
                 <div className="cardHeader">
                     <div className="cardImgWrapper">
-                        <img src={props.image} alt={props.name} className="cardImg" />
+                        <img src={props.imageUrl} alt={"props.name"} className="cardImg" loading="lazy" />
                     </div>
                     <div className="cardName">
-                        { props.name }
+                        { props.title }
                     </div>
                 </div>
                 <div className="cardBody">
-                    <p>{props.description}</p>
+                    <p>
+                        { props.title }{ props.title }{ props.title }
+                        { props.title }{ props.title }{ props.title }
+                        { props.title }{ props.title }{ props.title }
+                        { props.title }{ props.title }{ props.title }
+                    </p>
                     <ul className="foodDetails">
                         <li className="detailItem">
                             <div className="miniTitle">

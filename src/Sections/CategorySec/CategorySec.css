@@ -1,18 +1,33 @@
 .categoryCards{
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     gap: 10px;
     transition: all .3s;
 }
 
+
+
+.CatHeaderContainer{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 65px;
+    margin-bottom: 15px;
+    background-color: var(--color-body);
+}
 .categoryCardsHeader{
+    /* position:sticky;
+    top: 0;
+    z-index: 3000; */
+    width: 100%;
+    flex: 1 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 15px;
-    margin-bottom: 15px;
     background-color: var(--color-body);
 }
 .categoryCardsHeader .HeaderTitle{
@@ -25,6 +40,11 @@
 }
 
 
+@media screen and (max-width:992px) {
+    .categoryCards{
+        justify-content: center;
+    }
+}
 @media screen and (max-width:500px) {
     .categoryCardsHeader{
         padding: 10px;

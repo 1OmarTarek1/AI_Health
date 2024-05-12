@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { Home, ServicesPage, Category, Contact, Profile } from './Pages';
 import { Footer, WebNav } from './Sections';
 import './App.css';
-import { ReloadEffect, ToTopReload } from './Components';
+import { ReloadEffect, ToTopReload, ToTopBtn } from './Components';
 
 
 
@@ -22,6 +22,7 @@ const App = () => {
                     </Routes>
                     <Footer />
             </div>
+            <ToTopBtn />
             <ToTopReload />
         </Router>
         </>
