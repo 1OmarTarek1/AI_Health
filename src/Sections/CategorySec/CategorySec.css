@@ -46,6 +46,9 @@
     }
 }
 @media screen and (max-width:500px) {
+    .HeaderTitle{
+        display: none  !important;
+    }
     .categoryCardsHeader{
         padding: 10px;
     }

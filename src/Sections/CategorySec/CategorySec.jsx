@@ -4,20 +4,18 @@
 // import { FaList } from "react-icons/fa6";
 // import './CategorySec.css'
 
-
-
 // const LazyCategoryCard = React.lazy(() => import('../../Components/Cards/CategoryCard/CategoryCard'));
 
 // const CategorySec = () => {
 //     const [data, setData] = useState([]);
 //     const [loading, setLoading] = useState(true);
 //     const [page, setPage] = useState(1); // Track the current page
+//     const [searchQuery, setSearchQuery] = useState(""); // Track the search query
 //     const observer = useRef(null);
 
 //     const fetchData = useCallback(async () => {
 //         try {
-//             const apiLink = 
-//             await axios.get(`https://jsonplaceholder.typicode.com/photos?_page=${page}&_limit=10`);
+//             const apiLink = await axios.get(`https://jsonplaceholder.typicode.com/photos?_page=${page}&_limit=10`);
 //             const newData = apiLink.data;
 
 //             setData(prevData => [...prevData, ...newData]); // Append new data to existing data
@@ -61,15 +59,20 @@
 //     }, [handleObserver]);
 
 //     const memoizedDataItems = useMemo(() => {
-//         return data.map(dataItem => ({
+//         return data.filter(dataItem =>
+//             dataItem.title.toLowerCase().includes(searchQuery.toLowerCase())
+//         ).map(dataItem => ({
 //             id: dataItem.id,
 //             imageUrl: dataItem.url,
 //             title: dataItem.title
 //         }));
-//     }, [data]);
-    
+//     }, [data, searchQuery]);
 
-//     const memoizedDataItemsCards = memoizedDataItems.map( (dataItem, index) => (
+//     const handleSearch = (query) => {
+//         setSearchQuery(query);
+//     };
+
+//     const memoizedDataItemsCards = memoizedDataItems.map((dataItem, index) => (
 //         <Suspense key={index} fallback={<div>Loading...</div>}>
 //             <LazyCategoryCard
 //                 key={dataItem.id}
@@ -77,8 +80,7 @@
 //                 title={dataItem.title}
 //             />
 //         </Suspense>
-//     ))
-
+//     ));
 
 //     return (
 //         <>
@@ -90,25 +92,23 @@
 //                                 <FaList />
 //                                 <span>Category</span>
 //                             </div>
-//                             <CategorySearch />
+//                             <CategorySearch onSearch={handleSearch} />
 //                         </div>
 //                     </div>
 //                     <div className="categoryCards">
-//                         { memoizedDataItemsCards }
+//                         {memoizedDataItemsCards}
 //                         {/* Add a loading reference element */}
 //                         <div className="loadingMoreRef CategoryCard" >loading...</div>
 //                     </div>
 //                 </SectionWrapper>
 //                 {/* Display loading indicator if loading is true */}
-//                 { loading && <p> Loading... </p> }
+//                 {loading && <p> Loading... </p>}
 //             </div>
 //         </>
 //     )
 // }
 
 // export default CategorySec;
-
-
 
 
 import axios from "axios";
@@ -124,6 +124,7 @@ const CategorySec = () => {
     const [loading, setLoading] = useState(true);
     const [page, setPage] = useState(1); // Track the current page
     const [searchQuery, setSearchQuery] = useState(""); // Track the search query
+    const [noResults, setNoResults] = useState(false); // Track whether there are no search results
     const observer = useRef(null);
 
     const fetchData = useCallback(async () => {
@@ -172,9 +173,11 @@ const CategorySec = () => {
     }, [handleObserver]);
 
     const memoizedDataItems = useMemo(() => {
-        return data.filter(dataItem =>
+        const filteredData = data.filter(dataItem =>
             dataItem.title.toLowerCase().includes(searchQuery.toLowerCase())
-        ).map(dataItem => ({
+        );
+        setNoResults(filteredData.length === 0); // Check if there are no search results
+        return filteredData.map(dataItem => ({
             id: dataItem.id,
             imageUrl: dataItem.url,
             title: dataItem.title
@@ -210,8 +213,12 @@ const CategorySec = () => {
                     </div>
                     <div className="categoryCards">
                         {memoizedDataItemsCards}
-                        {/* Add a loading reference element */}
-                        <div className="loadingMoreRef CategoryCard" >loading...</div>
+                        { noResults 
+                        // Display message when no search results 
+                        ? <div className="loadingMoreRef CategoryCard">Sorry, no results found for "{searchQuery}".</div>
+                        // Add a loading reference element 
+                        : <div className="loadingMoreRef CategoryCard" >loading...</div>
+                    }
                     </div>
                 </SectionWrapper>
                 {/* Display loading indicator if loading is true */}
@@ -222,7 +229,5 @@ const CategorySec = () => {
 }
 
 export default CategorySec;
-
-
 
 
