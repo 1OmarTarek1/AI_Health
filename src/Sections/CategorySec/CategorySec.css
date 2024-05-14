@@ -1,35 +1,43 @@
-.categoryCards{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 10px;
-    transition: all .3s;
+.CategorySec .SectionWrapper{
+    padding-top: 5px;
 }
 
 
 
 .CatHeaderContainer{
-    position: relative;
+    position: sticky;
+    top: 0;
+    width: 100%; 
+    z-index: 1;
+    padding: 15px;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 65px;
-    margin-bottom: 15px;
-    background-color: var(--color-body);
+    width: 100%;
+    background-color: var(--color-components);
+    color: #fff;
 }
 .categoryCardsHeader{
-    /* position:sticky;
-    top: 0;
-    z-index: 3000; */
     width: 100%;
-    flex: 1 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 15px;
     background-color: var(--color-body);
 }
+
+.categoryCards{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 10px;
+    transition: all .3s;
+}
+.categoryCards::-webkit-scrollbar{
+    width: 0px;
+}
+
 .categoryCardsHeader .HeaderTitle{
     display: flex;
     justify-content: center;
@@ -46,6 +54,9 @@
     }
 }
 @media screen and (max-width:500px) {
+    .CatHeaderContainer{
+        padding: 10px;
+    }
     .HeaderTitle{
         display: none  !important;
     }

@@ -1,0 +1,124 @@
+.ProfileHeader .SectionWrapper{
+    padding-top: 80px;
+}
+.ProfileHeaderContainer{
+    background-image: url('../../Assets/Images/Food-4.jpg'); 
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 100%;
+    overflow: hidden;
+}
+.ProfileHeader {
+    padding: 50px;
+    position: relative; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    backdrop-filter: blur(3px) brightness(50%);
+}
+
+.userInfo{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 50px;
+}
+
+
+.username {
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    color: var(--color-primary);
+    margin-bottom: 10px;
+}
+
+.full-name {
+    text-align: center;
+    font-size: 25px;
+    color: var(--color-light);
+}
+
+.bio {
+    font-size: 14px;
+    text-align: center;
+    color: var(--color-lightFont);
+}
+
+.profile-details {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    padding: 20px 40px;
+    border: 1px solid #ffffff1e;
+    border-radius: 5px;
+    background-color: #0000006c;
+    transition: ease-in-out .2s;
+    cursor: default;
+}
+.profile-details:hover{
+    background-color: #0000007c;
+    transform: scale(1.03);
+}
+.details-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--color-light);
+}
+.detTitle{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+}
+
+
+/*full screen photo*/
+.fullscreen-profile {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(3px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 1;
+    visibility: visible;
+    transition: ease-in-out visibility .2s,ease-in-out opacity .3s;
+}
+
+.fullscreen-profile img {
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 10px;
+}
+
+.fullscreen-close{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(3px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+}
+
+
+
+

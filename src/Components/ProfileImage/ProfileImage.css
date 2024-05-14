@@ -1,0 +1,83 @@
+.profilePhotoWrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.profile-picture {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 5px solid var(--color-body);
+    margin-bottom: 15px;
+    background-color: var(--color-body);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease-in-out;
+    cursor: pointer;
+    z-index: 100; 
+    overflow: hidden;
+}
+
+
+
+.profile-picture img{
+    width: auto;
+    height: auto;
+    transition: all 0.3s ease-in-out;
+}
+.profile-picture img:hover{
+    transform: scale(1.1);
+    filter: brightness(110%);
+}
+
+.uploadImg{
+    width: 35px;
+    height: 35px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
+    position: absolute;
+    top: calc(150px - 45px);
+    right: 15px;
+    border-radius: 50%;
+    background-color: var(--color-primary);
+    transition: all .2s;
+    cursor: pointer;
+    z-index: 500;
+    color: #ffffffb6;
+}
+
+.editBtn:hover,
+.removePhoto:hover,
+.uploadImg:hover{
+    filter: brightness(110%);
+    box-shadow: 0 0 10px 0 var(--color-primary);
+}
+.uploadImg svg{
+    position: relative;
+    top: -1px;
+    right: -1px;
+    font-size: 15px;
+}
+.removePhoto{
+    width: 35px;
+    height: 35px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
+    position: absolute;
+    top: calc(150px - 0px);
+    right: 15px;
+    border-radius: 50%;
+    background-color: var(--color-primary);
+    transition: all .2s;
+    cursor: pointer;
+    z-index: 500;
+    color: #ffffff8e;
+    border: none;
+}

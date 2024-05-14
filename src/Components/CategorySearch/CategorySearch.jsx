@@ -162,28 +162,30 @@ const CategorySearch = ({ onSearch, searchResults }) => {
     };
 
     return (
-        <div className="CatHeaderItem searchWrapper">
-            <input
-                ref={searchInputRef}
-                className="searchInp"
-                type="search"
-                placeholder="Search..."
-                id="searchID"
-                value={searchTerm}
-                onChange={handleChange}
-            />
-            <input
-                type="checkbox"
-                className="searchCheckBx"
-                id="searchBtn"
-                checked={checked}
-                onChange={() => setChecked(!checked)}
-            />
-            <label className="searchIcon" htmlFor="searchBtn" onClick={handleClear}>
-                <FaSearch />
-            </label>
-            {noResults && <p>Sorry, "{searchTerm}" not found.</p>}
-        </div>
+        <>        
+            <div className="CatHeaderItem searchWrapper">
+                <input
+                    ref={searchInputRef}
+                    className="searchInp"
+                    type="search"
+                    placeholder="Search..."
+                    id="searchID"
+                    value={searchTerm}
+                    onChange={handleChange}
+                />
+                <input
+                    type="checkbox"
+                    className="searchCheckBx"
+                    id="searchBtn"
+                    checked={checked}
+                    onChange={() => setChecked(!checked)}
+                />
+                <label className="searchIcon" htmlFor="searchBtn" onClick={handleClear}>
+                    <FaSearch />
+                </label>
+                {noResults && <p>Sorry, "{searchTerm}" not found.</p>}
+            </div>
+        </>
     );
 };
 

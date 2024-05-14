@@ -1,17 +1,16 @@
-import { PageContainer } from '../../Components'
+import { ProfileHeader } from '../../Sections'
 
 import './Profile.css'
 
 
 
 
-const Profile = () => {
+const Profile = ({ profilePictureUrl, setProfilePictureUrl }) => {
+
     return (
         <>
             <div className="ProfilePage">
-                <PageContainer>
-                    Profile
-                </PageContainer>
+                <ProfileHeader profilePictureUrl={profilePictureUrl} setProfilePictureUrl={setProfilePictureUrl} />
             </div>   
         </>
     )

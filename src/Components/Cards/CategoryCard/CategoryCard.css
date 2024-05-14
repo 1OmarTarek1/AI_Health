@@ -1,5 +1,4 @@
 .loadingMoreRef{
-    min-height: 586.84px;
     align-items: center;
 }
 .CategoryCard{
@@ -89,8 +88,12 @@
 
 @media screen and (max-width:992px) {
     .CategoryCard{
-        /* flex: 1 100%; */
         max-width: 100%;
+    }
+}
+@media screen and (max-width:768px) {
+    .CategoryCard{
+        flex: 49%;
     }
 }
 @media screen and (max-width:600px) {
@@ -100,6 +103,9 @@
     }
     .CategoryCard .foodDetails{
         flex-wrap: wrap;
+    }
+    .categoryCards:hover .CategoryCard:not(:hover){
+        filter: blur(0);
     }
 }
 @media screen and (max-width:400px) {

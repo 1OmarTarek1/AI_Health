@@ -11,7 +11,6 @@ const Home = () => {
                 <HomeSec />
                 <PageContainer>
                     <ServicesSec />
-                    {/* <CategorySec /> */}
                     <ContactSec />
                 </PageContainer>
             </div>

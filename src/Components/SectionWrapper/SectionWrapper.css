@@ -1,6 +1,7 @@
 /* scroll-snap-align: start;  */
 /* height: calc(100vh);*/
 .SectionWrapper{
+    position: relative;
     margin-bottom: 50px;
     padding: 15px;
     background-color: var(--color-components);

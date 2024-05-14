@@ -4,6 +4,8 @@ export { default as SectionWrapper  } from './SectionWrapper/SectionWrapper'
 export { default as MainNav         } from './MainNav/MainNav'
 export { default as TabletNav       } from './TabletNav/TabletNav'
 
+export { default as ProfileImage       } from './ProfileImage/ProfileImage'
+
 
 export { default as CategorySearch       } from './CategorySearch/CategorySearch'
 
