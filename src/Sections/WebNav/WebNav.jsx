@@ -4,10 +4,10 @@ import './HomeNav.css'
 
 
 
-const WebNav = ({ profilePictureUrl, defaultProfilePicture }) => {
+const WebNav = ({ profilePictureUrl }) => {
     return (
         <>
-            <MainNav profilePictureUrl={profilePictureUrl} defaultProfilePicture={defaultProfilePicture}/>
+            <MainNav profilePictureUrl={profilePictureUrl} />
             <TabletNav />
         </>
     ) 

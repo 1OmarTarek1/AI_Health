@@ -8,7 +8,7 @@ import './MainNav.css'
 
 
 
-const MainNav = ({ profilePictureUrl, defaultProfilePicture }) => {
+const MainNav = ({ profilePictureUrl }) => {
 
     return (
         <>
@@ -55,7 +55,7 @@ const MainNav = ({ profilePictureUrl, defaultProfilePicture }) => {
                         </ul>
                         <div className="profileLink">
                             <NavLink to="/Profile" className='navLi'>
-                                <img src={profilePictureUrl || defaultProfilePicture} alt="Profile" />
+                                <img src={profilePictureUrl} alt="Profile" />
                             </NavLink>
                         </div>
                     </div>

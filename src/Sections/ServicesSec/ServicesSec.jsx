@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-// import axios from 'axios';
 import Webcam from 'react-webcam';
 import { SectionWrapper } from '../../Components';
 import { FaCamera, FaFireAlt } from "react-icons/fa";
@@ -18,10 +17,9 @@ const ServicesSec = () => {
 
     // Define video constraints for the back camera
     const videoConstraints = {
-        width: "100%",
-        height: "300px",
+        width: 1280,
+        height: 720,
         facingMode: "environment",
-        // facingMode: "user", // 'user' for front and 'environment' for back camera
     };
 
     const capture = React.useCallback(() => {
@@ -56,17 +54,6 @@ const ServicesSec = () => {
         setIsWebcamActive(!isWebcamActive);
     };
 
-    // const countLetters = () => {
-    //     axios.post('http://localhost:6002/api/countLetters', { paragraph })
-    //     .then(response => {
-    //         if(response.data.success) {
-    //         setLetterCount(response.data.value);
-    //         }
-    //     })
-    //     .catch(error => {
-    //         console.error('There was an error!', error);
-    //     });
-    // };
 
     return (
         <>

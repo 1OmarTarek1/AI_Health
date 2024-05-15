@@ -17,10 +17,7 @@ const App = () => {
         <Router basename='/testAI'> 
             <div className="mainContainer">
                 <ReloadEffect />
-                <WebNav 
-                profilePictureUrl={profilePictureUrl} 
-                setProfilePictureUrl={setProfilePictureUrl}
-                />
+                <WebNav profilePictureUrl={profilePictureUrl} />
                     <Routes>
                         <Route path = '/'               element = { < Home          /> } />
                         <Route path = '/ServicesPage'   element = { < ServicesPage  /> } />
@@ -28,12 +25,10 @@ const App = () => {
                         <Route path = '/Contact'        element = { < Contact       /> } />
                         <Route 
                         path = '/Profile'        
-                        element = 
-                        { < Profile 
-                            profilePictureUrl={profilePictureUrl} 
-                            setProfilePictureUrl={setProfilePictureUrl}
-                            />
-                        } 
+                        element = {< Profile 
+                                profilePictureUrl={profilePictureUrl} 
+                                setProfilePictureUrl={setProfilePictureUrl}
+                            />} 
                         />
                     </Routes>
                     <Footer />
