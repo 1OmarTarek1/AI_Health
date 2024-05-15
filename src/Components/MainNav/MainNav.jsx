@@ -2,6 +2,7 @@ import Headroom from "react-headroom";
 import { NavLink } from "react-router-dom";
 import { FaHome } from 'react-icons/fa'
 import { FaHandHoldingMedical, FaList, FaSquarePhone } from 'react-icons/fa6'
+import defProfile from '../../Assets/Images/no_user.png'
 import './MainNav.css'
 
 
@@ -55,7 +56,7 @@ const MainNav = ({ profilePictureUrl }) => {
                         </ul>
                         <div className="profileLink">
                             <NavLink to="/Profile" className='navLi'>
-                                <img src={profilePictureUrl} alt="Profile" />
+                                <img src={ profilePictureUrl || defProfile } alt="Profile" />
                             </NavLink>
                         </div>
                     </div>
