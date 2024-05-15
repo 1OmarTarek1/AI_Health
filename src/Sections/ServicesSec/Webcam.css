@@ -45,7 +45,8 @@
     display: none;
 }
 .mainWebcamBtn,
-#uploadLabel{
+#uploadLabel,
+.clearBtn{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -62,7 +63,8 @@
     transition: all .2s;
 }
 .mainWebcamBtn:hover,
-#uploadLabel:hover{
+#uploadLabel:hover,
+.clearBtn:hover{
     border-radius: 5px;
     filter: brightness(110%);
     box-shadow: 0 0 10px 0 var(--color-primary) ;

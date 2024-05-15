@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Webcam from 'react-webcam';
 import { SectionWrapper } from '../../Components';
-import { FaCamera, FaFireAlt } from "react-icons/fa";
+import { FaCamera, FaFireAlt, FaTrashAlt } from "react-icons/fa";
 import { FaDumbbell, FaRadiation, FaShieldHalved, FaVideo, FaVideoSlash, FaXmark, FaUpload  } from 'react-icons/fa6';
 
 import './ServicesSec.css';
@@ -54,6 +54,11 @@ const ServicesSec = () => {
         setIsWebcamActive(!isWebcamActive);
     };
 
+    const clearData = () => {
+        setImgSrc(null);
+        setUploadedImg(null);
+        setError(null);
+    };
 
     return (
         <>
@@ -90,6 +95,7 @@ const ServicesSec = () => {
                                 { isWebcamActive ? <FaVideoSlash />  : <FaVideo /> }
                                 <span>WebCam</span>
                             </button>
+
                             <input 
                             className='upload' 
                             id='file-input' 
@@ -100,6 +106,12 @@ const ServicesSec = () => {
                             <label id="uploadLabel" htmlFor="file-input">
                                 <FaCamera /> | <FaUpload />    
                             </label>
+
+                            {(imgSrc || uploadedImg) && (
+                                <button className="clearBtn" onClick={clearData} style={{width:"fit-content", height:"30.8px"}}>
+                                    <FaTrashAlt />
+                                </button>
+                            )}
                         </div>
                     </div>
                     <div className="infoContainer">

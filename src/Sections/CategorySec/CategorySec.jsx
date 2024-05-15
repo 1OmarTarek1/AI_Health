@@ -16,7 +16,8 @@ const CategorySec = () => {
 
     const fetchData = useCallback(async () => {
         try {
-            const apiLink = await axios.get(`https://jsonplaceholder.typicode.com/photos?_page=${page}&_limit=10`);
+            const apiLink = await axios.get
+            (`https://jsonplaceholder.typicode.com/photos?_page=${page}&_limit=10`);
             const newData = apiLink.data;
 
             setData(prevData => [...prevData, ...newData]); // Append new data to existing data
