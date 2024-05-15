@@ -16,10 +16,13 @@ const ServicesSec = () => {
     const [isWebcamActive, setIsWebcamActive] = useState(false);
 
     // mobile camera 
-    const openNativeCameraApp = () => {
-        // Redirect user to the mobile app with deep linking
-        window.location.href = 'yourmobileapp://open-camera';
-    };
+    const handleCameraButtonClick = () => {
+        // Programmatically trigger the file input click
+        const fileInput = document.getElementById('file-input');
+        if (fileInput) {
+            fileInput.click();
+        }
+    }
 
     // Define video constraints for the back camera
     const videoConstraints = {
@@ -104,9 +107,14 @@ const ServicesSec = () => {
                                     <FaUpload />
                                     <span>Upload</span>
                                 </label>
-                                <div>
-                                    <button onClick={openNativeCameraApp}>Open Native Camera App</button>
-                                </div>
+                                <input 
+                                    id="file-input"
+                                    type="file" 
+                                    accept="image/*" 
+                                    capture="camera" // This attribute opens the device's camera directly
+                                    style={{ display: 'none' }} // Hide the input element
+                                />
+                                <button onClick={handleCameraButtonClick}>Open Camera</button>
                             </div>
                         </div>
                         <div className="infoContainer">
