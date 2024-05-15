@@ -15,6 +15,12 @@ const ServicesSec = () => {
     const [uploadedImg, setUploadedImg] = useState(null);
     const [isWebcamActive, setIsWebcamActive] = useState(false);
 
+    // mobile camera 
+    const openNativeCameraApp = () => {
+        // Redirect user to the mobile app with deep linking
+        window.location.href = 'yourmobileapp://open-camera';
+    };
+
     // Define video constraints for the back camera
     const videoConstraints = {
         width: 1280,
@@ -98,6 +104,9 @@ const ServicesSec = () => {
                                     <FaUpload />
                                     <span>Upload</span>
                                 </label>
+                                <div>
+                                    <button onClick={openNativeCameraApp}>Open Native Camera App</button>
+                                </div>
                             </div>
                         </div>
                         <div className="infoContainer">
