@@ -10,9 +10,6 @@
     margin-bottom: 10px;
     background-color: #0a0618;
     overflow: hidden;
-    /* background-image: url("../../Assets/Images/Food-4.jpg");
-    background-position: center;
-    background-size: cover; */
 }
 .webcam{
     width: 100%;
@@ -60,7 +57,7 @@
     margin-right: 10px;
     font-size: 13px;
     background-color: var(--color-primary);
-    color: #fff;
+    color: var(--color-lightFont);
     cursor: pointer;
     transition: all .2s;
 }

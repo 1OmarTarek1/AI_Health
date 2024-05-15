@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Webcam from 'react-webcam';
 import { SectionWrapper } from '../../Components';
 import { FaCamera, FaFireAlt } from "react-icons/fa";
-import { FaDumbbell, FaRadiation, FaShieldHalved, FaUpload, FaVideoSlash, FaXmark } from 'react-icons/fa6';
+import { FaDumbbell, FaRadiation, FaShieldHalved, FaVideo, FaVideoSlash, FaXmark, FaUpload  } from 'react-icons/fa6';
 
 import './ServicesSec.css';
 import './Media.css';
@@ -14,15 +14,6 @@ const ServicesSec = () => {
     const [error, setError] = useState(null);
     const [uploadedImg, setUploadedImg] = useState(null);
     const [isWebcamActive, setIsWebcamActive] = useState(false);
-
-    // mobile camera 
-    const handleCameraButtonClick = () => {
-        // Programmatically trigger the file input click
-        const fileInput = document.getElementById('file-input');
-        if (fileInput) {
-            fileInput.click();
-        }
-    }
 
     // Define video constraints for the back camera
     const videoConstraints = {
@@ -68,130 +59,124 @@ const ServicesSec = () => {
         <>
             <div className="ServicesSec" id='Services'>
                 <SectionWrapper>
-                        <div className="takenPhotoWrapper">
-                            {isWebcamActive && (
-                                <>
-                                    <div className="webcamContainer">
-                                        <Webcam
-                                            className='webcam'
-                                            audio={false}
-                                            height={videoConstraints.height}
-                                            ref={webcamRef}
-                                            screenshotFormat="image/jpeg"
-                                            width={videoConstraints.width}
-                                            videoConstraints={videoConstraints}
-                                            onUserMediaError={() => setError('Access Denied!')}
-                                        />
-                                        {error && <div className='webcamErr'>
-                                            <span>
-                                                {error}
-                                            </span>
-                                            <FaVideoSlash />
-                                        </div>}
-                                        <button className='screenBtn' onClick={capture}>
-                                            <FaCamera />
-                                        </button>
-                                    </div>
-                                </>
-                            )}
-                            <div className="WebBtnContainer">
-                                <button className='mainWebcamBtn' onClick={toggleWebcam}>
-                                    {
-                                    isWebcamActive 
-                                    ?<> <FaCamera /> <span>Off</span> </> 
-                                    :<> <FaCamera /> <span>On</span>  </>
-                                    }
-                                </button>
-                                <input className='upload' id='file-input' type="file" accept="image/*" onChange={handleImageUpload} />
-                                <label id="uploadLabel" htmlFor="file-input">
-                                    <FaUpload />
-                                    <span>Upload</span>
-                                </label>
-                                <input 
-                                    id="file-input"
-                                    type="file" 
-                                    accept="image/*" 
-                                    capture="camera" // This attribute opens the device's camera directly
-                                    style={{ display: 'none' }} // Hide the input element
-                                />
-                                <button onClick={handleCameraButtonClick}>Open Camera</button>
-                            </div>
-                        </div>
-                        <div className="infoContainer">
-                            <div className="partOneWrapper">
-                                <div className="imgInfoWrapper">
-                                    {imgSrc && (
-                                        <img
-                                        className='webcamImg mainImg'
-                                        src={imgSrc}
-                                        alt="Captured"
-                                        width={200}
-                                        onError={() => setError('Failed to load the captured image.')}
-                                        />
-                                    )}
-                                    {uploadedImg && (
-                                        <img
-                                        className='uploadedImg mainImg'
-                                        src={uploadedImg}
-                                        alt="Uploaded"
-                                        width={100}
-                                        onError={() => setError('Failed to load the uploaded image.')}
-                                        />
-                                    )}
+                    <div className="takenPhotoWrapper">
+                        {isWebcamActive && (
+                            <>
+                                <div className="webcamContainer">
+                                    <Webcam
+                                        className='webcam'
+                                        audio={false}
+                                        height={videoConstraints.height}
+                                        ref={webcamRef}
+                                        screenshotFormat="image/jpeg"
+                                        width={videoConstraints.width}
+                                        videoConstraints={videoConstraints}
+                                        onUserMediaError={() => setError('Access Denied!')}
+                                    />
+                                    {error && <div className='webcamErr'>
+                                        <span>
+                                            {error}
+                                        </span>
+                                        <FaVideoSlash />
+                                    </div>}
+                                    <button className='screenBtn' onClick={capture}>
+                                        <FaCamera />
+                                    </button>
                                 </div>
-                                <div className="textWrapper">
-                                    <div className="foodName">
-                                        Chicken Bacon Ranch Pizza
-                                    </div>
-                                    <div className="foodDis">
-                                        Smokey bacon, pieces of chicken, 
-                                        gooey melty cheese,
-                                        and creamy ranch were the perfect 
-                                        combo to pile on a chewy crust!
-                                    </div>
+                            </>
+                        )}
+                        <div className="WebBtnContainer">
+                            <button className='mainWebcamBtn' onClick={toggleWebcam}>
+                                { isWebcamActive ? <FaVideoSlash />  : <FaVideo /> }
+                                <span>WebCam</span>
+                            </button>
+                            <input 
+                            className='upload' 
+                            id='file-input' 
+                            type="file" 
+                            accept="image/*" 
+                            onChange={handleImageUpload} 
+                            />
+                            <label id="uploadLabel" htmlFor="file-input">
+                                <FaCamera /> | <FaUpload />    
+                            </label>
+                        </div>
+                    </div>
+                    <div className="infoContainer">
+                        <div className="partOneWrapper">
+                            <div className="imgInfoWrapper">
+                                {imgSrc && (
+                                    <img
+                                    className='webcamImg mainImg'
+                                    src={imgSrc}
+                                    alt="Captured"
+                                    width={200}
+                                    onError={() => setError('Failed to load the captured image.')}
+                                    />
+                                )}
+                                {uploadedImg && (
+                                    <img
+                                    className='uploadedImg mainImg'
+                                    src={uploadedImg}
+                                    alt="Uploaded"
+                                    width={100}
+                                    onError={() => setError('Failed to load the uploaded image.')}
+                                    />
+                                )}
+                            </div>
+                            <div className="textWrapper">
+                                <div className="foodName">
+                                    Chicken Bacon Ranch Pizza
+                                </div>
+                                <div className="foodDis">
+                                    Smokey bacon, pieces of chicken, 
+                                    gooey melty cheese,
+                                    and creamy ranch were the perfect 
+                                    combo to pile on a chewy crust!
                                 </div>
                             </div>
-
-                            <ul className="foodDetails">
-                                <li className="detailItem">
-                                    <div className="miniTitle">
-                                        <FaFireAlt style={{color:"Red"}} />
-                                        <span>Calories</span>
-                                    </div>
-                                    <div className="titleInfo">
-                                        800cal
-                                    </div>
-                                </li>
-                                <li className="detailItem">
-                                    <div className="miniTitle">
-                                        <FaDumbbell style={{color:"silver"}} />
-                                        <span>Protein</span>
-                                    </div>
-                                    <div className="titleInfo">
-                                        100gm
-                                    </div>
-                                </li>
-                                <li className="detailItem">
-                                    <div className="miniTitle">
-                                        <FaRadiation style={{color:"yellow"}} /> 
-                                        <span>Fats</span>
-                                    </div>
-                                    <div className="titleInfo">
-                                        50gm
-                                    </div>
-                                </li>
-                                <li className="detailItem">
-                                    <div className="miniTitle">
-                                        <FaShieldHalved style={{color:"lightGreen"}}/>
-                                        <span>Healthy</span>
-                                    </div>
-                                    <div className="titleInfo">
-                                        <FaXmark style={{color:"red"}}/>
-                                    </div>
-                                </li>
-                            </ul>
-
                         </div>
+
+                        <ul className="foodDetails">
+                            <li className="detailItem">
+                                <div className="miniTitle">
+                                    <FaFireAlt style={{color:"Red"}} />
+                                    <span>Calories</span>
+                                </div>
+                                <div className="titleInfo">
+                                    800cal
+                                </div>
+                            </li>
+                            <li className="detailItem">
+                                <div className="miniTitle">
+                                    <FaDumbbell style={{color:"silver"}} />
+                                    <span>Protein</span>
+                                </div>
+                                <div className="titleInfo">
+                                    100gm
+                                </div>
+                            </li>
+                            <li className="detailItem">
+                                <div className="miniTitle">
+                                    <FaRadiation style={{color:"yellow"}} /> 
+                                    <span>Fats</span>
+                                </div>
+                                <div className="titleInfo">
+                                    50gm
+                                </div>
+                            </li>
+                            <li className="detailItem">
+                                <div className="miniTitle">
+                                    <FaShieldHalved style={{color:"lightGreen"}}/>
+                                    <span>Healthy</span>
+                                </div>
+                                <div className="titleInfo">
+                                    <FaXmark style={{color:"red"}}/>
+                                </div>
+                            </li>
+                        </ul>
+
+                    </div>
                 </SectionWrapper>
             </div>
         </>
