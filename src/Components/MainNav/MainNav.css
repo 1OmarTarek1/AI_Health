@@ -9,7 +9,7 @@
 }
 
 
-.MediaWebNav{
+.MediaWebNav .pageLinks{
     display: none;
 }
 .headroom{
@@ -146,7 +146,8 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    width: 92.67px;
+    gap: 10px;
+    /* width: 92.67px; */
 }
 
 .profileLink .navLi{

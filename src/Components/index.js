@@ -7,6 +7,7 @@ export { default as TabletNav       } from './TabletNav/TabletNav'
 export { default as ProfileImage       } from './ProfileImage/ProfileImage'
 
 
+export { default as NavLinks       } from './NavLinks/NavLinks'
 export { default as CategorySearch       } from './CategorySearch/CategorySearch'
 
 

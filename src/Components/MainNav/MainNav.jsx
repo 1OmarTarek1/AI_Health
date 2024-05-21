@@ -1,69 +1,47 @@
+import { useEffect } from "react";
 import Headroom from "react-headroom";
-import { NavLink } from "react-router-dom";
-import { FaHome } from 'react-icons/fa'
-import { FaHandHoldingMedical, FaList, FaSquarePhone } from 'react-icons/fa6'
-import defProfile from '../../Assets/Images/no_user.png'
-import './MainNav.css'
+import { NavLink, useNavigate } from "react-router-dom";
+import { NavLinks } from "../";
+import defProfile from "../../Assets/Images/no_user.png";
+import "./MainNav.css";
 
-
-
-
-
-const MainNav = ({ profilePictureUrl }) => {
+const MainNav = ({ profilePictureUrl, setAuthenticated, authenticated}) => {
+    const navigate = useNavigate();
+    useEffect(() => {
+        let btn = document.querySelector(".logoutBtn");
+        const handleLogout = () => {
+            // Logic to handle logout
+            setAuthenticated(false);
+            // Clear authentication status and profile picture URL from local storage
+            localStorage.removeItem('authenticated');
+            navigate("/", { replace: true });
+        };
+        btn.addEventListener('click', handleLogout )
+        return () => {
+            btn.removeEventListener('click', handleLogout )
+        }
+    }, [setAuthenticated, authenticated, navigate])
 
     return (
-        <>
-                <div className="WebNav">
-                <Headroom>
-                    <div className="WebNavContainer">
-                        <NavLink to='/' className="logoWrapper">
-                            {/* <img className='logoImg' src={logo} alt="Logo" /> */}
-                            AI | HEALTH
-                        </NavLink>
-                        <ul className='pageLinks'>
-                            <li>
-                                <NavLink to="/" className='navLi'>
-                                    <FaHome />
-                                    <div className="linkText">
-                                        Home
-                                    </div>
-                                </NavLink>
-                            </li>
-                            <li>
-                                <NavLink to="/ServicesPage" className='navLi'>
-                                    <FaHandHoldingMedical />
-                                    <div className="linkText">
-                                        Services
-                                    </div>
-                                </NavLink>
-                            </li>
-                            <li>
-                                <NavLink to="/Category" className='navLi'>
-                                    <FaList  />
-                                    <div className="linkText">
-                                        Category
-                                    </div>
-                                </NavLink>
-                            </li>
-                            <li>
-                                <NavLink to="/Contact" className='navLi'>
-                                    <FaSquarePhone />
-                                    <div className="linkText">
-                                        Contact
-                                    </div>
-                                </NavLink>
-                            </li>
-                        </ul>
-                        <div className="profileLink">
-                            <NavLink to="/Profile" className='navLi'>
-                                <img src={ profilePictureUrl || defProfile } alt="Profile" />
-                            </NavLink>
-                        </div>
-                    </div>
-                </Headroom>
-                </div>
-        </>
-    )
-}
+        <div className="WebNav">
+        <Headroom>
+            <div className="WebNavContainer">
+            <NavLink to="/" className="logoWrapper">
+                AI | HEALTH
+            </NavLink>
 
-export default MainNav
+            <NavLinks />
+
+            <div className="profileLink">
+                <button className="logoutBtn">Logout</button>
+                <NavLink to="/Profile" className="navLi">
+                <img src={profilePictureUrl || defProfile} alt="Profile" />
+                </NavLink>
+            </div>
+            </div>
+        </Headroom>
+        </div>
+    );
+};
+
+export default MainNav;

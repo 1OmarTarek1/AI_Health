@@ -1,14 +1,6 @@
 @media screen and ( max-width:768px ) {
-    /* .WebNav{
-        position: absolute;
-        backdrop-filter: blur(0);
-    }
-    .WebNavContainer{
-        box-shadow: none !important;
-        border: none !important;
-        
-    } */
-    .pageLinks{
+
+    .WebNavContainer .pageLinks{
         display: none !important;
     }
 
@@ -27,19 +19,15 @@
         border-top: 1px solid #a0b6fd1e;
         box-shadow: 0px 0px 4px 0px #00000071;
     }
-    .MediaNavContainer{
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-    }
-    .MediaPageLinks{
-        position: relative;
-        top: 3px;
+    .MediaWebNav .pageLinks{
         display: flex;
         justify-content: space-evenly;
+        align-items: center;
         width: 100%;
+        position: relative;
+        top: 3px;
     }
+
     .MediaWebNav a {
         color: var(--color-navLinks);
     }

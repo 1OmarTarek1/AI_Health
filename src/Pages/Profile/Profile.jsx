@@ -10,7 +10,10 @@ const Profile = ({ profilePictureUrl, setProfilePictureUrl }) => {
     return (
         <>
             <div className="ProfilePage">
-                <ProfileHeader profilePictureUrl={profilePictureUrl} setProfilePictureUrl={setProfilePictureUrl} />
+                <ProfileHeader 
+                profilePictureUrl={profilePictureUrl} 
+                setProfilePictureUrl={setProfilePictureUrl} 
+                />
             </div>   
         </>
     )

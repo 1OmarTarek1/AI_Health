@@ -1,5 +1,7 @@
+export { default as Login } from './Login/Login'
 export { default as Home } from './Home/Home'
 export { default as ServicesPage } from './ServicesPage/ServicesPage'
 export { default as Category } from './Category/Category'
 export { default as Contact } from './Contact/Contact'
 export { default as Profile } from './Profile/Profile'
+export { default as NotPage } from './NotPage/NotPage'
