@@ -4,6 +4,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { NavLinks } from "../";
 import defProfile from "../../Assets/Images/no_user.png";
 import "./MainNav.css";
+import { FiLogOut } from "react-icons/fi";
 
 const MainNav = ({ profilePictureUrl, setAuthenticated, authenticated}) => {
     const navigate = useNavigate();
@@ -26,14 +27,16 @@ const MainNav = ({ profilePictureUrl, setAuthenticated, authenticated}) => {
         <div className="WebNav">
         <Headroom>
             <div className="WebNavContainer">
-            <NavLink to="/" className="logoWrapper">
-                AI | HEALTH
+            <NavLink to="/Home" className="logoWrapper">
+                AI HEALTH
             </NavLink>
 
             <NavLinks />
 
             <div className="profileLink">
-                <button className="logoutBtn">Logout</button>
+                <button className="logoutBtn">
+                    <FiLogOut />
+                </button>
                 <NavLink to="/Profile" className="navLi">
                 <img src={profilePictureUrl || defProfile} alt="Profile" />
                 </NavLink>

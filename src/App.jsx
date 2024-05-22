@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { Home, ServicesPage, Category, Contact, Profile, Login, NotPage } from './Pages';
 import { Footer, WebNav } from './Sections';
-import { ReloadEffect, ToTopReload, ToTopBtn } from './Components';
+import { ReloadEffect, ToTopReload, ToTopBtn, DTitle } from './Components';
 import './App.css';
 
 const App = () => {
@@ -18,6 +18,7 @@ const App = () => {
         setProfilePictureUrl(storedProfilePictureUrl);
     }, []);
 
+
     const handleLogin = () => {
         // Logic to handle successful login
         setAuthenticated(true);
@@ -31,9 +32,11 @@ const App = () => {
         setProfilePictureUrl(url);
         localStorage.setItem('profilePictureUrl', url);
     };
+    
 
     return (
-        <Router basename='/testAI'> 
+        <Router basename='/AI_Health'> 
+        <DTitle />
             <div className="mainContainer">
                 <ReloadEffect />
                 {authenticated ? (
@@ -44,7 +47,7 @@ const App = () => {
                             authenticated={authenticated}
                         />
                         <Routes>
-                            <Route path='/' element={<Home />} />
+                            <Route path='/Home' element={<Home />} />
                             <Route path='/ServicesPage' element={<ServicesPage />} />
                             <Route path='/Category' element={<Category />} />
                             <Route path='/Contact' element={<Contact />} />
@@ -73,3 +76,4 @@ const App = () => {
 };
 
 export default App;
+

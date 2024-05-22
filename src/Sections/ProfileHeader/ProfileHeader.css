@@ -55,7 +55,7 @@
     border-radius: 5px;
     background-color: #0000006c;
     transition: ease-in-out .2s;
-    cursor: default;
+    cursor: pointer;
 }
 .profile-details:hover{
     background-color: #0000007c;
@@ -118,6 +118,8 @@
     opacity: 0;
     visibility: hidden;
 }
+
+
 
 
 

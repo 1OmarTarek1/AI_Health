@@ -14,7 +14,7 @@ const NavLinks = () => {
         <>
             <ul className='pageLinks'>
                 <li>
-                    <NavLink to="/" className='navLi'>
+                    <NavLink to="/Home" className='navLi'>
                         <FaHome />
                         <div className="linkText">
                             Home

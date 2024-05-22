@@ -49,6 +49,7 @@
     width: 35px;
 }
 
+
 .WebNav a {
     color: var(--color-navLinks);
     transition: all .2s;
@@ -147,7 +148,24 @@
     justify-content: flex-end;
     align-items: center;
     gap: 10px;
-    /* width: 92.67px; */
+    width: 79.72px;
+}
+.WebNav .logoutBtn{
+    display: grid;
+    place-content: center;
+    width: 35px;
+    height: 35px;
+    position: absolute;
+    right: 60px;
+    border-radius: 50%;
+    border: 1px solid var(--color-navLinks);
+    background-color: transparent;
+    color: var(--color-navLinks);
+    transition: all .2s;
+}
+.WebNav .logoutBtn:hover{
+    border: 1px solid var(--color-primary);
+    color: var(--color-primary);
 }
 
 .profileLink .navLi{

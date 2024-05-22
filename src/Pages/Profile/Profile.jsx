@@ -14,6 +14,7 @@ const Profile = ({ profilePictureUrl, setProfilePictureUrl }) => {
                 profilePictureUrl={profilePictureUrl} 
                 setProfilePictureUrl={setProfilePictureUrl} 
                 />
+                
             </div>   
         </>
     )
