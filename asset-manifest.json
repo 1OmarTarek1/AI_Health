@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/AI_Health/static/css/main.cfcb8b04.css",
-    "main.js": "/AI_Health/static/js/main.d349897b.js",
+    "main.css": "/AI_Health/static/css/main.7d25d946.css",
+    "main.js": "/AI_Health/static/js/main.d3143a57.js",
     "static/media/144584-785095786_medium.mp4": "/AI_Health/static/media/144584-785095786_medium.a363d3a8a62bfb6cc5f1.mp4",
     "static/media/Food-3.jpg": "/AI_Health/static/media/Food-3.b6c8da024cba858f906d.jpg",
     "static/media/Food-4.jpg": "/AI_Health/static/media/Food-4.540c06002b3ccecb8f22.jpg",
@@ -15,11 +15,11 @@
     "static/media/fa-v4compatibility.ttf": "/AI_Health/static/media/fa-v4compatibility.c8e090db312b0bea2aa2.ttf",
     "static/media/fa-v4compatibility.woff2": "/AI_Health/static/media/fa-v4compatibility.cf7f5903d06b79ad60f1.woff2",
     "index.html": "/AI_Health/index.html",
-    "main.cfcb8b04.css.map": "/AI_Health/static/css/main.cfcb8b04.css.map",
-    "main.d349897b.js.map": "/AI_Health/static/js/main.d349897b.js.map"
+    "main.7d25d946.css.map": "/AI_Health/static/css/main.7d25d946.css.map",
+    "main.d3143a57.js.map": "/AI_Health/static/js/main.d3143a57.js.map"
   },
   "entrypoints": [
-    "static/css/main.cfcb8b04.css",
-    "static/js/main.d349897b.js"
+    "static/css/main.7d25d946.css",
+    "static/js/main.d3143a57.js"
   ]
 }
