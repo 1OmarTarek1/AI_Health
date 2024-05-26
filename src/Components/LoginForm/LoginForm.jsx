@@ -1,18 +1,19 @@
 import { useState } from 'react';
 import { MDBInput, MDBBtn } from 'mdb-react-ui-kit';
 import { useNavigate } from 'react-router-dom';
-import { FaEyeSlash, FaFacebookSquare, FaGoogle } from 'react-icons/fa';
-import { FaRegEnvelope } from 'react-icons/fa6';
+import { FaFacebookSquare, FaGoogle } from 'react-icons/fa';
+import { FaRegEnvelope, FaRegEye, FaRegEyeSlash } from 'react-icons/fa6';
 import './LoginForm.css'
 
 
 
-const LoginForm = ({setAuthenticated}) => {
+const LoginForm = ({ setAuthenticated, showPassword, setShowPassword }) => {
     const [emailValue, setEmailValue] = useState('');
     const [passValue, setPassValue] = useState('');
     const navigate = useNavigate();
 
-    const handleLogin = () => {
+    const handleLogin = (e) => {
+        e.preventDefault();
         setAuthenticated(true);
         navigate("/Home");
     };
@@ -47,14 +48,16 @@ const LoginForm = ({setAuthenticated}) => {
                     label='Password'
                     className='mainInput'
                     id='passLogin'
-                    type='password'
+                    type={showPassword ? 'text' : 'password'}
                     size="lg" 
                     />
                     <label 
                     className="labelIcn" 
                     htmlFor="passLogin" 
-                    style={{cursor:"pointer"}}>
-                        <FaEyeSlash />
+                    style={{cursor:"pointer"}}
+                    onClick={() => setShowPassword(!showPassword)} 
+                    >
+                    {showPassword ? <FaRegEye /> : <FaRegEyeSlash />} 
                     </label>
                 </div>
 
@@ -80,7 +83,7 @@ const LoginForm = ({setAuthenticated}) => {
                 type='submit' 
                 value='Login' 
                 size="lg"
-                onClick={handleLogin}
+                onClick={(e) => handleLogin(e)}
                 > Login </MDBBtn>
 
                 <div className='d-flex justify-content-center gap-2'>

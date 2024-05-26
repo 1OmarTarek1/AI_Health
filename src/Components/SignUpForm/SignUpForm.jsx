@@ -1,20 +1,21 @@
 import { useState } from 'react';
 import { MDBInput, MDBBtn } from 'mdb-react-ui-kit';
 import { useNavigate } from 'react-router-dom';
-import { FaEyeSlash, FaFacebookSquare, FaGoogle, FaTrashAlt } from 'react-icons/fa';
-import { FaRegEnvelope, FaRegUser } from 'react-icons/fa6';
+import { FaFacebookSquare, FaGoogle, FaTrashAlt } from 'react-icons/fa';
+import { FaRegEnvelope, FaRegEye, FaRegEyeSlash, FaRegUser } from 'react-icons/fa6';
 import './SignUpForm.css'
 
 
 
-const SignUpForm = ({setAuthenticated}) => {
+const SignUpForm = ({setAuthenticated, showPassword, setShowPassword}) => {
     const [usernameSign  , setUsernameSign  ] = useState('');
     const [emailSignValue, setEmailSignValue] = useState('');
     const [passSignValue , setPassSignValue ] = useState('');
     const [passConfValue , setPassConfValue ] = useState('');
     const navigate = useNavigate();
 
-    const handleSignUp = () => {
+    const handleSignUp = (e) => {
+        e.preventDefault();
         setAuthenticated(true);
         navigate("/Profile");
     }
@@ -62,14 +63,15 @@ const SignUpForm = ({setAuthenticated}) => {
                     label='Password'
                     className='mainInput'
                     id='passSign'
-                    type='password'
+                    type={showPassword ? 'text' : 'password'}
                     size="lg" 
                     />
                     <label 
                     className="labelIcn" 
                     htmlFor="passSign" 
-                    style={{cursor:"pointer"}}>
-                        <FaEyeSlash />
+                    style={{cursor:"pointer"}}
+                    onClick={() => setShowPassword(!showPassword)} >
+                    {showPassword ? <FaRegEye /> : <FaRegEyeSlash />}
                     </label>
                 </div>
 
@@ -80,14 +82,16 @@ const SignUpForm = ({setAuthenticated}) => {
                     label='Confirm Password'
                     className='mainInput'
                     id='passConfirmSign'
-                    type='password'
+                    type={showPassword ? 'text' : 'password'}
                     size="lg" 
                     />
                     <label 
                     className="labelIcn" 
                     htmlFor="passConfirmSign" 
-                    style={{cursor:"pointer"}}>
-                        <FaEyeSlash />
+                    style={{cursor:"pointer"}}
+                    onClick={() => setShowPassword(!showPassword)} 
+                    >
+                    {showPassword ? <FaRegEye /> : <FaRegEyeSlash />}
                     </label>
                 </div>
 
@@ -120,7 +124,7 @@ const SignUpForm = ({setAuthenticated}) => {
                 type='submit' 
                 value='Submit' 
                 size="lg"
-                onClick={handleSignUp}
+                onClick={(e) => handleSignUp(e)}
                 > Submit </MDBBtn>
 
                 <div 

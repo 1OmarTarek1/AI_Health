@@ -18,7 +18,7 @@
 .WebNav{
     background-color: transparent;
     transition: all .2s;
-    z-index: 99999999;
+    z-index: 9999;
 }
 
 .WebNavContainer{

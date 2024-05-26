@@ -1,5 +1,6 @@
-import { ContactSec, HomeSec, ServicesSec } from '../../Sections'
-import { PageContainer } from '../../Components'
+import { HomeSec } from '../../Sections'
+// import { ContactSec, HomeSec, ServicesSec } from '../../Sections'
+// import { PageContainer } from '../../Components'
 import './Home.css'
 
 
@@ -9,10 +10,10 @@ const Home = () => {
         <>
             <div className="HomePage">
                 <HomeSec />
-                <PageContainer>
+                {/* <PageContainer>
                     <ServicesSec />
                     <ContactSec />
-                </PageContainer>
+                </PageContainer> */}
             </div>
         </>
     )

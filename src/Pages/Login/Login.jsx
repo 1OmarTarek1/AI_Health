@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { LoginForm, SignUpForm } from '../../Components'
 import BackVid from '../../Assets/Videos/144584-785095786_medium.mp4'
 import './Login.css'
@@ -9,6 +9,8 @@ import './Login.css'
 
 
 const Login = ({setAuthenticated}) => {
+    const [showPassword, setShowPassword] = useState(false);
+
     useEffect(()=>{
         let registerLink = document.querySelector(".Register");
         let loginLink    = document.querySelector(".LoginLink");
@@ -51,8 +53,16 @@ const Login = ({setAuthenticated}) => {
                 <div className="video-background">
                     <video className='backVid' src={BackVid} autoPlay loop muted />
                 </div>
-                <LoginForm setAuthenticated={setAuthenticated}/>
-                <SignUpForm setAuthenticated={setAuthenticated}/>
+                <LoginForm 
+                setAuthenticated={setAuthenticated} 
+                showPassword={showPassword}
+                setShowPassword={setShowPassword}
+                />
+                <SignUpForm 
+                setAuthenticated={setAuthenticated}
+                showPassword={showPassword}
+                setShowPassword={setShowPassword}
+                />
             </div>
         </>
     )
