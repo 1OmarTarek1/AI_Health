@@ -4,7 +4,6 @@
 .CategoryCard{
     position: relative;
     flex: 1 19%;
-    max-width: 33%;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -93,10 +92,28 @@
     background-color: #fff;
     color: var(--color-primary);
 }
+.CategoryCard .likeBtn {
+    position: absolute;
+    top: 7px;
+    right: 11px;
+    padding: 0;
+    border: none;
+    background-color: transparent;
+    color: #00000096;
+    visibility: hidden;
+    opacity: 0;
+    transition: all .4s;
+}
+.CategoryCard:hover .likeBtn{
+    visibility: visible;
+    opacity: 1;
+}
+.CategoryCard .likeBtnClicked {
+    color: #ff0000;
+}
+
 
 .CategoryCard .cardBody p{
-    /* min-height: 100px;
-    max-height: 100px; */
     height: 100px;
     padding-right: 10px;
     padding-block: 10px;
@@ -148,18 +165,19 @@
 
 @media screen and (max-width:1200px) {
     .CategoryCard{
-        flex: 24%;
-        max-width: 100%;
+        flex: 0 24%;
     }
 }
 @media screen and (max-width:992px) {
     .CategoryCard{
-        flex: 32%;
+        flex: 0 32%;
     }
+    
 }
 @media screen and (max-width:768px) {
+    
     .CategoryCard{
-        flex: 1 48%;
+        flex: 0 48%;
     }
     .CategoryCard:hover{
         transform: scale(1);

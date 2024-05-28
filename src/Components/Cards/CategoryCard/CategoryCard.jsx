@@ -1,27 +1,57 @@
-// import { FaFireAlt } from "react-icons/fa";
-// import { FaDumbbell, FaRadiation, FaShieldHalved } from 'react-icons/fa6';
-import { FaFileLines } from 'react-icons/fa6';
-import './CategoryCard.css'
+import { useState, useEffect } from 'react';
+import { FaFileLines, FaHeart } from 'react-icons/fa6';
+import './CategoryCard.css';
 
 const CategoryCard = (props) => {
+    const { id, imageUrl, title, favorites, setFavorites, onMoreClick } = props;
+    const isAlreadyLiked = favorites.some(card => card.id === id);
+    const [liked, setLiked] = useState(isAlreadyLiked);
 
-    const handleClick = () => {
-        if (props.onClick) {
-            props.onClick(); // Call the onClick function if it's provided
+    useEffect(() => {
+        // Check if the current card is liked when component mounts
+        const storedFavorites = localStorage.getItem('favorites');
+        if (storedFavorites) {
+            const parsedFavorites = JSON.parse(storedFavorites);
+            const isLiked = parsedFavorites.some(card => card.id === id);
+            setLiked(isLiked);
+        }
+    }, [id]);
+
+    const handleLikeClick = () => {
+        if (!liked) {
+            // Save the liked card in localStorage
+            const newFavorite = { id, imageUrl, title };
+            const updatedFavorites = [...favorites, newFavorite];
+            localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+            // Update state
+            setFavorites(updatedFavorites);
+            setLiked(true);
+        } else {
+            // Remove the liked card from localStorage
+            const updatedFavorites = favorites.filter(card => card.id !== id);
+            localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+            // Update state
+            setFavorites(updatedFavorites);
+            setLiked(false);
         }
     };
 
     return (
-        <div className="CategoryCard"> {/* Add onClick handler here */}
+        <div className="CategoryCard">
             <div className="cardHeader">
                 <div className="cardImgWrapper">
-                    <img src={props.imageUrl} alt={"props.name"} className="cardImg" loading="lazy" />
+                    <img src={imageUrl} alt={title} className="cardImg" loading="lazy" />
                 </div>
                 <div className="cardName">
-                    {props.title}
+                    {title}
                 </div>
-                <button className="moreBtn" onClick={handleClick}>
+                <button className="moreBtn" onClick={() => onMoreClick(id)}>
                     <FaFileLines />
+                </button>
+                <button
+                    className={liked ? "likeBtn likeBtnClicked" : "likeBtn"}
+                    onClick={handleLikeClick}>
+                    <FaHeart />
                 </button>
             </div>
             <div className="cardBody">
@@ -61,7 +91,9 @@ const CategoryCard = (props) => {
                 </ul>
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default CategoryCard;
+
+

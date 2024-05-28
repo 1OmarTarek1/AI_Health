@@ -8,6 +8,7 @@ import './App.css';
 const App = () => {
     const [authenticated, setAuthenticated] = useState(false);
     const [profilePictureUrl, setProfilePictureUrl] = useState('');
+    const [favorites, setFavorites] = useState([]);
 
     useEffect(() => {
         // Check local storage for authentication status and profile picture URL
@@ -49,13 +50,18 @@ const App = () => {
                         <Routes>
                             <Route path='/Home' element={<Home />} />
                             <Route path='/ServicesPage' element={<ServicesPage />} />
-                            <Route path='/Category' element={<Category />} />
+                            <Route path='/Category' element={<Category 
+                                favorites={favorites}
+                                setFavorites={setFavorites}
+                            />} />
                             <Route path='/Contact' element={<Contact />} />
                             <Route 
                                 path='/Profile'
                                 element={<Profile 
                                     profilePictureUrl={profilePictureUrl} 
                                     setProfilePictureUrl={handleProfilePictureUpdate}
+                                    favorites={favorites}
+                                    setFavorites={setFavorites}
                                 />} 
                             />
                             <Route  path='*' element={<NotPage />} />

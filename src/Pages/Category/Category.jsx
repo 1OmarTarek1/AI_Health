@@ -6,12 +6,12 @@ import './Category.css'
 
 
 
-const Category = () => {
+const Category = ({favorites, setFavorites}) => {
     return (
         <>
             <div className="CategoryPage">
                 <PageContainer>
-                    <CategorySec />
+                    <CategorySec favorites={favorites} setFavorites={setFavorites}/>
                 </PageContainer>
             </div>
         </>
