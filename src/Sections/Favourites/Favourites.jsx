@@ -4,8 +4,7 @@ import { FaTrashAlt } from 'react-icons/fa';
 import { FaHeart, FaXmark } from 'react-icons/fa6';
 import './Favourites.css';
 
-const Favourites = ({setLiked}) => {
-    const [favorites, setFavorites] = useState([]);
+const Favourites = ({favorites, setFavorites}) => {
     const [searchQuery, setSearchQuery] = useState(""); // Track the search query
     const [filteredFavorites, setFilteredFavorites] = useState([]); // Track filtered favorites
     const [showNoResultsMessage, setShowNoResultsMessage] = useState(false); // Track whether to show no results message
@@ -16,7 +15,7 @@ const Favourites = ({setLiked}) => {
         if (storedFavorites) {
             setFavorites(JSON.parse(storedFavorites));
         }
-    }, []);
+    }, [setFavorites]);
 
     useEffect(() => {
         // Filter favorites based on search query
@@ -36,7 +35,7 @@ const Favourites = ({setLiked}) => {
     const clearFavorites = () => {
         setFavorites([]);
         localStorage.removeItem('favorites');
-        setLiked(false);
+        // setLiked(false);
     };
     const handleSearch = (query) => {
         setSearchQuery(query);

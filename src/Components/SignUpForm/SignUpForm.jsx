@@ -178,7 +178,8 @@ const SignUpForm = ({ setAuthenticated, showPassword, setShowPassword, username,
         }
 
         try {
-            const response = await axios.post('http://127.0.0.1:8000/getfit/register/', {
+            // const response =
+            await axios.post('http://127.0.0.1:8000/getfit/register/', {
                 username        : username,
                 email           : emailSignValue,
                 password        : passSignValue,
@@ -297,6 +298,7 @@ const SignUpForm = ({ setAuthenticated, showPassword, setShowPassword, username,
                     color='info'
                     style={{ border: "1px solid", borderRadius: "0px" }}
                 > <FaTrashAlt /> </MDBBtn>
+                {message && <p className="error" style={{margin:"0",position:"absolute",top:"100%",fontSize:"14px"}}>{message}</p>}
             </div>
 
             <MDBBtn
@@ -317,8 +319,6 @@ const SignUpForm = ({ setAuthenticated, showPassword, setShowPassword, username,
                     </span>
                 </div>
             </div>
-
-            {message && <p className="message">{message}</p>}
         </form>
     );
 }

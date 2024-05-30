@@ -17,7 +17,7 @@ const Profile = ({ profilePictureUrl, setProfilePictureUrl, favorites, setFavori
                 username={username}
                 />
                 <PageContainer>
-                    <Favourites favorites={favorites} setFavorites={setFavorites} setLiked={setLiked}/>
+                    <Favourites favorites={favorites} setFavorites={setFavorites}/>
                 </PageContainer>
             </div>   
         </>
