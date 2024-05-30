@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { CategoryCard, SectionWrapper, CategorySearch } from '../../Components';
 import { FaTrashAlt } from 'react-icons/fa';
-import { FaXmark } from 'react-icons/fa6';
+import { FaHeart, FaXmark } from 'react-icons/fa6';
 import './Favourites.css';
 
-const Favourites = () => {
+const Favourites = ({setLiked}) => {
     const [favorites, setFavorites] = useState([]);
     const [searchQuery, setSearchQuery] = useState(""); // Track the search query
     const [filteredFavorites, setFilteredFavorites] = useState([]); // Track filtered favorites
@@ -36,6 +36,7 @@ const Favourites = () => {
     const clearFavorites = () => {
         setFavorites([]);
         localStorage.removeItem('favorites');
+        setLiked(false);
     };
     const handleSearch = (query) => {
         setSearchQuery(query);
@@ -54,12 +55,13 @@ const Favourites = () => {
         <>
             <div className="Favourites">
                 <div className="CatHeaderContainer">
-                  <div className="CatHeaderItem categoryCardsHeader">
-                    <div className="HeaderTitle">
-                        <span>Favourites</span>
-                      </div>
-                  <CategorySearch onSearch={handleSearch} />
-                  </div>
+                    <div className="CatHeaderItem categoryCardsHeader">
+                        <div className="HeaderTitle">
+                            <FaHeart />
+                            <span>Favourites</span>
+                        </div>
+                    <CategorySearch onSearch={handleSearch} />
+                    </div>
                 </div>
                 <SectionWrapper>
                     {showNoResultsMessage ? (

@@ -1,50 +1,65 @@
-import { useEffect } from "react";
+import axios from 'axios';
+import React, { useState } from 'react';
 import Headroom from "react-headroom";
 import { NavLink, useNavigate } from "react-router-dom";
 import { NavLinks } from "../";
+import { FiLogOut } from "react-icons/fi";
 import defProfile from "../../Assets/Images/no_user.png";
 import "./MainNav.css";
-import { FiLogOut } from "react-icons/fi";
 
-const MainNav = ({ profilePictureUrl, setAuthenticated, authenticated}) => {
+const MainNav = ({ profilePictureUrl, setAuthenticated, setUsername }) => {
+
     const navigate = useNavigate();
-    useEffect(() => {
-        let btn = document.querySelector(".logoutBtn");
-        const handleLogout = () => {
-            // Logic to handle logout
-            setAuthenticated(false);
-            // Clear authentication status and profile picture URL from local storage
-            localStorage.removeItem('authenticated');
+    const [message, setMessage] = useState('');
+
+    const handleLogout = async () => {
+        try {
+        const response = await axios.post('http://127.0.0.1:8000/getfit/logout/'); // Assuming your backend is hosted at '/logout'
+        if (response.data.message === 'success') {
+            document.cookie = 'jwt=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
             navigate("/", { replace: true });
-        };
-        btn.addEventListener('click', handleLogout )
-        return () => {
-            btn.removeEventListener('click', handleLogout )
+            setAuthenticated(false);
+            localStorage.removeItem('authenticated');
+            setUsername('');
+            localStorage.removeItem('username');
+            setMessage('Logout successful');
+
+        } else {
+            setMessage('Logout failed');
         }
-    }, [setAuthenticated, authenticated, navigate])
+        } catch (error) {
+        console.error('Logout error:', error);
+        setMessage('Logout failed');
+        }
+    };
+
 
     return (
-        <div className="WebNav">
-        <Headroom>
-            <div className="WebNavContainer">
-            <NavLink to="/Home" className="logoWrapper">
-                AI HEALTH
-            </NavLink>
+        <>        
+            <div className="WebNav">
+                <Headroom>
+                    <div className="WebNavContainer">
+                        <NavLink to="/Home" className="logoWrapper">
+                            AI HEALTH
+                        </NavLink>
 
-            <NavLinks />
+                        <NavLinks />
 
-            <div className="profileLink">
-                <button className="logoutBtn">
-                    <FiLogOut />
-                </button>
-                <NavLink to="/Profile" className="navLi">
-                <img src={profilePictureUrl || defProfile} alt="Profile" />
-                </NavLink>
+                        <div className="profileLink">
+                            <button className="logoutBtn" onClick={handleLogout}>
+                                <FiLogOut />
+                            </button>
+                            <NavLink to="/Profile" className="navLi">
+                                <img src={profilePictureUrl || defProfile} alt="Profile" />
+                            </NavLink>
+                        </div>
+                    </div>
+                </Headroom>
             </div>
-            </div>
-        </Headroom>
-        </div>
+            {message && <p>{message}</p>}
+        </>
     );
 };
 
 export default MainNav;
+

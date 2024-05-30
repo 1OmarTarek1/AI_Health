@@ -36,7 +36,9 @@
     color: #fff;
 }
 
-.infoFormWrapper .infoInp{
+/* infoForm.css */
+
+.infoFormWrapper .infoInp {
     width: 250px;
     padding: 5px 7px;
     font-size: 15px;
@@ -46,19 +48,39 @@
     color: #fff;
     transition: all .2s;
 }
+
 .infoFormWrapper .infoInp:focus,
-.infoFormWrapper .infoInp:hover{
+.infoFormWrapper .infoInp:hover {
     outline: none;
     color: var(--color-primary);
     border-color: var(--color-primary);
-    
 }
-.infoFormWrapper .infoLabels{
+.infoFormWrapper .infoInp::placeholder {
+    color: var(--color-lightFont);
+}
+
+.infoFormWrapper select {
+    padding: 5px 2px !important;
+}
+.infoInp option {
+    color: var(--color-light);
+    background-color: #222 !important;
+}
+
+.infoInp option.default-option {
+    color: gray;
+    background-color: #222;
+}
+
+
+
+.infoFormWrapper .infoLabels {
     position: absolute;
     top: 0;
-    left: calc(100% - 7px);
-    transform: translateX( -100% );
+    left: calc(100% - 3px);
+    transform: translateX(-100%);
 }
+
 .infoFormWrapper .infoFormBtn{
     padding: 2px 10px;
     border-radius: 10px;

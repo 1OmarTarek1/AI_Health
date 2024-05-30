@@ -6,7 +6,7 @@ import './Profile.css'
 
 
 
-const Profile = ({ profilePictureUrl, setProfilePictureUrl, favorites, setFavorites }) => {
+const Profile = ({ profilePictureUrl, setProfilePictureUrl, favorites, setFavorites, setLiked, username}) => {
 
     return (
         <>
@@ -14,9 +14,10 @@ const Profile = ({ profilePictureUrl, setProfilePictureUrl, favorites, setFavori
                 <ProfileHeader 
                 profilePictureUrl={profilePictureUrl} 
                 setProfilePictureUrl={setProfilePictureUrl} 
+                username={username}
                 />
                 <PageContainer>
-                    <Favourites favorites={favorites} setFavorites={setFavorites}/>
+                    <Favourites favorites={favorites} setFavorites={setFavorites} setLiked={setLiked}/>
                 </PageContainer>
             </div>   
         </>

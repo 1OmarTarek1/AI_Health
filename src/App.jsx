@@ -9,6 +9,7 @@ const App = () => {
     const [authenticated, setAuthenticated] = useState(false);
     const [profilePictureUrl, setProfilePictureUrl] = useState('');
     const [favorites, setFavorites] = useState([]);
+    const [username, setUsername] = useState('');
 
     useEffect(() => {
         // Check local storage for authentication status and profile picture URL
@@ -23,9 +24,13 @@ const App = () => {
     const handleLogin = () => {
         // Logic to handle successful login
         setAuthenticated(true);
+        setUsername(username);
         // Save authentication status to local storage
         localStorage.setItem('authenticated', 'true');
+        localStorage.setItem('username', username);
     };
+
+    
 
 
     const handleProfilePictureUpdate = (url) => {
@@ -46,6 +51,7 @@ const App = () => {
                             profilePictureUrl={profilePictureUrl}  
                             setAuthenticated={setAuthenticated}
                             authenticated={authenticated}
+                            setUsername={setUsername}
                         />
                         <Routes>
                             <Route path='/Home' element={<Home />} />
@@ -62,6 +68,7 @@ const App = () => {
                                     setProfilePictureUrl={handleProfilePictureUpdate}
                                     favorites={favorites}
                                     setFavorites={setFavorites}
+                                    username={username}
                                 />} 
                             />
                             <Route  path='*' element={<NotPage />} />
@@ -70,8 +77,16 @@ const App = () => {
                     </>
                 ) : (
                     <Routes>
-                        <Route path='/' element={<Login setAuthenticated={handleLogin} />} />
-                        <Route path='*' element={<Login setAuthenticated={handleLogin} />} />
+                        <Route path='/' element={<Login 
+                        setAuthenticated={handleLogin} 
+                        username={username}
+                        setUsername={setUsername}
+                        />} />
+                        <Route path='*' element={<Login 
+                        setAuthenticated={handleLogin} 
+                        username={username}
+                        setUsername={setUsername}
+                        />} />
                     </Routes>
                 )}
             </div>
