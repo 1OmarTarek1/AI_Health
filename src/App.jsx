@@ -41,7 +41,7 @@ const App = () => {
     
 
     return (
-        <Router basename='/AI_Health'> 
+        <Router basename='/GET_FIT'> 
         <DTitle />
             <div className="mainContainer">
                 <ReloadEffect />

@@ -19,11 +19,9 @@ const MainNav = ({ profilePictureUrl, setAuthenticated, setUsername }) => {
             document.cookie = 'jwt=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
             navigate("/", { replace: true });
             setAuthenticated(false);
-            localStorage.removeItem('authenticated');
             setUsername('');
-            localStorage.removeItem('username');
+            localStorage.clear();
             setMessage('Logout successful');
-
         } else {
             setMessage('Logout failed');
         }
@@ -40,7 +38,7 @@ const MainNav = ({ profilePictureUrl, setAuthenticated, setUsername }) => {
                 <Headroom>
                     <div className="WebNavContainer">
                         <NavLink to="/Home" className="logoWrapper">
-                            AI HEALTH
+                            GET FIT
                         </NavLink>
 
                         <NavLinks />

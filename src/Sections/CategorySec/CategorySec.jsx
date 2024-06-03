@@ -1,109 +1,79 @@
-import axios from "axios";
-import React, { useEffect, useState, Suspense, useMemo, useRef, useCallback } from "react";
-import { SectionWrapper, CategorySearch } from '../../Components'
-import { FaList, FaXmark } from "react-icons/fa6";
-import './CategorySec.css'
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { SectionWrapper, CategorySearch, CategoryCard, FoodDetailsCard } from '../../Components';
+import { FaList } from 'react-icons/fa6';
+import './CategorySec.css';
 
-const LazyCategoryCard = React.lazy(() => import('../../Components/Cards/CategoryCard/CategoryCard'));
-
-const CategorySec = ({favorites, setFavorites}) => {
-    const [data, setData] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [page, setPage] = useState(1); // Track the current page
-    const [searchQuery, setSearchQuery] = useState(""); // Track the search query
-    const [selectedCard, setSelectedCard] = useState(null); // Track the selected card
-    const [noResults, setNoResults] = useState(false); // Track whether there are no search results
-    const observer = useRef(null);
-
-    const fetchData = useCallback(async () => {
-        try {
-            const apiLink = await axios.get(`https://jsonplaceholder.typicode.com/photos?_page=${page}&_limit=10`);
-            const newData = apiLink.data;
-
-            setData(prevData => [...prevData, ...newData]); // Append new data to existing data
-            setLoading(false);
-        } catch (error) {
-            console.error("Error fetching data:", error);
-            setLoading(true);
-        }
-    }, [page]);
+const CategorySec = ({ setFavorites }) => {
+    const [categories, setCategories] = useState([]);
+    const [likedCategories, setLikedCategories] = useState({});
+    const [searchQuery, setSearchQuery] = useState('');
+    const [filteredCategories, setFilteredCategories] = useState([]);
+    const [selectedFood, setSelectedFood] = useState(null);
 
     useEffect(() => {
-        fetchData();
-    }, [fetchData]);
+        const savedLikedCategories = JSON.parse(localStorage.getItem('likedCategories')) || {};
+        setLikedCategories(savedLikedCategories);
 
-    const handleObserver = useCallback((entries) => {
-        const target = entries[0];
-        if (target.isIntersecting) {
-            setPage(prevPage => prevPage + 1);
-        }
+        axios.get('http://127.0.0.1:8000/getfit/get-foods/')
+            .then(response => {
+                const fetchedCategories = response.data;
+                setCategories(fetchedCategories);
+                setFilteredCategories(fetchedCategories);
+
+                const initialLikedStates = { ...savedLikedCategories };
+                fetchedCategories.forEach(category => {
+                    if (initialLikedStates[category.id] === undefined) {
+                        initialLikedStates[category.id] = category.liked;
+                    }
+                });
+                setLikedCategories(initialLikedStates);
+                localStorage.setItem('likedCategories', JSON.stringify(initialLikedStates));
+            })
+            .catch(error => {
+                console.error('Error fetching categories:', error);
+            });
     }, []);
 
     useEffect(() => {
-        observer.current = new IntersectionObserver(handleObserver, {
-            root: null,
-            rootMargin: "0px",
-            threshold: 0.1,
-        });
-
-        if (observer.current) {
-            const loadingRef = document.querySelector(".loadingMoreRef");
-            if (loadingRef) {
-                observer.current.observe(loadingRef);
-            }
-        }
-
-        return () => {
-            if (observer.current) {
-                observer.current.disconnect();
-            }
-        };
-    }, [handleObserver]);
-
-    const memoizedDataItems = useMemo(() => {
-        const filteredData = data.filter(dataItem =>
-            dataItem.title.toLowerCase().includes(searchQuery.toLowerCase())
+        const result = categories.filter(category =>
+            category.FoodName.toLowerCase().includes(searchQuery.toLowerCase())
         );
-        setNoResults(filteredData.length === 0); // Check if there are no search results
-        return filteredData.map(dataItem => ({
-            id: dataItem.id,
-            imageUrl: dataItem.url,
-            title: dataItem.title
-        }));
-    }, [data, searchQuery]);
+        setFilteredCategories(result);
+    }, [searchQuery, categories]);
 
-    const handleSearch = (query) => {
+    const handleMoreClick = (id) => {
+        const selectedFood = categories.find(category => category.id === id);
+        setSelectedFood(selectedFood);
+    };
+
+    const handleLikeClick = (id) => {
+        const userId = localStorage.getItem('userID');
+        axios.post(`http://127.0.0.1:8000/getfit/foods-like/${id}/${userId}/`)
+            .then(response => {
+                console.log(response.data.message);
+
+                setLikedCategories(prevLikedCategories => {
+                    const updatedLikedCategories = {
+                        ...prevLikedCategories,
+                        [id]: !prevLikedCategories[id]
+                    };
+                    localStorage.setItem('likedCategories', JSON.stringify(updatedLikedCategories));
+                    return updatedLikedCategories;
+                });
+
+                if (response.data.message === 'You have unliked this food.') {
+                    setFavorites(prevFavorites => prevFavorites.filter(food => food.id !== id));
+                }
+            })
+            .catch(error => {
+                console.error('Error liking food:', error);
+            });
+    };
+
+    const handleSearchChange = (query) => {
         setSearchQuery(query);
     };
-
-    const handleCardClick = (id) => {
-        setSelectedCard(id);
-    };
-
-    const memoizedDataItemsCards = memoizedDataItems.map((dataItem, index) => (
-        <Suspense key={index} fallback={<div>Loading...</div>}>
-            <LazyCategoryCard
-                key={dataItem.id}
-                id={dataItem.id}
-                imageUrl={dataItem.imageUrl}
-                title={dataItem.title}
-                onMoreClick={() => handleCardClick(dataItem.id)}
-                favorites={favorites}
-                setFavorites={setFavorites}
-            />
-        </Suspense>
-    ));
-
-
-    // Fullscreen view
-    const fullscreenView = selectedCard ? (
-        <div className="fullscreen">
-            <img src={memoizedDataItems.find(item => item.id === selectedCard)?.imageUrl} alt="Fullscreen" />
-            <button onClick={() => setSelectedCard(null)}>
-                <FaXmark />
-            </button>
-        </div>
-    ) : null;
 
     return (
         <>
@@ -114,30 +84,46 @@ const CategorySec = ({favorites, setFavorites}) => {
                             <FaList />
                             <span>Category</span>
                         </div>
-                        <CategorySearch onSearch={handleSearch} />
+                        <CategorySearch onSearch={handleSearchChange} />
                     </div>
                 </div>
                 <SectionWrapper>
                     <div className="categoryCards">
-                        {memoizedDataItemsCards}
-                        <div className="loadingMoreRef CategoryCard">
-                            { noResults && !loading && memoizedDataItems.length === 0 
-                            ? <span>Sorry, no results found for "{searchQuery}".</span>
-                            : <span>loading...</span>
-                            }
-                        </div>
+                        {filteredCategories.length > 0 ? (
+                            filteredCategories.map(category => (
+                                <CategoryCard
+                                    key={category.id}
+                                    id={category.id}
+                                    title={category.FoodName}
+                                    imageUrl={category.LinkDrive}
+                                    calories={category.Calories}
+                                    protein={category.Protein}
+                                    fats={category.Fats}
+                                    carbs={category.Carbs}
+                                    likes={category.likes}
+                                    onMoreClick={handleMoreClick}
+                                    onLikeClick={handleLikeClick}
+                                    likeBtn={likedCategories[category.id] || false} // Pass the liked state
+                                />
+                            ))
+                        ) : (
+                            <p className='text-center w-100'>No Result Found For "{searchQuery}" </p>
+                        )}
                     </div>
                 </SectionWrapper>
-                {/* Display loading indicator if loading is true */}
-                {loading && <p> Loading... </p>}
             </div>
-            {fullscreenView}
+            {selectedFood && (
+                <FoodDetailsCard 
+                food={selectedFood} 
+                onClose={() => setSelectedFood(null)}  
+                likeBtn={likedCategories[selectedFood.id] || false} // Pass likeBtn as a prop
+                onLikeClick={handleLikeClick} // Pass onLikeClick as a prop
+                id={selectedFood.id} // Pass id as a prop
+                handleLikeClick={handleLikeClick}
+                />
+            )}
         </>
-    )
-}
+    );
+};
 
 export default CategorySec;
-
-
-
-

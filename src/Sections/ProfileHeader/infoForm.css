@@ -59,19 +59,10 @@
     color: var(--color-lightFont);
 }
 
-.infoFormWrapper select {
-    padding: 5px 2px !important;
-}
-.infoInp option {
-    color: var(--color-light);
-    background-color: #222 !important;
-}
 
-.infoInp option.default-option {
-    color: gray;
-    background-color: #222;
+.css-qbdosj-Input {
+    visibility: unset !important;
 }
-
 
 
 .infoFormWrapper .infoLabels {

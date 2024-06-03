@@ -1,0 +1,79 @@
+.food-details-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(5px);
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999;
+    transition: all .3s;
+}
+
+.DetailsParent .FoodDetailsCard {
+    max-width: 500px;
+    width: 100%;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    z-index: 99999;
+}
+
+
+.DetailsParent .foodDetails{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+.DetailsParent .foodDetails li {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-weight: 500;
+}
+.DetailsParent .foodDetails li > div{
+    color: var(--color-primary);
+    font-weight: 500;
+}
+.DetailsParent .DName{
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    padding: 10px 15px;
+    margin: 0;
+    backdrop-filter: blur(15px);
+    background-color: rgba(255, 0, 0, 0.315);
+    color: #fff;
+}
+.DetailsParent .DLink{
+    width: 70px;
+    height: 70px;
+    display: grid;
+    place-content: center;
+    position: absolute;
+    top:50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 0;
+    margin: 0;
+    border-radius: 50%;
+    font-size: 35px;
+    color: #fff;
+    background-color: rgba(255, 0, 0, 0.63);
+    transition: all .3s ;
+}
+.DetailsParent .DLink span{
+    position: relative;
+    top: -3px;
+    left: 3px;
+}
+
+.DetailsParent .DLink:hover{
+    color: red;
+    background-color: #fff;
+}

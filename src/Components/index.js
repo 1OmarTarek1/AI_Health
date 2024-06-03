@@ -15,6 +15,7 @@ export { default as SignUpForm       } from './SignUpForm/SignUpForm'
 
 // Cards
 export { default as CategoryCard    } from './Cards/CategoryCard/CategoryCard'
+export { default as FoodDetailsCard } from './Cards/FoodDetailsCard/FoodDetailsCard'
 
 
 

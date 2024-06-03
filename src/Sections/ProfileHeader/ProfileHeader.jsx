@@ -1,38 +1,55 @@
 import React, { useState, useEffect } from 'react';
-// import axios from 'axios';
+import axios from 'axios';
+import Select from 'react-select';
 import { ProfileImage } from '../../Components';
 import defaultProfilePicture from '../../Assets/Images/no_user.png';
-import { FaEdit, FaRunning, FaTransgender, FaTrashAlt, FaWeight, FaBirthdayCake } from 'react-icons/fa';
+import { FaEdit, FaFireAlt, FaRunning, FaTransgender, FaTrashAlt, FaWeight } from 'react-icons/fa';
+import { IoManSharp } from "react-icons/io5";
 import './ProfileHeader.css';
 import './infoForm.css';
+import { FaCheck } from 'react-icons/fa6';
 
-const ProfileHeader = ({ profilePictureUrl, setProfilePictureUrl, username}) => {
+const ProfileHeader = ({ profilePictureUrl, setProfilePictureUrl, username }) => {
     const [isFullScreen, setIsFullScreen] = useState(false);
     const [isEditInfoVisible, setIsEditInfoVisible] = useState(false);
-    const [formGender, setFormGender] = useState('');
-    const [formWeight, setFormWeight] = useState('');
-    const [formActivity, setFormActivity] = useState('');
-    const [formAge, setFormAge] = useState('');
-    // const [fetchedUsername, setFetchedUsername] = useState(username);
+    const [formGender, setFormGender] = useState(localStorage.getItem('formGender') || '');
+    const [formActivity, setFormActivity] = useState(localStorage.getItem('formActivity') || '');
+    const [formWeight, setFormWeight] = useState(localStorage.getItem('formWeight') || '');
+    const [formHeight, setFormHeight] = useState(localStorage.getItem('formHeight') || '');
+    const [cal, setCal] = useState(localStorage.getItem('cal') || '');
+    const [perfWei, setPerfWei] = useState(localStorage.getItem('perfWei') || '');
+    const [errorMessage, setErrorMessage] = useState('');
 
-    // useEffect(() => {
-    //     const fetchUsername = async () => {
-    //         try {
-    //             if (!username) return; // If username is not provided, don't make the request
-    //             const response = await axios.get(`http://127.0.0.1:8000/getfit/GetUsernameView/${username}/`);
-    //             setFetchedUsername(response.data);
-    //         } catch (error) {
-    //             console.error('Error fetching username:', error);
-    //             setFetchedUsername('Error');
-    //         }
-    //     };
-    
-    //     fetchUsername();
-    // }, [username]);
+    const GenderOptions = [
+        { value: 'Male', label: 'Male' },
+        { value: 'Female', label: 'Female' },
+    ];
+    const ActivityOptions = [
+        { value: 'low', label: 'Low' },
+        { value: 'normal', label: 'Normal' },
+        { value: 'high', label: 'High' },
+    ];
+
+    const handleGenderChange = (selectedOption) => {
+        setFormGender(selectedOption.value);
+    };
+
+    const handleActivityChange = (selectedOption) => {
+        setFormActivity(selectedOption.value);
+    };
 
     useEffect(() => {
         localStorage.setItem('profilePictureUrl', profilePictureUrl);
     }, [profilePictureUrl]);
+
+    useEffect(() => {
+        localStorage.setItem('formGender', formGender);
+        localStorage.setItem('formActivity', formActivity);
+        localStorage.setItem('formWeight', formWeight);
+        localStorage.setItem('formHeight', formHeight);
+        localStorage.setItem('cal', cal);
+        localStorage.setItem('perfWei', perfWei);
+    }, [formGender, formActivity, formWeight, formHeight, cal, perfWei]);
 
     const handleFileChange = (event) => {
         const file = event.target.files[0];
@@ -57,62 +74,53 @@ const ProfileHeader = ({ profilePictureUrl, setProfilePictureUrl, username}) => 
         setProfilePictureUrl(defaultProfilePicture);
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-
-        // Update localStorage upon form submission
-        localStorage.setItem('formGender', formGender);
-        localStorage.setItem('formWeight', formWeight);
-        localStorage.setItem('formActivity', formActivity);
-        localStorage.setItem('formAge', formAge);
-
-        // Clear form values
-        setFormGender('');
-        setFormWeight('');
-        setFormActivity('');
-        setFormAge('');
-
-        // Close the form
+        if (!formGender || !formActivity || !formWeight || !formHeight) {
+            setErrorMessage('All fields are required.');
+            return;
+        }
         setIsEditInfoVisible(false);
+        setErrorMessage('');
+        try {
+            const response = await axios.post(`http://127.0.0.1:8000/getfit/CalculateCalories/`, {
+                gender: formGender,
+                activity: formActivity,
+                weight: formWeight,
+                height: formHeight
+            });
+            const data = response.data;
+            const caloriesCalc = data.calories;
+            const perfectWeight = data.ideal_weight;
+            setCal(caloriesCalc);
+            setPerfWei(perfectWeight);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
     };
-
-    useEffect(() => {
-        // Retrieve form values from localStorage
-        const storedGender = localStorage.getItem('formGender');
-        const storedWeight = localStorage.getItem('formWeight');
-        const storedActivity = localStorage.getItem('formActivity');
-        const storedAge = localStorage.getItem('formAge');
-        // Set form values
-        setFormGender(storedGender || '');
-        setFormWeight(storedWeight || '');
-        setFormActivity(storedActivity || '');
-        setFormAge(storedAge || '');
-    }, []);
 
     const toggleEditInfo = () => {
         setIsEditInfoVisible(!isEditInfoVisible);
     };
 
     const handleClearProfileDetails = () => {
-        localStorage.removeItem('formGender');
-        localStorage.removeItem('formWeight');
-        localStorage.removeItem('formActivity');
-        localStorage.removeItem('formAge');
-
-        // Clear form values
+        setIsEditInfoVisible(!isEditInfoVisible);
         setFormGender('');
         setFormWeight('');
         setFormActivity('');
-        setFormAge('');
+        setFormHeight('');
+        setCal('');
+        setPerfWei('');
+        localStorage.removeItem('formGender');
+        localStorage.removeItem('formWeight');
+        localStorage.removeItem('formActivity');
+        localStorage.removeItem('formHeight');
+        localStorage.removeItem('cal');
+        localStorage.removeItem('perfWei');
     };
 
     const handleCancelEdit = () => {
         setIsEditInfoVisible(false);
-        // Clear form values
-        setFormGender('');
-        setFormWeight('');
-        setFormActivity('');
-        setFormAge('');
     };
 
     return (
@@ -127,8 +135,7 @@ const ProfileHeader = ({ profilePictureUrl, setProfilePictureUrl, username}) => 
 
                     <div className="userInfo">
                         <div className="infoItem full-name">
-                            {/* { fetchedUsername } */}
-                            { localStorage.getItem('username') }
+                            {localStorage.getItem('username')}
                         </div>
                         <div className="infoItem bio"></div>
                     </div>
@@ -140,16 +147,7 @@ const ProfileHeader = ({ profilePictureUrl, setProfilePictureUrl, username}) => 
                                 <span>Gender</span>
                             </div>
                             <div className="detVal">
-                                {localStorage.getItem('formGender') || "-"}
-                            </div>
-                        </div>
-                        <div className='details-item'>
-                            <div className="detTitle">
-                                <FaWeight />
-                                <span>Weight</span>
-                            </div>
-                            <div className="detVal">
-                                {localStorage.getItem('formWeight') || "-"} kg
+                                {formGender || "-"}
                             </div>
                         </div>
                         <div className='details-item'>
@@ -158,18 +156,47 @@ const ProfileHeader = ({ profilePictureUrl, setProfilePictureUrl, username}) => 
                                 <span>Activity</span>
                             </div>
                             <div className="detVal">
-                                {localStorage.getItem('formActivity') || "-"}
+                                {formActivity || "-"}
                             </div>
                         </div>
                         <div className='details-item'>
                             <div className="detTitle">
-                                <FaBirthdayCake />
-                                <span>Age</span>
+                                <FaWeight />
+                                <span>Weight</span>
                             </div>
                             <div className="detVal">
-                                {localStorage.getItem('formAge') || "-"} years
+                                {formWeight || "-"} kg
                             </div>
                         </div>
+                        <div className='details-item'>
+                            <div className="detTitle">
+                                <IoManSharp />
+                                <span>Height</span>
+                            </div>
+                            <div className="detVal">
+                                {formHeight || "-"} cm 
+                            </div>
+                        </div>
+                        { cal && <>
+                            <div className='details-item'>
+                                <div className="detTitle">
+                                    <FaFireAlt />
+                                    <span>Calorie Rate</span>
+                                </div>
+                                <div className="detVal">
+                                    {cal || "-" } cal 
+                                </div>
+                            </div>
+                            <div className='details-item'>
+                                <div className="detTitle">
+                                    <FaCheck />
+                                    <span>Perfect Weight</span>
+                                </div>
+                                <div className="detVal">
+                                    {perfWei || "-" } kg 
+                                </div>
+                            </div>
+                        </>}
                     </div>
                 </div>
             </div>
@@ -199,77 +226,119 @@ const ProfileHeader = ({ profilePictureUrl, setProfilePictureUrl, username}) => 
                         Information
                     </div>
 
-                    <div style={{position:"relative"}}>                        
-                        <select 
-                        id="Gender"   
-                        className="infoInp" 
-                        value={formGender} 
-                        onChange={(e) => setFormGender(e.target.value)} 
-                        >
-                            <option className='option default-option' value="">Select Gender</option>
-                            <option className='option' value="Male">Male</option>
-                            <option className='option' value="Female">Female</option>
-                        </select>
-                        {/* <label className='infoLabels' htmlFor="Gender">
-                            <FaTransgender />
-                        </label> */}
-                    </div>
+                    <Select
+                        className='selectInp'
+                        value={GenderOptions.find(GenderOption => GenderOption.value === formGender)}
+                        onChange={handleGenderChange}
+                        options={GenderOptions}
+                        placeholder="Select Gender"
+                        styles={{
+                            control: (provided) => ({
+                                ...provided,
+                                width: "250px",
+                                border: 'none',
+                                borderBottom: '1px solid #ffffff60',
+                                backgroundColor: 'transparent',
+                                color: '#fff',
+                                borderRadius: "0",
+                                '&:hover': {
+                                    borderColor: 'var(--color-primary)',
+                                },
+                                '&:focus': {
+                                    outline: 'none',
+                                    borderColor: 'var(--color-primary)'
+                                },
+                            }),
+                            singleValue: (provided) => ({
+                                ...provided,
+                                color: '#fff',
+                            }),
+                            placeholder: (provided) => ({
+                                ...provided,
+                                color: 'var(--color-lightFont)',
+                            }),
+                        }}
+                    />
 
-                    <div style={{position:"relative"}}>                        
-                        <input 
-                        type="text" 
-                        id="Weight"   
-                        className="infoInp" 
-                        placeholder='Weight kg' 
-                        value={formWeight} 
-                        onChange={(e) => setFormWeight(e.target.value)} 
+                    <Select
+                        className='selectInp'
+                        value={ActivityOptions.find(ActivityOption => ActivityOption.value === formActivity)}
+                        onChange={handleActivityChange}
+                        options={ActivityOptions}
+                        placeholder="Select Activity"
+                        styles={{
+                            control: (provided) => ({
+                                ...provided,
+                                width: "250px",
+                                border: 'none',
+                                borderBottom: '1px solid #ffffff60',
+                                backgroundColor: 'transparent',
+                                color: '#fff',
+                                borderRadius: "0",
+                                '&:hover': {
+                                    borderColor: 'var(--color-primary)',
+                                },
+                                '&:focus': {
+                                    outline: 'none',
+                                    border: 'none',
+                                    boxShadow: 'none',
+                                    borderColor: 'var(--color-primary)'
+                                },
+                            }),
+                            singleValue: (provided) => ({
+                                ...provided,
+                                color: '#fff',
+                            }),
+                            placeholder: (provided) => ({
+                                ...provided,
+                                color: 'var(--color-lightFont)',
+                            }),
+                        }}
+                    />
+
+                    <div style={{ position: "relative" }}>
+                        <input
+                            type="text"
+                            id="Weight"
+                            className="infoInp"
+                            placeholder='Weight kg'
+                            value={formWeight}
+                            onChange={(e) => setFormWeight(e.target.value)}
                         />
                         <label className='infoLabels' htmlFor="Weight">
                             <FaWeight />
                         </label>
                     </div>
 
-                    <div style={{position:"relative"}}>                        
-                        <select 
-                        id="Activity" 
-                        className="infoInp" 
-                        value={formActivity} 
-                        onChange={(e) => setFormActivity(e.target.value)} 
-                        >
-                            <option className='option default-option' value="">Select Activity</option>
-                            <option className='option' value="Low">Low</option>
-                            <option className='option' value="Normal">Normal</option>
-                            <option className='option' value="High">High</option>
-                        </select>
-                        {/* <label className='infoLabels' htmlFor="Activity">
-                            <FaRunning />
-                        </label> */}
-                    </div>
-
-                    <div style={{position:"relative"}}>                        
-                        <input 
-                        type="text" 
-                        id="Age" 
-                        className="infoInp" 
-                        placeholder='Age Years' 
-                        value={formAge} 
-                        onChange={(e) => setFormAge(e.target.value)} 
+                    <div style={{ position: "relative" }}>
+                        <input
+                            type="text"
+                            id="height"
+                            className="infoInp"
+                            placeholder='Height cm'
+                            value={formHeight}
+                            onChange={(e) => setFormHeight(e.target.value)}
                         />
-                        <label className='infoLabels' htmlFor="Age">
-                            <FaBirthdayCake />
+                        <label className='infoLabels' htmlFor="height">
+                            <IoManSharp />
                         </label>
                     </div>
 
+                    {errorMessage && <div className="error-message" style={{color:"red", fontSize:"14px"}}>{errorMessage}</div>}
+
                     <div className='d-flex gap-1 mt-2'>
                         <button className='infoFormBtn' type="submit">Update</button>
-                        <button 
-                        className="infoFormBtn clear-profile-details" 
-                        onClick={handleClearProfileDetails}>
+                        <button
+                            type="button"
+                            className="infoFormBtn clear-profile-details"
+                            onClick={handleClearProfileDetails}
+                        >
                             Reset
                         </button>
-                        <span 
-                        className='infoFormBtn' 
-                        onClick={handleCancelEdit}>
+                        <span
+                            className='infoFormBtn'
+                            onClick={handleCancelEdit}
+                        >
                             Cancel
                         </span>
                     </div>

@@ -1,46 +1,40 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaFileLines, FaHeart } from 'react-icons/fa6';
+import PropTypes from 'prop-types';
 import './CategoryCard.css';
+import dsda from '../../../Assets/Images/food_photos/Chicken Rice Curry With Coconut.jpg';
 
-const CategoryCard = (props) => {
-    const { id, imageUrl, title, favorites, setFavorites, onMoreClick } = props;
-    const isAlreadyLiked = favorites.some(card => card.id === id);
-    const [liked, setLiked] = useState(isAlreadyLiked);
+const CategoryCard = ({
+    id,
+    title = 'No Title',
+    imageUrl = '',
+    calories = 0,
+    protein = 0,
+    fats = 0,
+    carbs = 0,
+    likes = [],
+    onMoreClick = () => {},
+    onLikeClick = () => {},
+    likeBtn, // Received as a prop
+}) => {
+    const [likesCount, setLikesCount] = useState(likes.length);
 
+    // Effect to update likes count when likes prop changes
     useEffect(() => {
-        // Check if the current card is liked when component mounts
-        const storedFavorites = localStorage.getItem('favorites');
-        if (storedFavorites) {
-            const parsedFavorites = JSON.parse(storedFavorites);
-            const isLiked = parsedFavorites.some(card => card.id === id);
-            setLiked(isLiked);
-        }
-    }, [id]);
+        setLikesCount(likes.length);
+    }, [likes]);
 
+    // Handler for like button click
     const handleLikeClick = () => {
-        if (!liked) {
-            // Save the liked card in localStorage
-            const newFavorite = { id, imageUrl, title };
-            const updatedFavorites = [...favorites, newFavorite];
-            localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
-            // Update state
-            setFavorites(updatedFavorites);
-            setLiked(true);
-        } else {
-            // Remove the liked card from localStorage
-            const updatedFavorites = favorites.filter(card => card.id !== id);
-            localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
-            // Update state
-            setFavorites(updatedFavorites);
-            setLiked(false);
-        }
+        setLikesCount(likeBtn ? likesCount - 1 : likesCount + 1); // Increment or decrement the likes count
+        onLikeClick(id); // Pass the id prop to the onLikeClick function
     };
 
     return (
         <div className="CategoryCard">
             <div className="cardHeader">
                 <div className="cardImgWrapper">
-                    <img src={imageUrl} alt={title} className="cardImg" loading="lazy" />
+                    <img src={dsda} alt={title} className="cardImg" loading="lazy" />
                 </div>
                 <div className="cardName">
                     {title}
@@ -49,43 +43,47 @@ const CategoryCard = (props) => {
                     <FaFileLines />
                 </button>
                 <button
-                    className={liked ? "likeBtn likeBtnClicked" : "likeBtn"}
-                    onClick={handleLikeClick}>
+                    className={likeBtn ? "likeBtn likeBtnClicked" : "likeBtn"}
+                    onClick={handleLikeClick}
+                >
                     <FaHeart />
+                    <span style={{color:"#fff", fontWeight:"700", fontSize:"11px", position:"absolute", top:"57%", left:"48%",transform:"translate(-50%, -50%)"}}>
+                        {likesCount === 0 ? null : likesCount }
+                    </span>
                 </button>
             </div>
             <div className="cardBody">
                 <ul className="foodDetails">
                     <li className="detailItem">
-                        <div className="miniTitle">
+                        {/* <div className="miniTitle">
                             <span>Calories</span>
-                        </div>
+                        </div> */}
                         <div className="titleInfo">
-                            {props.calories}
+                            {calories}cal
                         </div>
                     </li>
                     <li className="detailItem">
-                        <div className="miniTitle">
+                        {/* <div className="miniTitle">
                             <span>Protein</span>
-                        </div>
+                        </div> */}
                         <div className="titleInfo">
-                            {props.protein}
+                            {protein}pro
                         </div>
                     </li>
                     <li className="detailItem">
-                        <div className="miniTitle">
+                        {/* <div className="miniTitle">
                             <span>Fats</span>
-                        </div>
+                        </div> */}
                         <div className="titleInfo">
-                            {props.fats}
+                            {fats}fts
                         </div>
                     </li>
                     <li className="detailItem">
-                        <div className="miniTitle">
-                            <span>Healthy</span>
-                        </div>
+                        {/* <div className="miniTitle">
+                            <span>Carbs</span>
+                        </div> */}
                         <div className="titleInfo">
-                            {props.healOpj}
+                            {carbs}crb
                         </div>
                     </li>
                 </ul>
@@ -94,6 +92,18 @@ const CategoryCard = (props) => {
     );
 };
 
+CategoryCard.propTypes = {
+    id: PropTypes.number.isRequired,
+    title: PropTypes.string,
+    imageUrl: PropTypes.string,
+    calories: PropTypes.number,
+    protein: PropTypes.number,
+    fats: PropTypes.number,
+    carbs: PropTypes.number,
+    onMoreClick: PropTypes.func,
+    onLikeClick: PropTypes.func,
+    likes: PropTypes.array,
+    likeBtn: PropTypes.bool, // Define the prop type for likeBtn
+};
+
 export default CategoryCard;
-
-

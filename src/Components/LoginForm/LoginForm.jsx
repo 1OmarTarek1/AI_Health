@@ -22,6 +22,8 @@ const LoginForm = ({ setAuthenticated, showPassword, setShowPassword, username, 
             });
             
             const token = response.data.jwt;
+            const userID = response.data.id;
+            localStorage.setItem('userID', userID);
             // Store token in cookies or local storage
             document.cookie = `jwt=${token}; path=/`;
 
