@@ -23,12 +23,12 @@
       filter: blur(0);
   }
 }
-.Favourites .CategoryCard{
-  max-width: 19%;
-}
+/* .Favourites .CategoryCard{
+  width: fit-content ;
+} */
 @media screen and (max-width:992px) {
   .Favourites .CategoryCard{
-    max-width: unset;
+    /* max-width: unset; */
   }
 }
 .Favourites .clearBtn{

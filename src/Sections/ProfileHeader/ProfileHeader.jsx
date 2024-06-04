@@ -20,22 +20,27 @@ const ProfileHeader = ({ profilePictureUrl, setProfilePictureUrl, username }) =>
     const [perfWei, setPerfWei] = useState(localStorage.getItem('perfWei') || '');
     const [errorMessage, setErrorMessage] = useState('');
 
+    const [selectedGender, setSelectedGender] = useState(localStorage.getItem('formGender') || '');
+    const [selectedActivity, setSelectedActivity] = useState(localStorage.getItem('formActivity') || '');
+
     const GenderOptions = [
         { value: 'Male', label: 'Male' },
         { value: 'Female', label: 'Female' },
     ];
     const ActivityOptions = [
-        { value: 'low', label: 'Low' },
-        { value: 'normal', label: 'Normal' },
-        { value: 'high', label: 'High' },
+        { value: 'Low'    ,   label: 'Low'    },
+        { value: 'Normal' ,   label: 'Normal' },
+        { value: 'High'   ,   label: 'High'   },
     ];
 
     const handleGenderChange = (selectedOption) => {
         setFormGender(selectedOption.value);
+        setSelectedGender(selectedOption);
     };
 
     const handleActivityChange = (selectedOption) => {
         setFormActivity(selectedOption.value);
+        setSelectedActivity(selectedOption);
     };
 
     useEffect(() => {
@@ -76,6 +81,7 @@ const ProfileHeader = ({ profilePictureUrl, setProfilePictureUrl, username }) =>
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
         if (!formGender || !formActivity || !formWeight || !formHeight) {
             setErrorMessage('All fields are required.');
             return;
@@ -87,7 +93,8 @@ const ProfileHeader = ({ profilePictureUrl, setProfilePictureUrl, username }) =>
                 gender: formGender,
                 activity: formActivity,
                 weight: formWeight,
-                height: formHeight
+                height: formHeight,
+                user_id: localStorage.getItem('userID'),
             });
             const data = response.data;
             const caloriesCalc = data.calories;
@@ -99,24 +106,67 @@ const ProfileHeader = ({ profilePictureUrl, setProfilePictureUrl, username }) =>
         }
     };
 
+    
+    useEffect(() => {
+        const fetchData = async () => {
+            const userID = localStorage.getItem('userID');
+            try { 
+                const response = await axios.get(`http://127.0.0.1:8000/getfit/GetUserInfo/${userID}`);
+                const data = response.data;
+                console.log(data);
+                // setFormGender(data.gender  || null ? '' : '')
+                // setFormActivity(data.activity  || null ? '' : '')
+                // setFormHeight(data.height  || null ? '' : '');
+                // setFormWeight(data.weight  || null ? '' : '');
+                // setCal(data.calories  || null ? '' : '');
+                // setPerfWei(data.ideal_weight  || null ? '' : '');
+
+                setFormGender(data.gender)
+                setFormActivity(data.activity)
+                setFormHeight(data.height);
+                setFormWeight(data.weight);
+                setCal(data.calories);
+                setPerfWei(data.ideal_weight);
+            } 
+            catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        fetchData();
+    }, []);
+
     const toggleEditInfo = () => {
         setIsEditInfoVisible(!isEditInfoVisible);
     };
 
-    const handleClearProfileDetails = () => {
+    const handleClearProfileDetails = async () => {
         setIsEditInfoVisible(!isEditInfoVisible);
         setFormGender('');
+        setSelectedGender(null);
         setFormWeight('');
         setFormActivity('');
+        setSelectedActivity(null);
         setFormHeight('');
         setCal('');
         setPerfWei('');
         localStorage.removeItem('formGender');
-        localStorage.removeItem('formWeight');
         localStorage.removeItem('formActivity');
+        localStorage.removeItem('formWeight');
         localStorage.removeItem('formHeight');
         localStorage.removeItem('cal');
         localStorage.removeItem('perfWei');
+
+        try { 
+            const response = await axios.post(`http://127.0.0.1:8000/getfit/delete-user-data/`,{
+                user_id: localStorage.getItem('userID')
+                });
+            const data = response.data;
+            console.log(data);
+        } 
+        catch (error) {
+            console.error('Error fetching data:', error);
+        }
     };
 
     const handleCancelEdit = () => {
@@ -135,7 +185,7 @@ const ProfileHeader = ({ profilePictureUrl, setProfilePictureUrl, username }) =>
 
                     <div className="userInfo">
                         <div className="infoItem full-name">
-                            {localStorage.getItem('username')}
+                            {localStorage.getItem('usernameDB') || "Username"}
                         </div>
                         <div className="infoItem bio"></div>
                     </div>
@@ -147,7 +197,7 @@ const ProfileHeader = ({ profilePictureUrl, setProfilePictureUrl, username }) =>
                                 <span>Gender</span>
                             </div>
                             <div className="detVal">
-                                {formGender || "-"}
+                                {formGender || "..."}
                             </div>
                         </div>
                         <div className='details-item'>
@@ -156,7 +206,7 @@ const ProfileHeader = ({ profilePictureUrl, setProfilePictureUrl, username }) =>
                                 <span>Activity</span>
                             </div>
                             <div className="detVal">
-                                {formActivity || "-"}
+                                {formActivity || "..."}
                             </div>
                         </div>
                         <div className='details-item'>
@@ -165,7 +215,7 @@ const ProfileHeader = ({ profilePictureUrl, setProfilePictureUrl, username }) =>
                                 <span>Weight</span>
                             </div>
                             <div className="detVal">
-                                {formWeight || "-"} kg
+                                {formWeight ? `${formWeight}kg` : "..."} 
                             </div>
                         </div>
                         <div className='details-item'>
@@ -174,7 +224,7 @@ const ProfileHeader = ({ profilePictureUrl, setProfilePictureUrl, username }) =>
                                 <span>Height</span>
                             </div>
                             <div className="detVal">
-                                {formHeight || "-"} cm 
+                                { formHeight? `${formHeight}cm` : "..."}  
                             </div>
                         </div>
                         { cal && <>
@@ -184,7 +234,7 @@ const ProfileHeader = ({ profilePictureUrl, setProfilePictureUrl, username }) =>
                                     <span>Calorie Rate</span>
                                 </div>
                                 <div className="detVal">
-                                    {cal || "-" } cal 
+                                    { `${cal}cal` || "..." }
                                 </div>
                             </div>
                             <div className='details-item'>
@@ -193,7 +243,7 @@ const ProfileHeader = ({ profilePictureUrl, setProfilePictureUrl, username }) =>
                                     <span>Perfect Weight</span>
                                 </div>
                                 <div className="detVal">
-                                    {perfWei || "-" } kg 
+                                    {`${perfWei}kg` || "..." }
                                 </div>
                             </div>
                         </>}
@@ -228,7 +278,7 @@ const ProfileHeader = ({ profilePictureUrl, setProfilePictureUrl, username }) =>
 
                     <Select
                         className='selectInp'
-                        value={GenderOptions.find(GenderOption => GenderOption.value === formGender)}
+                        value={selectedGender}
                         onChange={handleGenderChange}
                         options={GenderOptions}
                         placeholder="Select Gender"
@@ -241,11 +291,14 @@ const ProfileHeader = ({ profilePictureUrl, setProfilePictureUrl, username }) =>
                                 backgroundColor: 'transparent',
                                 color: '#fff',
                                 borderRadius: "0",
+                                outline: 'none',
+                                boxShadow: 'none', 
                                 '&:hover': {
                                     borderColor: 'var(--color-primary)',
                                 },
                                 '&:focus': {
                                     outline: 'none',
+                                    boxShadow: 'none',
                                     borderColor: 'var(--color-primary)'
                                 },
                             }),
@@ -257,12 +310,26 @@ const ProfileHeader = ({ profilePictureUrl, setProfilePictureUrl, username }) =>
                                 ...provided,
                                 color: 'var(--color-lightFont)',
                             }),
+                            option: (provided, state) => ({
+                                ...provided,
+                                backgroundColor: "#181818",
+                                color: 'var(--color-lightFont)',
+                                fontSize:"13px",
+                                '&:hover': {
+                                    backgroundColor: 'var(--color-primary)',
+                                    color:"#fff",
+                                },
+                                '&:active': {
+                                    backgroundColor: 'var(--color-primary)',
+                                },
+                            }),
                         }}
+                        
                     />
 
                     <Select
                         className='selectInp'
-                        value={ActivityOptions.find(ActivityOption => ActivityOption.value === formActivity)}
+                        value={selectedActivity}
                         onChange={handleActivityChange}
                         options={ActivityOptions}
                         placeholder="Select Activity"
@@ -275,12 +342,13 @@ const ProfileHeader = ({ profilePictureUrl, setProfilePictureUrl, username }) =>
                                 backgroundColor: 'transparent',
                                 color: '#fff',
                                 borderRadius: "0",
+                                outline: 'none',
+                                boxShadow: 'none',            
                                 '&:hover': {
                                     borderColor: 'var(--color-primary)',
                                 },
                                 '&:focus': {
                                     outline: 'none',
-                                    border: 'none',
                                     boxShadow: 'none',
                                     borderColor: 'var(--color-primary)'
                                 },
@@ -292,6 +360,19 @@ const ProfileHeader = ({ profilePictureUrl, setProfilePictureUrl, username }) =>
                             placeholder: (provided) => ({
                                 ...provided,
                                 color: 'var(--color-lightFont)',
+                            }),
+                            option: (provided, state) => ({
+                                ...provided,
+                                backgroundColor: "#181818",
+                                color: 'var(--color-lightFont)',
+                                fontSize:"13px",
+                                '&:hover': {
+                                    backgroundColor: 'var(--color-primary)',
+                                    color:"#fff",
+                                },
+                                '&:active': {
+                                    backgroundColor: 'var(--color-primary)',
+                                },
                             }),
                         }}
                     />

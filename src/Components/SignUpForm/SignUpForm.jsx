@@ -6,8 +6,8 @@ import { FaRegEnvelope, FaRegEye, FaRegEyeSlash, FaRegUser } from 'react-icons/f
 import axios from 'axios';
 import './SignUpForm.css';
 
-const SignUpForm = ({ setAuthenticated, showPassword, setShowPassword, username, setUsername }) => {
-    
+const SignUpForm = ({ setAuthenticated, showPassword, setShowPassword }) => {
+    const [username, setUsername] = useState('');
     const [emailSignValue, setEmailSignValue] = useState('');
     const [passSignValue, setPassSignValue] = useState('');
     const [passConfValue, setPassConfValue] = useState('');
@@ -17,10 +17,6 @@ const SignUpForm = ({ setAuthenticated, showPassword, setShowPassword, username,
 
     const handleSignUp = async (e) => {
         e.preventDefault();
-        
-        setUsername(username);
-        localStorage.setItem('username', username);
-
 
         // Validation logic
         if (passSignValue !== passConfValue) {
@@ -38,6 +34,8 @@ const SignUpForm = ({ setAuthenticated, showPassword, setShowPassword, username,
             });
 
             const userID = response.data.id;
+            const usernameDB = response.data.username;
+            localStorage.setItem('usernameDB', usernameDB);
             localStorage.setItem('userID', userID);
 
             setMessage('User registered successfully');

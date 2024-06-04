@@ -6,8 +6,8 @@ import { FaRegEye, FaRegEyeSlash, FaRegUser } from 'react-icons/fa6';
 import axios from 'axios';
 import './LoginForm.css';
 
-const LoginForm = ({ setAuthenticated, showPassword, setShowPassword, username, setUsername }) => {
-    // const [emailValue, setEmailValue] = useState('');
+const LoginForm = ({ setAuthenticated, showPassword, setShowPassword }) => {
+    const [emailValue, setEmailValue] = useState('');
     const [passValue, setPassValue] = useState('');
     const [errors, setErrors] = useState('');
     const navigate = useNavigate();
@@ -17,12 +17,14 @@ const LoginForm = ({ setAuthenticated, showPassword, setShowPassword, username, 
 
         try {
             const response = await axios.post('http://127.0.0.1:8000/getfit/login/', {
-                username: username,
+                username: emailValue,
                 password: passValue
             });
             
             const token = response.data.jwt;
             const userID = response.data.id;
+            const usernameDB = response.data.username;
+            localStorage.setItem('usernameDB', usernameDB);
             localStorage.setItem('userID', userID);
             // Store token in cookies or local storage
             document.cookie = `jwt=${token}; path=/`;
@@ -48,8 +50,8 @@ const LoginForm = ({ setAuthenticated, showPassword, setShowPassword, username, 
 
                 <div style={{ position: "relative" }}>
                     <MDBInput
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
+                        value={emailValue}
+                        onChange={(e) => setEmailValue(e.target.value)}
                         label='Username'
                         className='mainInput'
                         id='emailLogin'

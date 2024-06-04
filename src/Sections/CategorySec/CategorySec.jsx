@@ -4,36 +4,55 @@ import { SectionWrapper, CategorySearch, CategoryCard, FoodDetailsCard } from '.
 import { FaList } from 'react-icons/fa6';
 import './CategorySec.css';
 
-const CategorySec = ({ setFavorites }) => {
+const CategorySec = ({ setFavorites, likedCategories, setLikedCategories }) => {
     const [categories, setCategories] = useState([]);
-    const [likedCategories, setLikedCategories] = useState({});
     const [searchQuery, setSearchQuery] = useState('');
     const [filteredCategories, setFilteredCategories] = useState([]);
     const [selectedFood, setSelectedFood] = useState(null);
 
+
     useEffect(() => {
+        const userId = localStorage.getItem('userID');
+        
+        // Load liked states from localStorage
         const savedLikedCategories = JSON.parse(localStorage.getItem('likedCategories')) || {};
         setLikedCategories(savedLikedCategories);
 
-        axios.get('http://127.0.0.1:8000/getfit/get-foods/')
+        axios.get(`http://127.0.0.1:8000/getfit/user/${userId}/liked_foods/`)
             .then(response => {
-                const fetchedCategories = response.data;
-                setCategories(fetchedCategories);
-                setFilteredCategories(fetchedCategories);
+                const fetchedFavorites = response.data;
+                setFavorites(fetchedFavorites);
 
+                // Initialize liked states based on the fetched favorites
                 const initialLikedStates = { ...savedLikedCategories };
-                fetchedCategories.forEach(category => {
-                    if (initialLikedStates[category.id] === undefined) {
-                        initialLikedStates[category.id] = category.liked;
+                fetchedFavorites.forEach(food => {
+                    if (initialLikedStates[food.id] === undefined) {
+                        initialLikedStates[food.id] = true; // assuming fetched favorites are liked
                     }
                 });
                 setLikedCategories(initialLikedStates);
                 localStorage.setItem('likedCategories', JSON.stringify(initialLikedStates));
             })
             .catch(error => {
+                console.error('Error fetching liked foods:', error);
+            });
+    }, [setFavorites, setLikedCategories]);
+
+    useEffect(() => {
+
+        axios.get('http://127.0.0.1:8000/getfit/get-foods/')
+            .then(response => {
+                const fetchedCategories = response.data;
+                setCategories(fetchedCategories);
+                setFilteredCategories(fetchedCategories);
+            })
+            .catch(error => {
                 console.error('Error fetching categories:', error);
             });
-    }, []);
+    }, [setLikedCategories]);
+
+
+
 
     useEffect(() => {
         const result = categories.filter(category =>
@@ -95,7 +114,7 @@ const CategorySec = ({ setFavorites }) => {
                                     key={category.id}
                                     id={category.id}
                                     title={category.FoodName}
-                                    imageUrl={category.LinkDrive}
+                                    imageUrl={category.image_url}
                                     calories={category.Calories}
                                     protein={category.Protein}
                                     fats={category.Fats}

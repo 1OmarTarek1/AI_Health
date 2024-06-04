@@ -9,25 +9,26 @@ const App = () => {
     const [authenticated, setAuthenticated] = useState(false);
     const [profilePictureUrl, setProfilePictureUrl] = useState('');
     const [favorites, setFavorites] = useState([]);
-    const [username, setUsername] = useState('');
+    const [likedCategories, setLikedCategories] = useState({});
+
 
     useEffect(() => {
         // Check local storage for authentication status and profile picture URL
         const storedAuthenticated = localStorage.getItem('authenticated') === 'true';
         const storedProfilePictureUrl = localStorage.getItem('profilePictureUrl') || '';
-        
+
+        // localStorage.setItem('favorites', favorites);
+
         setAuthenticated(storedAuthenticated);
         setProfilePictureUrl(storedProfilePictureUrl);
-    }, []);
+    }, [favorites]);
 
 
     const handleLogin = () => {
         // Logic to handle successful login
         setAuthenticated(true);
-        setUsername(username);
         // Save authentication status to local storage
         localStorage.setItem('authenticated', 'true');
-        localStorage.setItem('username', username);
     };
 
     
@@ -51,7 +52,6 @@ const App = () => {
                             profilePictureUrl={profilePictureUrl}  
                             setAuthenticated={setAuthenticated}
                             authenticated={authenticated}
-                            setUsername={setUsername}
                         />
                         <Routes>
                             <Route path='/Home' element={<Home />} />
@@ -59,6 +59,8 @@ const App = () => {
                             <Route path='/Category' element={<Category 
                                 favorites={favorites}
                                 setFavorites={setFavorites}
+                                likedCategories={likedCategories}
+                                setLikedCategories={setLikedCategories}
                             />} />
                             <Route path='/Contact' element={<Contact />} />
                             <Route 
@@ -68,7 +70,8 @@ const App = () => {
                                     setProfilePictureUrl={handleProfilePictureUpdate}
                                     favorites={favorites}
                                     setFavorites={setFavorites}
-                                    username={username}
+                                    likedCategories={likedCategories}
+                                    setLikedCategories={setLikedCategories}
                                 />} 
                             />
                             <Route  path='*' element={<NotPage />} />
@@ -77,16 +80,9 @@ const App = () => {
                     </>
                 ) : (
                     <Routes>
-                        <Route path='/' element={<Login 
-                        setAuthenticated={handleLogin} 
-                        username={username}
-                        setUsername={setUsername}
-                        />} />
+                        <Route path='/' element={<Login setAuthenticated={handleLogin} />} />
                         <Route path='*' element={<Login 
-                        setAuthenticated={handleLogin} 
-                        username={username}
-                        setUsername={setUsername}
-                        />} />
+                        setAuthenticated={handleLogin} />} />
                     </Routes>
                 )}
             </div>

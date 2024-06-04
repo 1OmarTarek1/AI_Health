@@ -7,7 +7,7 @@ import { FiLogOut } from "react-icons/fi";
 import defProfile from "../../Assets/Images/no_user.png";
 import "./MainNav.css";
 
-const MainNav = ({ profilePictureUrl, setAuthenticated, setUsername }) => {
+const MainNav = ({ profilePictureUrl, setAuthenticated }) => {
 
     const navigate = useNavigate();
     const [message, setMessage] = useState('');
@@ -19,7 +19,6 @@ const MainNav = ({ profilePictureUrl, setAuthenticated, setUsername }) => {
             document.cookie = 'jwt=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
             navigate("/", { replace: true });
             setAuthenticated(false);
-            setUsername('');
             localStorage.clear();
             setMessage('Logout successful');
         } else {

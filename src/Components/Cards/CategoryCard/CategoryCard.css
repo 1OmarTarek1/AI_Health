@@ -167,11 +167,11 @@
     padding-block: 2px;
     text-align: center;
     font-size: 12px;
-    font-weight: 300;
+    font-weight: 400;
     border-radius: 5px;
-    color: #fff !important;
-    backdrop-filter: blur(5px) brightness(60%);
-    /* background-color: var(--color-primary); */
+    color: rgb(153, 153, 235) !important;
+    backdrop-filter: blur(5px) ;
+    background-color: #00000091;
     transition: all .3s;
 }
 

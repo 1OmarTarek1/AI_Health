@@ -4,14 +4,13 @@ import './HomeNav.css'
 
 
 
-const WebNav = ({ profilePictureUrl, setAuthenticated, authenticated, setUsername }) => {
+const WebNav = ({ profilePictureUrl, setAuthenticated, authenticated }) => {
     return (
         <>
             <MainNav
             profilePictureUrl={profilePictureUrl} 
             setAuthenticated={setAuthenticated} 
             authenticated={authenticated} 
-            setUsername={setUsername}
             />
             <TabletNav />
         </>

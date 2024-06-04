@@ -59,7 +59,7 @@ const FoodDetailsCard = ({ food, onClose }) => {
                     <div style={{fontWeight:"500", fontSize:"16px"}}>Details:</div>
                     <p style={{
                         lineHeight:"1.4rem",
-                        marginBottom:"10px"
+                        marginBottom:"20px"
                     }}>
                         {food.TheDescription}
                     </p> 
