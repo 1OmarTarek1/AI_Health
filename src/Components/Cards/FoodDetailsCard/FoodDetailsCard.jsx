@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import dsda from '../../../Assets/Images/food_photos/Chicken Rice Curry With Coconut.jpg';
+import dsda from '../../../Assets/Images/Food-1.jpg';
 import {
   MDBCard,
   MDBCardBody,

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FaFileLines, FaHeart } from 'react-icons/fa6';
 import PropTypes from 'prop-types';
 import './CategoryCard.css';
-import dsda from '../../../Assets/Images/food_photos/Chicken Rice Curry With Coconut.jpg';
+import dsda from '../../../Assets/Images/Food-1.jpg';
 
 const CategoryCard = ({
     id,
