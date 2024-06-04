@@ -1,10 +1,11 @@
 {
   "files": {
     "main.css": "/GET_FIT/static/css/main.be8d71f5.css",
-    "main.js": "/GET_FIT/static/js/main.11345a99.js",
+    "main.js": "/GET_FIT/static/js/main.89974dad.js",
     "static/media/144584-785095786_medium.mp4": "/GET_FIT/static/media/144584-785095786_medium.a363d3a8a62bfb6cc5f1.mp4",
     "static/media/Food-3.jpg": "/GET_FIT/static/media/Food-3.b6c8da024cba858f906d.jpg",
     "static/media/Food-4.jpg": "/GET_FIT/static/media/Food-4.540c06002b3ccecb8f22.jpg",
+    "static/media/Food-1.jpg": "/GET_FIT/static/media/Food-1.51da694f9e891243beed.jpg",
     "static/media/fa-solid-900.ttf": "/GET_FIT/static/media/fa-solid-900.bacd5de623fb563b961a.ttf",
     "static/media/fa-brands-400.ttf": "/GET_FIT/static/media/fa-brands-400.60127e352b7a11f7f1bc.ttf",
     "static/media/fa-solid-900.woff2": "/GET_FIT/static/media/fa-solid-900.4d986b00ff9ca3828fbd.woff2",
@@ -12,15 +13,14 @@
     "static/media/fa-regular-400.ttf": "/GET_FIT/static/media/fa-regular-400.eb91f7b948a42799f678.ttf",
     "static/media/fa-regular-400.woff2": "/GET_FIT/static/media/fa-regular-400.21cb8f55d8e0c5b89751.woff2",
     "static/media/no_user.png": "/GET_FIT/static/media/no_user.0d0c2a75d6085b631f7d.png",
-    "static/media/Chicken Rice Curry With Coconut.jpg": "/GET_FIT/static/media/Chicken Rice Curry With Coconut.6ce2a424a0fff93f3efc.jpg",
     "static/media/fa-v4compatibility.ttf": "/GET_FIT/static/media/fa-v4compatibility.c8e090db312b0bea2aa2.ttf",
     "static/media/fa-v4compatibility.woff2": "/GET_FIT/static/media/fa-v4compatibility.cf7f5903d06b79ad60f1.woff2",
     "index.html": "/GET_FIT/index.html",
     "main.be8d71f5.css.map": "/GET_FIT/static/css/main.be8d71f5.css.map",
-    "main.11345a99.js.map": "/GET_FIT/static/js/main.11345a99.js.map"
+    "main.89974dad.js.map": "/GET_FIT/static/js/main.89974dad.js.map"
   },
   "entrypoints": [
     "static/css/main.be8d71f5.css",
-    "static/js/main.11345a99.js"
+    "static/js/main.89974dad.js"
   ]
 }
