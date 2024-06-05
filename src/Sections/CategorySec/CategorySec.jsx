@@ -9,6 +9,7 @@ const CategorySec = ({ setFavorites, likedCategories, setLikedCategories }) => {
     const [searchQuery, setSearchQuery] = useState('');
     const [filteredCategories, setFilteredCategories] = useState([]);
     const [selectedFood, setSelectedFood] = useState(null);
+    
 
 
     useEffect(() => {
@@ -38,8 +39,9 @@ const CategorySec = ({ setFavorites, likedCategories, setLikedCategories }) => {
             });
     }, [setFavorites, setLikedCategories]);
 
-    useEffect(() => {
 
+    
+    useEffect(() => {
         axios.get('http://127.0.0.1:8000/getfit/get-foods/')
             .then(response => {
                 const fetchedCategories = response.data;
@@ -60,6 +62,8 @@ const CategorySec = ({ setFavorites, likedCategories, setLikedCategories }) => {
         );
         setFilteredCategories(result);
     }, [searchQuery, categories]);
+
+
 
     const handleMoreClick = (id) => {
         const selectedFood = categories.find(category => category.id === id);
@@ -114,7 +118,7 @@ const CategorySec = ({ setFavorites, likedCategories, setLikedCategories }) => {
                                     key={category.id}
                                     id={category.id}
                                     title={category.FoodName}
-                                    imageUrl={category.image_url}
+                                    imageUrl={category.LinkDrive}
                                     calories={category.Calories}
                                     protein={category.Protein}
                                     fats={category.Fats}

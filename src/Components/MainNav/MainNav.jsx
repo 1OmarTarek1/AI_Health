@@ -4,7 +4,6 @@ import Headroom from "react-headroom";
 import { NavLink, useNavigate } from "react-router-dom";
 import { NavLinks } from "../";
 import { FiLogOut } from "react-icons/fi";
-import defProfile from "../../Assets/Images/no_user.png";
 import "./MainNav.css";
 
 const MainNav = ({ profilePictureUrl, setAuthenticated }) => {
@@ -47,7 +46,7 @@ const MainNav = ({ profilePictureUrl, setAuthenticated }) => {
                                 <FiLogOut />
                             </button>
                             <NavLink to="/Profile" className="navLi">
-                                <img src={profilePictureUrl || defProfile} alt="Profile" />
+                                <img src={ profilePictureUrl } alt="Profile" />
                             </NavLink>
                         </div>
                     </div>

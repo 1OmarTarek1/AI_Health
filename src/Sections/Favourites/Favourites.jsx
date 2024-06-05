@@ -3,6 +3,8 @@ import axios from 'axios';
 import { CategoryCard, SectionWrapper, CategorySearch, FoodDetailsCard } from '../../Components';
 import { FaTrashAlt, FaHeart } from 'react-icons/fa';
 import './Favourites.css';
+import { FaPlus } from 'react-icons/fa6';
+import { Link } from 'react-router-dom';
 
 const Favourites = ({ favorites, setFavorites, likedCategories, setLikedCategories }) => {
     const [searchQuery, setSearchQuery] = useState('');
@@ -118,7 +120,7 @@ const Favourites = ({ favorites, setFavorites, likedCategories, setLikedCategori
                                         key={food.id}
                                         id={food.id}
                                         title={food.FoodName}
-                                        imageUrl={food.imageUrl}
+                                        imageUrl={food.LinkDrive}
                                         calories={food.Calories}
                                         protein={food.Protein}
                                         fats={food.Fats}
@@ -133,7 +135,23 @@ const Favourites = ({ favorites, setFavorites, likedCategories, setLikedCategori
                                 <p>No results found for "{searchQuery}".</p>
                             )
                         ) : (
-                            <p>No food added yet.</p>
+                            <div className="favoriteCards">
+                                <div className="NoCard">
+                                    No food added yet.
+                                </div>
+                                <div className="NoCard">
+                                    No food added yet.
+                                </div>
+                                <div className="NoCard">
+                                    No food added yet.
+                                </div>
+                                <div className="NoCard">
+                                    No food added yet.
+                                </div>
+                                <Link to={"/Category"} className="NoCard noCardLast">
+                                    <FaPlus />
+                                </Link>
+                            </div>
                         )}
                     </div>
                     {favorites.length > 0 && (

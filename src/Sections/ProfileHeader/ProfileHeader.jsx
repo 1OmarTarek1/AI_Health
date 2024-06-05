@@ -5,11 +5,13 @@ import { ProfileImage } from '../../Components';
 import defaultProfilePicture from '../../Assets/Images/no_user.png';
 import { FaEdit, FaFireAlt, FaRunning, FaTransgender, FaTrashAlt, FaWeight } from 'react-icons/fa';
 import { IoManSharp } from "react-icons/io5";
+import { MDBBtn } from 'mdb-react-ui-kit';
+import { FaCheck, FaUpload } from 'react-icons/fa6';
+import defImg from '../../Assets/Images/no_user.png'
 import './ProfileHeader.css';
 import './infoForm.css';
-import { FaCheck } from 'react-icons/fa6';
 
-const ProfileHeader = ({ profilePictureUrl, setProfilePictureUrl, username }) => {
+const ProfileHeader = ({ profilePictureUrl, setProfilePictureUrl }) => {
     const [isFullScreen, setIsFullScreen] = useState(false);
     const [isEditInfoVisible, setIsEditInfoVisible] = useState(false);
     const [formGender, setFormGender] = useState(localStorage.getItem('formGender') || '');
@@ -19,6 +21,10 @@ const ProfileHeader = ({ profilePictureUrl, setProfilePictureUrl, username }) =>
     const [cal, setCal] = useState(localStorage.getItem('cal') || '');
     const [perfWei, setPerfWei] = useState(localStorage.getItem('perfWei') || '');
     const [errorMessage, setErrorMessage] = useState('');
+    const [openEdit, setOpenEdit] = useState(false);
+    const [imageUploaded, setImageUploaded] = useState(false);
+
+
 
     const [selectedGender, setSelectedGender] = useState(localStorage.getItem('formGender') || '');
     const [selectedActivity, setSelectedActivity] = useState(localStorage.getItem('formActivity') || '');
@@ -28,9 +34,9 @@ const ProfileHeader = ({ profilePictureUrl, setProfilePictureUrl, username }) =>
         { value: 'Female', label: 'Female' },
     ];
     const ActivityOptions = [
-        { value: 'Low'    ,   label: 'Low'    },
-        { value: 'Normal' ,   label: 'Normal' },
-        { value: 'High'   ,   label: 'High'   },
+        { value: 'Low', label: 'Low' },
+        { value: 'Normal', label: 'Normal' },
+        { value: 'High', label: 'High' },
     ];
 
     const handleGenderChange = (selectedOption) => {
@@ -61,22 +67,59 @@ const ProfileHeader = ({ profilePictureUrl, setProfilePictureUrl, username }) =>
         if (file) {
             const reader = new FileReader();
             reader.onloadend = () => {
-                setProfilePictureUrl(reader.result);
+                const newProfilePictureUrl = reader.result;
+                setProfilePictureUrl(newProfilePictureUrl);
+                setImageUploaded(true);
             };
             reader.readAsDataURL(file);
+        } else {
+            setProfilePictureUrl(defaultProfilePicture);
+            setImageUploaded(false);
+        }
+    };
+    
+    
+    
+
+    const handleUpdate = async () => {
+        const formData = new FormData();
+        const userID = localStorage.getItem('userID');
+        setOpenEdit(!openEdit);
+    
+        // Check if profilePictureUrl is not null or empty
+        if (profilePictureUrl) {
+            // Convert Base64 URL to Blob
+            const response = await fetch(profilePictureUrl);
+            const blob = await response.blob();
+            formData.append('image', blob, 'profile_image.png');
+        }
+    
+        formData.append('id', userID);
+    
+        try {
+            const response = await axios.patch(`http://127.0.0.1:8000/getfit/update-profile-image/`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+            console.log('Image Updated!', response.data.image);
+        } catch (error) {
+            console.error('Error updating image:', error);
         }
     };
 
-    const handleProfileClick = () => {
-        setIsFullScreen(true);
-    };
+
+    // const handleProfileClick = () => {
+    //     setIsFullScreen(true);
+    // };
 
     const handleCloseFullScreen = () => {
         setIsFullScreen(false);
     };
 
     const handleRemoveProfilePhoto = () => {
-        setProfilePictureUrl(defaultProfilePicture);
+        setProfilePictureUrl(defImg);
+        localStorage.setItem('profilePictureUrl', profilePictureUrl);
     };
 
     const handleSubmit = async (e) => {
@@ -106,35 +149,32 @@ const ProfileHeader = ({ profilePictureUrl, setProfilePictureUrl, username }) =>
         }
     };
 
-    
     useEffect(() => {
         const fetchData = async () => {
             const userID = localStorage.getItem('userID');
-            try { 
-                const response = await axios.get(`http://127.0.0.1:8000/getfit/GetUserInfo/${userID}`);
+            try {
+                const response = await axios.get(`http://127.0.0.1:8000/getfit/GetUserInfo/${userID}/`);
                 const data = response.data;
-                console.log(data);
-                // setFormGender(data.gender  || null ? '' : '')
-                // setFormActivity(data.activity  || null ? '' : '')
-                // setFormHeight(data.height  || null ? '' : '');
-                // setFormWeight(data.weight  || null ? '' : '');
-                // setCal(data.calories  || null ? '' : '');
-                // setPerfWei(data.ideal_weight  || null ? '' : '');
-
-                setFormGender(data.gender)
-                setFormActivity(data.activity)
+                setFormGender(data.gender);
+                setFormActivity(data.activity);
                 setFormHeight(data.height);
                 setFormWeight(data.weight);
                 setCal(data.calories);
                 setPerfWei(data.ideal_weight);
-            } 
-            catch (error) {
+                
+                // Fetch profile photo URL from backend
+                const imageResponse = await axios.get(`http://127.0.0.1:8000/getfit/user-image/${userID}/`);
+                if (imageResponse.data && imageResponse.data.image_url) {
+                    const imageUrl = `http://127.0.0.1:8000${imageResponse.data.image_url}`;
+                    setProfilePictureUrl(imageUrl);
+                }
+            } catch (error) {
                 console.error('Error fetching data:', error);
             }
         };
 
         fetchData();
-    }, []);
+    },[]);
 
     const toggleEditInfo = () => {
         setIsEditInfoVisible(!isEditInfoVisible);
@@ -157,14 +197,11 @@ const ProfileHeader = ({ profilePictureUrl, setProfilePictureUrl, username }) =>
         localStorage.removeItem('cal');
         localStorage.removeItem('perfWei');
 
-        try { 
-            const response = await axios.post(`http://127.0.0.1:8000/getfit/delete-user-data/`,{
+        try {
+            await axios.post(`http://127.0.0.1:8000/getfit/delete-user-data/`, {
                 user_id: localStorage.getItem('userID')
-                });
-            const data = response.data;
-            console.log(data);
-        } 
-        catch (error) {
+            });
+        } catch (error) {
             console.error('Error fetching data:', error);
         }
     };
@@ -172,17 +209,21 @@ const ProfileHeader = ({ profilePictureUrl, setProfilePictureUrl, username }) =>
     const handleCancelEdit = () => {
         setIsEditInfoVisible(false);
     };
+    const handleOpenEdit = () => {
+        setOpenEdit(!openEdit);
+    };
+
+
 
     return (
         <>
             <div className="ProfileHeaderContainer">
                 <div className="ProfileHeader">
-                    <ProfileImage
-                        handleProfileClick={handleProfileClick}
-                        profilePictureUrl={profilePictureUrl}
-                        defaultProfilePicture={defaultProfilePicture}
+                <ProfileImage
+                        handleProfileClick={() => setIsFullScreen(true)}
+                        profilePictureUrl={profilePictureUrl || defaultProfilePicture}
+                        handleOpenEdit={handleOpenEdit}
                     />
-
                     <div className="userInfo">
                         <div className="infoItem full-name">
                             {localStorage.getItem('usernameDB') || "Username"}
@@ -215,7 +256,7 @@ const ProfileHeader = ({ profilePictureUrl, setProfilePictureUrl, username }) =>
                                 <span>Weight</span>
                             </div>
                             <div className="detVal">
-                                {formWeight ? `${formWeight}kg` : "..."} 
+                                {formWeight ? `${formWeight}kg` : "..."}
                             </div>
                         </div>
                         <div className='details-item'>
@@ -224,50 +265,78 @@ const ProfileHeader = ({ profilePictureUrl, setProfilePictureUrl, username }) =>
                                 <span>Height</span>
                             </div>
                             <div className="detVal">
-                                { formHeight? `${formHeight}cm` : "..."}  
+                                {formHeight ? `${formHeight}cm` : "..."}
                             </div>
                         </div>
-                        { cal && <>
+                        {cal && <>
                             <div className='details-item'>
                                 <div className="detTitle">
                                     <FaFireAlt />
-                                    <span>Calorie Rate</span>
+                                    <span>Calories</span>
                                 </div>
                                 <div className="detVal">
-                                    { `${cal}cal` || "..." }
+                                    {`${cal}cal` || "..."}
                                 </div>
                             </div>
                             <div className='details-item'>
                                 <div className="detTitle">
                                     <FaCheck />
-                                    <span>Perfect Weight</span>
+                                    <span>Perfect</span>
                                 </div>
                                 <div className="detVal">
-                                    {`${perfWei}kg` || "..." }
+                                    {`${perfWei}kg` || "..."}
                                 </div>
                             </div>
                         </>}
                     </div>
                 </div>
             </div>
+
+
+            
+
+            <div
+                className={openEdit ? "editParent fullscreen-profile" : "editParent fullscreen-close"}
+            >
+                <div className="uploadWrapper">
+                    { imageUploaded
+                    ? <label htmlFor="file-upload" className="uploadImg" style={{backgroundColor:"transparent"}}>
+                        <img src={profilePictureUrl} alt="Profile"/>
+                        <input
+                            id="file-upload"
+                            type="file"
+                            accept="image/*"
+                            style={{ display: 'none' }}
+                            onChange={handleFileChange}
+                        />
+                    </label>
+                    : <label htmlFor="file-upload" className="uploadImg">
+                        <FaUpload />
+                        <input
+                            id="file-upload"
+                            type="file"
+                            accept="image/*"
+                            style={{ display: 'none' }}
+                            onChange={handleFileChange}
+                        />
+                    </label>
+                    }
+
+                    <div className="d-flex justify-content-between px-3 py-3" style={{position:"absolute", width:"100%", bottom:"0"}}> 
+                        <div className="d-flex gap-2">
+                            <MDBBtn className='' onClick={handleUpdate} color='success' size='sm' style={{fontSize:"11px"}}><FaCheck /> Save</MDBBtn>
+                            <MDBBtn onClick={handleRemoveProfilePhoto} color='danger' size='sm' style={{fontSize:"11px"}}><FaTrashAlt /> Delete</MDBBtn>
+                        </div>
+                        <MDBBtn onClick={handleOpenEdit} size='sm' style={{fontSize:"11px"}}>Close</MDBBtn>
+                    </div>
+                </div>
+            </div>
+
             <div
                 className={isFullScreen ? "fullscreen-profile" : "fullscreen-close"}
                 onClick={handleCloseFullScreen}
             >
                 <img src={profilePictureUrl || defaultProfilePicture} alt="Profile" />
-                <label htmlFor="file-upload" className="uploadImg">
-                    <FaEdit />
-                    <input
-                        id="file-upload"
-                        type="file"
-                        accept="image/*"
-                        style={{ display: 'none' }}
-                        onChange={handleFileChange}
-                    />
-                </label>
-                <button className='removePhoto' onClick={handleRemoveProfilePhoto}>
-                    <FaTrashAlt />
-                </button>
             </div>
 
             <div className={isEditInfoVisible ? 'infoFormWrapper' : 'infoFormWrapper closeInfoFormWrapper'}>
@@ -292,7 +361,7 @@ const ProfileHeader = ({ profilePictureUrl, setProfilePictureUrl, username }) =>
                                 color: '#fff',
                                 borderRadius: "0",
                                 outline: 'none',
-                                boxShadow: 'none', 
+                                boxShadow: 'none',
                                 '&:hover': {
                                     borderColor: 'var(--color-primary)',
                                 },
@@ -314,17 +383,16 @@ const ProfileHeader = ({ profilePictureUrl, setProfilePictureUrl, username }) =>
                                 ...provided,
                                 backgroundColor: "#181818",
                                 color: 'var(--color-lightFont)',
-                                fontSize:"13px",
+                                fontSize: "13px",
                                 '&:hover': {
                                     backgroundColor: 'var(--color-primary)',
-                                    color:"#fff",
+                                    color: "#fff",
                                 },
                                 '&:active': {
                                     backgroundColor: 'var(--color-primary)',
                                 },
                             }),
                         }}
-                        
                     />
 
                     <Select
@@ -343,7 +411,7 @@ const ProfileHeader = ({ profilePictureUrl, setProfilePictureUrl, username }) =>
                                 color: '#fff',
                                 borderRadius: "0",
                                 outline: 'none',
-                                boxShadow: 'none',            
+                                boxShadow: 'none',
                                 '&:hover': {
                                     borderColor: 'var(--color-primary)',
                                 },
@@ -365,10 +433,10 @@ const ProfileHeader = ({ profilePictureUrl, setProfilePictureUrl, username }) =>
                                 ...provided,
                                 backgroundColor: "#181818",
                                 color: 'var(--color-lightFont)',
-                                fontSize:"13px",
+                                fontSize: "13px",
                                 '&:hover': {
                                     backgroundColor: 'var(--color-primary)',
-                                    color:"#fff",
+                                    color: "#fff",
                                 },
                                 '&:active': {
                                     backgroundColor: 'var(--color-primary)',
@@ -405,7 +473,7 @@ const ProfileHeader = ({ profilePictureUrl, setProfilePictureUrl, username }) =>
                         </label>
                     </div>
 
-                    {errorMessage && <div className="error-message" style={{color:"red", fontSize:"14px"}}>{errorMessage}</div>}
+                    {errorMessage && <div className="error-message" style={{ color: "red", fontSize: "14px" }}>{errorMessage}</div>}
 
                     <div className='d-flex gap-1 mt-2'>
                         <button className='infoFormBtn' type="submit">Update</button>
@@ -430,3 +498,7 @@ const ProfileHeader = ({ profilePictureUrl, setProfilePictureUrl, username }) =>
 };
 
 export default ProfileHeader;
+
+
+
+

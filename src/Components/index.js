@@ -11,6 +11,7 @@ export { default as NavLinks       } from './NavLinks/NavLinks'
 export { default as CategorySearch       } from './CategorySearch/CategorySearch'
 export { default as LoginForm       } from './LoginForm/LoginForm'
 export { default as SignUpForm       } from './SignUpForm/SignUpForm'
+export { default as CalFrom       } from './CalFrom/CalFrom'
 
 
 // Cards

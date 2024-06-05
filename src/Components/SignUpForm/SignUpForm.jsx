@@ -5,8 +5,9 @@ import { FaFacebookSquare, FaGoogle, FaTrashAlt } from 'react-icons/fa';
 import { FaRegEnvelope, FaRegEye, FaRegEyeSlash, FaRegUser } from 'react-icons/fa6';
 import axios from 'axios';
 import './SignUpForm.css';
+import defImg from '../../Assets/Images/no_user.png'
 
-const SignUpForm = ({ setAuthenticated, showPassword, setShowPassword }) => {
+const SignUpForm = ({ setAuthenticated, showPassword, setShowPassword, setProfilePictureUrl }) => {
     const [username, setUsername] = useState('');
     const [emailSignValue, setEmailSignValue] = useState('');
     const [passSignValue, setPassSignValue] = useState('');
@@ -17,6 +18,8 @@ const SignUpForm = ({ setAuthenticated, showPassword, setShowPassword }) => {
 
     const handleSignUp = async (e) => {
         e.preventDefault();
+        setProfilePictureUrl(defImg)
+        localStorage.setItem('profilePictureUrl', defImg);
 
         // Validation logic
         if (passSignValue !== passConfValue) {
@@ -25,7 +28,6 @@ const SignUpForm = ({ setAuthenticated, showPassword, setShowPassword }) => {
         }
 
         try {
-            // const response =
             const response = await axios.post('http://127.0.0.1:8000/getfit/register/', {
                 username        : username,
                 email           : emailSignValue,
@@ -37,7 +39,7 @@ const SignUpForm = ({ setAuthenticated, showPassword, setShowPassword }) => {
             const usernameDB = response.data.username;
             localStorage.setItem('usernameDB', usernameDB);
             localStorage.setItem('userID', userID);
-
+            
             setMessage('User registered successfully');
             setAuthenticated(true);
             setErrors({});
@@ -45,10 +47,13 @@ const SignUpForm = ({ setAuthenticated, showPassword, setShowPassword }) => {
         } catch (error) {
             if (error.response) {
                 setErrors(error.response.data);
+                localStorage.clear();
             } else {
                 setMessage('Something went wrong. Please try again.');
+                localStorage.clear();
             }
         }
+        
     };
 
     return (

@@ -8,7 +8,7 @@ import './Login.css'
 
 
 
-const Login = ({ setAuthenticated }) => {
+const Login = ({ setAuthenticated, setProfilePictureUrl }) => {
     const [showPassword, setShowPassword] = useState(false);
 
     useEffect(()=>{
@@ -57,11 +57,13 @@ const Login = ({ setAuthenticated }) => {
                 setAuthenticated={setAuthenticated} 
                 showPassword={showPassword}
                 setShowPassword={setShowPassword}
+                setProfilePictureUrl={setProfilePictureUrl}
                 />
                 <SignUpForm 
                 setAuthenticated={setAuthenticated}
                 showPassword={showPassword}
                 setShowPassword={setShowPassword}
+                setProfilePictureUrl={setProfilePictureUrl}
                 />
             </div>
         </>

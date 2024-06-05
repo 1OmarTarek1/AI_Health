@@ -6,7 +6,7 @@ import { FaRegEye, FaRegEyeSlash, FaRegUser } from 'react-icons/fa6';
 import axios from 'axios';
 import './LoginForm.css';
 
-const LoginForm = ({ setAuthenticated, showPassword, setShowPassword }) => {
+const LoginForm = ({ setAuthenticated, showPassword, setShowPassword, setProfilePictureUrl }) => {
     const [emailValue, setEmailValue] = useState('');
     const [passValue, setPassValue] = useState('');
     const [errors, setErrors] = useState('');
@@ -24,6 +24,11 @@ const LoginForm = ({ setAuthenticated, showPassword, setShowPassword }) => {
             const token = response.data.jwt;
             const userID = response.data.id;
             const usernameDB = response.data.username;
+
+            const imageUrl = `http://127.0.0.1:8000${response.data.image}/`;
+            localStorage.setItem('profilePictureUrl', imageUrl);
+            setProfilePictureUrl(imageUrl)
+
             localStorage.setItem('usernameDB', usernameDB);
             localStorage.setItem('userID', userID);
             // Store token in cookies or local storage
@@ -40,6 +45,8 @@ const LoginForm = ({ setAuthenticated, showPassword, setShowPassword }) => {
             }
         }
     };
+
+    
 
     return (
         <>

@@ -1,13 +1,38 @@
 .Favourites .SectionWrapper {
   padding-top: 5px;
 }
-.favoriteCards{
+.Favourites  .favoriteCards{
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   margin: auto;
   gap: 10px;
 }
+.Favourites  .NoCard{
+  display: grid;
+  place-content: center;
+  flex: 1 19%;
+  width: 300px;
+  min-width: 200px;
+  height: 200px;
+  background-color: var(--color-body);
+  color: #ffffff33;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  cursor: default;
+}
+.Favourites  .noCardLast{
+  font-size: 25px;
+  cursor: pointer;
+}
+.Favourites  .noCardLast:hover{
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15), 0 3px 6px rgba(0, 0, 0, 0.1);
+    transform: scale(1.01);
+    filter: brightness(105%);
+    color: #fff;
+}
+
 @media screen and (max-width:992px) {
   .favoriteCards{
       justify-content: center;
@@ -71,3 +96,7 @@
   cursor: pointer;
 }
 /*Full Screen*/
+
+
+
+

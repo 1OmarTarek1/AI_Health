@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import dsda from '../../../Assets/Images/Food-1.jpg';
+import defImg from '../../../Assets/Images/Food-1.jpg';
 import {
   MDBCard,
   MDBCardBody,
@@ -20,8 +20,8 @@ const FoodDetailsCard = ({ food, onClose }) => {
     return (
         <div className="food-details-overlay DetailsParent" onClick={onClose}>
             <MDBCard className='FoodDetailsCard' onClick={e => e.stopPropagation()}>
-                <div style={{position:"relative"}}>
-                    <MDBCardImage src={ dsda || food.LinkDrive  || 'https://mdbootstrap.com/img/new/standard/nature/184.webp'} position='top' alt={food.FoodName} />
+                <div style={{position:"relative" ,maxHeight:"400px", overflow:"hidden"}}>
+                    <MDBCardImage src={ food.LinkDrive  || defImg } position='top' alt={food.FoodName} />
                     <MDBCardTitle className='DName'>{food.FoodName}</MDBCardTitle>
                     <a className='DLink' href={food.YoutubeLink} target="_blank" rel="noopener noreferrer">
                         <span>
@@ -56,28 +56,18 @@ const FoodDetailsCard = ({ food, onClose }) => {
                             </div>
                         </li>
                     </ul>
-                    <div style={{fontWeight:"500", fontSize:"16px"}}>Details:</div>
-                    <p style={{
-                        lineHeight:"1.4rem",
-                        marginBottom:"20px"
-                    }}>
-                        {food.TheDescription}
-                    </p> 
+                    <div className="detailsParaWrapper">
+                        <div style={{fontWeight:"500", fontSize:"16px"}}>Details:</div>
+                        <p className='DParagraph'>
+                            {food.TheDescription}
+                        </p> 
+                    </div>
                     <div className='d-flex justify-content-between'>
                         <div className="like-button-container">
-                            {likesCount === 0 
-                            ? <>
-                                <FaHeart style={{ color: '#333', marginRight:"3px" }} /> 
-                                <span style={{ color: '#333', position:"relative", top:"2px" }}>{likesCount}</span> 
-                            </>
-                            
-                            : <>
-                                <FaHeart style={{ color: '#ff0000', marginRight:"3px"}} /> 
-                                <span style={{ color: '#ff0000', position:"relative", top:"2px"}}>{likesCount}</span> 
-                            </>
-                            }
+                            <FaHeart style={{ color: 'var(--color-primary)', marginRight:"3px" }} /> 
+                            <span style={{ color: 'var(--color-primary)', position:"relative", top:"2px" }}>{likesCount}</span> 
                         </div>
-                        <MDBBtn color="danger" onClick={onClose}>Close</MDBBtn>
+                        <MDBBtn color="info" onClick={onClose}>Close</MDBBtn>
                     </div>
                 </MDBCardBody>
             </MDBCard>

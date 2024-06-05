@@ -3,11 +3,12 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { Home, ServicesPage, Category, Contact, Profile, Login, NotPage } from './Pages';
 import { Footer, WebNav } from './Sections';
 import { ReloadEffect, ToTopReload, ToTopBtn, DTitle } from './Components';
+import defImg from './Assets/Images/no_user.png'
 import './App.css';
 
 const App = () => {
     const [authenticated, setAuthenticated] = useState(false);
-    const [profilePictureUrl, setProfilePictureUrl] = useState('');
+    const [profilePictureUrl, setProfilePictureUrl] = useState( defImg );
     const [favorites, setFavorites] = useState([]);
     const [likedCategories, setLikedCategories] = useState({});
 
@@ -45,7 +46,7 @@ const App = () => {
         <Router basename='/GET_FIT'> 
         <DTitle />
             <div className="mainContainer">
-                <ReloadEffect />
+                {/* <ReloadEffect /> */}
                 {authenticated ? (
                     <>
                         <WebNav 
@@ -80,9 +81,13 @@ const App = () => {
                     </>
                 ) : (
                     <Routes>
-                        <Route path='/' element={<Login setAuthenticated={handleLogin} />} />
+                        <Route path='/' element={<Login setAuthenticated={handleLogin} 
+                        setProfilePictureUrl={setProfilePictureUrl} />} />
+
                         <Route path='*' element={<Login 
-                        setAuthenticated={handleLogin} />} />
+                        setAuthenticated={handleLogin} 
+                        setProfilePictureUrl={setProfilePictureUrl}/>} />
+                        
                     </Routes>
                 )}
             </div>

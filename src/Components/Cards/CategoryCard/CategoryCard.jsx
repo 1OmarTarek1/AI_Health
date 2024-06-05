@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FaFileLines, FaHeart } from 'react-icons/fa6';
 import PropTypes from 'prop-types';
 import './CategoryCard.css';
-import dsda from '../../../Assets/Images/Food-1.jpg';
+import defImg from '../../../Assets/Images/Food-1.jpg';
 
 const CategoryCard = ({
     id,
@@ -21,6 +21,7 @@ const CategoryCard = ({
 
     // Effect to update likes count when likes prop changes
     useEffect(() => {
+        localStorage.setItem('likesCount', likes.length)
         setLikesCount(likes.length);
     }, [likes]);
 
@@ -34,7 +35,7 @@ const CategoryCard = ({
         <div className="CategoryCard">
             <div className="cardHeader">
                 <div className="cardImgWrapper">
-                    <img src={dsda} alt={title} className="cardImg" loading="lazy" />
+                    <img src={imageUrl || defImg} alt={title} className="cardImg" loading="lazy" />
                 </div>
                 <div className="cardName">
                     {title}
@@ -58,7 +59,7 @@ const CategoryCard = ({
                         {/* <div className="miniTitle">
                             <span>Calories</span>
                         </div> */}
-                        <div className="titleInfo">
+                        <div className="titleInfo T1" >
                             {calories}cal
                         </div>
                     </li>
@@ -66,7 +67,7 @@ const CategoryCard = ({
                         {/* <div className="miniTitle">
                             <span>Protein</span>
                         </div> */}
-                        <div className="titleInfo">
+                        <div className="titleInfo T2" >
                             {protein}pro
                         </div>
                     </li>
@@ -74,7 +75,7 @@ const CategoryCard = ({
                         {/* <div className="miniTitle">
                             <span>Fats</span>
                         </div> */}
-                        <div className="titleInfo">
+                        <div className="titleInfo T3" >
                             {fats}fts
                         </div>
                     </li>
@@ -82,7 +83,7 @@ const CategoryCard = ({
                         {/* <div className="miniTitle">
                             <span>Carbs</span>
                         </div> */}
-                        <div className="titleInfo">
+                        <div className="titleInfo T4">
                             {carbs}crb
                         </div>
                     </li>
