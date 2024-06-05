@@ -15,6 +15,12 @@ const ServicesSec = () => {
     const [uploadedImg, setUploadedImg] = useState(null);
     const [isWebcamActive, setIsWebcamActive] = useState(false);
     const [predictions, setPredictions] = useState(false);
+    const [foodName, setFoodName] = useState("...");
+    const [x, setX] = useState(0);
+    const [y, setY] = useState(0);
+    const [h, setH] = useState(0);
+    const [w, setW] = useState(0);
+
 
 
     // Define video constraints for the back camera
@@ -59,40 +65,6 @@ const ServicesSec = () => {
     };
 
 
-    // const updateImage = async () => {
-    //     if (uploadedImg) { // Check if uploadedImg exists
-    //         const formData = new FormData();
-
-    //         const response = await fetch(uploadedImg);
-    //         const blob = await response.blob();
-    //         formData.append('file', blob, 'image.png');
-
-
-    //         // formData.append('file', uploadedImg); // Append the uploaded image directly
-    
-    //         // Log the FormData content
-    //         console.log('FormData Content:', formData.get('file'));
-    
-    //         try {
-    //             // Log the uploaded image before sending the request
-    //             console.log('Uploaded Image:', uploadedImg);
-    
-    //             const response = await fetch('http://localhost:5000/predict', {
-    //                 method: 'POST',
-    //                 body: formData
-    //             });
-    //             const data = await response.json();
-    //             console.log(data);
-    //             // Handle the predictions received from Flask
-    //         } catch (error) {
-    //             console.error('Error:', error);
-    //         }
-    //     } else {
-    //         setError('No image available to update.');
-    //     }
-    // };
-    
-
     const updateImage = async () => {
         let imageToUse = uploadedImg || imgSrc;
     
@@ -113,7 +85,7 @@ const ServicesSec = () => {
     
         try {
             // Log the image before sending the request
-            console.log('Image to Use:', imageToUse);
+            // console.log('Image to Use:', imageToUse);
     
             const response = await fetch('http://localhost:5000/predict', {
                 method: 'POST',
@@ -121,6 +93,11 @@ const ServicesSec = () => {
             });
             const data = await response.json();
             console.log(data);
+            setX(data.predictions[0].x)
+            setY(data.predictions[0].y)
+            setH(data.predictions[0].h)
+            setW(data.predictions[0].w)
+            setFoodName(data.predictions[0].class)
             // Handle the predictions received from Flask
         } catch (error) {
             console.error('Error:', error);
@@ -229,7 +206,7 @@ const ServicesSec = () => {
                             </div>
                             <div className="textWrapper">
                                 <div className="foodName">
-                                    Chicken Bacon Ranch Pizza
+                                    {foodName}
                                 </div>
                                 <div className="foodDis">
                                     Smokey bacon, pieces of chicken, 
@@ -242,39 +219,40 @@ const ServicesSec = () => {
 
                         <ul className="foodDetails">
                             <li className="detailItem">
-                                <div className="miniTitle">
+                                {/* <div className="miniTitle">
                                     <FaFireAlt style={{color:"Red"}} />
                                     <span>Calories</span>
-                                </div>
+                                </div> */}
                                 <div className="titleInfo">
-                                    800cal
+                                    X: {x}
                                 </div>
                             </li>
                             <li className="detailItem">
-                                <div className="miniTitle">
+                                {/* <div className="miniTitle">
                                     <FaDumbbell style={{color:"silver"}} />
                                     <span>Protein</span>
-                                </div>
+                                </div> */}
                                 <div className="titleInfo">
-                                    100gm
+                                    Y: {x}
                                 </div>
                             </li>
                             <li className="detailItem">
-                                <div className="miniTitle">
+                                {/* <div className="miniTitle">
                                     <FaRadiation style={{color:"yellow"}} /> 
                                     <span>Fats</span>
-                                </div>
+                                </div> */}
                                 <div className="titleInfo">
-                                    50gm
+                                    H: {h}
                                 </div>
                             </li>
                             <li className="detailItem">
-                                <div className="miniTitle">
+                                {/* <div className="miniTitle">
                                     <FaShieldHalved style={{color:"lightGreen"}}/>
                                     <span>Healthy</span>
-                                </div>
+                                </div> */}
                                 <div className="titleInfo">
-                                    <FaXmark style={{color:"red"}}/>
+                                    {/* <FaXmark style={{color:"red"}}/> */}
+                                    W: {w}
                                 </div>
                             </li>
                         </ul>

@@ -74,10 +74,10 @@
     list-style: none;
     flex: 1;
     flex-wrap: wrap;
-    justify-content: space-evenly;
+    justify-content: space-between;
 }
 .ServicesSec .detailItem{
-    width: 100px;
+    /* width: 100px; */
     display: flex;
     flex-direction: column;
     justify-content: center;
