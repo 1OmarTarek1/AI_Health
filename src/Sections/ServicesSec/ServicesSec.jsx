@@ -14,6 +14,8 @@ const ServicesSec = () => {
     const [error, setError] = useState(null);
     const [uploadedImg, setUploadedImg] = useState(null);
     const [isWebcamActive, setIsWebcamActive] = useState(false);
+    const [predictions, setPredictions] = useState(false);
+
 
     // Define video constraints for the back camera
     const videoConstraints = {
@@ -31,6 +33,8 @@ const ServicesSec = () => {
         } else {
             setError('No webcam found.');
         }
+
+
     }, [webcamRef, setImgSrc, setIsWebcamActive]);
 
     const handleImageUpload = (event) => {
@@ -53,6 +57,92 @@ const ServicesSec = () => {
     const toggleWebcam = () => {
         setIsWebcamActive(!isWebcamActive);
     };
+
+
+    // const updateImage = async () => {
+    //     if (uploadedImg) { // Check if uploadedImg exists
+    //         const formData = new FormData();
+
+    //         const response = await fetch(uploadedImg);
+    //         const blob = await response.blob();
+    //         formData.append('file', blob, 'image.png');
+
+
+    //         // formData.append('file', uploadedImg); // Append the uploaded image directly
+    
+    //         // Log the FormData content
+    //         console.log('FormData Content:', formData.get('file'));
+    
+    //         try {
+    //             // Log the uploaded image before sending the request
+    //             console.log('Uploaded Image:', uploadedImg);
+    
+    //             const response = await fetch('http://localhost:5000/predict', {
+    //                 method: 'POST',
+    //                 body: formData
+    //             });
+    //             const data = await response.json();
+    //             console.log(data);
+    //             // Handle the predictions received from Flask
+    //         } catch (error) {
+    //             console.error('Error:', error);
+    //         }
+    //     } else {
+    //         setError('No image available to update.');
+    //     }
+    // };
+    
+
+    const updateImage = async () => {
+        let imageToUse = uploadedImg || imgSrc;
+    
+        if (!imageToUse) {
+            // Capture a new photo if neither uploadedImg nor imgSrc is available
+            capture();
+            return; // Exit the function and wait for the new photo to be captured
+        }
+    
+        const formData = new FormData();
+    
+        // Convert the data URL to a Blob
+        const blob = await fetch(imageToUse).then((res) => res.blob());
+        formData.append('file', blob, 'image.png');
+    
+        // Log the FormData content
+        console.log('FormData Content:', formData.get('file'));
+    
+        try {
+            // Log the image before sending the request
+            console.log('Image to Use:', imageToUse);
+    
+            const response = await fetch('http://localhost:5000/predict', {
+                method: 'POST',
+                body: formData
+            });
+            const data = await response.json();
+            console.log(data);
+            // Handle the predictions received from Flask
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+    
+    
+    
+
+    
+    const dataURLtoFile = (dataurl, filename) => {
+        const arr = dataurl.split(',');
+        const mime = arr[0].match(/:(.*?);/)[1];
+        const bstr = atob(arr[1]);
+        let n = bstr.length;
+        const u8arr = new Uint8Array(n);
+        while (n--) {
+            u8arr[n] = bstr.charCodeAt(n);
+        }
+        return new File([u8arr], filename, { type: mime });
+    };
+    
 
     const clearData = () => {
         setImgSrc(null);
@@ -91,6 +181,7 @@ const ServicesSec = () => {
                             </>
                         )}
                         <div className="WebBtnContainer">
+                            <button onClick={updateImage}>Update</button>
                             <button className='mainWebcamBtn' onClick={toggleWebcam}>
                                 { isWebcamActive ? <FaVideoSlash />  : <FaVideo /> }
                                 <span>WebCam</span>

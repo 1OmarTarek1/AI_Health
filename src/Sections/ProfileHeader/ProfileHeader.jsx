@@ -3,7 +3,7 @@ import axios from 'axios';
 import Select from 'react-select';
 import { ProfileImage } from '../../Components';
 import defaultProfilePicture from '../../Assets/Images/no_user.png';
-import { FaEdit, FaFireAlt, FaRunning, FaTransgender, FaTrashAlt, FaWeight } from 'react-icons/fa';
+import { FaFireAlt, FaRunning, FaTransgender, FaTrashAlt, FaWeight } from 'react-icons/fa';
 import { IoManSharp } from "react-icons/io5";
 import { MDBBtn } from 'mdb-react-ui-kit';
 import { FaCheck, FaUpload } from 'react-icons/fa6';
@@ -325,9 +325,9 @@ const ProfileHeader = ({ profilePictureUrl, setProfilePictureUrl }) => {
                     <div className="d-flex justify-content-between px-3 py-3" style={{position:"absolute", width:"100%", bottom:"0"}}> 
                         <div className="d-flex gap-2">
                             <MDBBtn className='' onClick={handleUpdate} color='success' size='sm' style={{fontSize:"11px"}}><FaCheck /> Save</MDBBtn>
-                            <MDBBtn onClick={handleRemoveProfilePhoto} color='danger' size='sm' style={{fontSize:"11px"}}><FaTrashAlt /> Delete</MDBBtn>
+                            <MDBBtn onClick={handleRemoveProfilePhoto} outline  color='secondary' size='sm' style={{fontSize:"11px", border: "1px solid", color:"red"}}><FaTrashAlt /> Delete</MDBBtn>
                         </div>
-                        <MDBBtn onClick={handleOpenEdit} size='sm' style={{fontSize:"11px"}}>Close</MDBBtn>
+                        <MDBBtn onClick={handleOpenEdit} outline size='sm' style={{fontSize:"11px",  border: "1px solid"}}>Close</MDBBtn>
                     </div>
                 </div>
             </div>
