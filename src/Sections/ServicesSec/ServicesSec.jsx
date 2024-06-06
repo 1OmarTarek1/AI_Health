@@ -166,7 +166,7 @@ const ServicesSec = () => {
             context.translate(translateX, translateY);
     
             context.rect(0, 0, w, h);
-            context.lineWidth = 3;
+            context.lineWidth = 7;
             context.strokeStyle = '#8b92ee';
             context.fillStyle = '#8b92ee';
             context.stroke();
@@ -203,7 +203,7 @@ const ServicesSec = () => {
                                         videoConstraints={videoConstraints}
                                         onUserMediaError={() => setError('Access Denied!')}
                                     />
-                                    <canvas ref={canvasRef} className="boundingBoxCanvas" />
+                                    {/* <canvas ref={canvasRef} className="boundingBoxCanvas img-fluid" /> */}
                                     {error && <div className='webcamErr'>
                                         <span>
                                             {error}

@@ -1,13 +1,13 @@
 .ServicesSec .takenPhotoWrapper{
+    position: relative;
     display: grid;
-    place-content: center;
     background-color: var(--color-components);
     margin-bottom: 10px;
     padding: 15px;
 }
 .webcamContainer {
     position: relative;
-    width: 350px;
+    width: 100%;
     height: auto;
     display: grid;
     place-content: center;
@@ -17,11 +17,11 @@
 
 .boundingBoxCanvas {
     position: absolute;
+    inset: 0;
     top: 0;
     left: 0;
     z-index: 1;
     pointer-events: none;
-    /* This ensures the canvas doesn't block any user interactions */
 }
 
 .webcam{
