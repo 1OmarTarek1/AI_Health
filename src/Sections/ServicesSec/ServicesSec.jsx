@@ -1,27 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import Webcam from 'react-webcam';
 import { SectionWrapper } from '../../Components';
-import { FaCamera, FaFireAlt, FaTrashAlt } from "react-icons/fa";
-import { FaDumbbell, FaRadiation, FaShieldHalved, FaVideo, FaVideoSlash, FaXmark, FaUpload  } from 'react-icons/fa6';
+import { FaCamera, FaVideo, FaVideoSlash, FaUpload } from 'react-icons/fa6';
 
 import './ServicesSec.css';
 import './Media.css';
 import './Webcam.css';
 
 const ServicesSec = () => {
-    const webcamRef = React.useRef(null);
-    const [imgSrc, setImgSrc] = useState(null);
+    const webcamRef = useRef(null);
+    const canvasRef = useRef(null);
     const [error, setError] = useState(null);
-    const [uploadedImg, setUploadedImg] = useState(null);
     const [isWebcamActive, setIsWebcamActive] = useState(false);
-    const [predictions, setPredictions] = useState(false);
+    const [predictions, setPredictions] = useState([]);
     const [foodName, setFoodName] = useState("...");
-    const [x, setX] = useState(0);
-    const [y, setY] = useState(0);
-    const [h, setH] = useState(0);
-    const [w, setW] = useState(0);
-
-
+    const [uploadedImage, setUploadedImage] = useState(null);
+    const [resultImage, setResultImage] = useState(null);
 
     // Define video constraints for the back camera
     const videoConstraints = {
@@ -30,102 +24,131 @@ const ServicesSec = () => {
         facingMode: "environment",
     };
 
-    const capture = React.useCallback(() => {
+    const predictImage = async (imageSrc) => {
+        const formData = new FormData();
+        const blob = await fetch(imageSrc).then((res) => res.blob());
+        formData.append('file', blob, 'image.png');
+
+        try {
+            const response = await fetch('http://127.0.0.1:5000/predict', {
+                method: 'POST',
+                body: formData
+            });
+            const data = await response.json();
+            setPredictions(data.predictions);
+            setFoodName(data.predictions[0].class);
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+
+    const captureAndPredict = useCallback(async () => {
         if (webcamRef.current) {
             const imageSrc = webcamRef.current.getScreenshot();
-            setImgSrc(imageSrc);
-            setUploadedImg(null); // Clear any existing uploaded image
-            setIsWebcamActive(false); // Turn off the webcam after capturing the photo
+            if (imageSrc) {
+                await predictImage(imageSrc);
+            }
         } else {
             setError('No webcam found.');
         }
+    }, [webcamRef]);
 
-
-    }, [webcamRef, setImgSrc, setIsWebcamActive]);
+    const handleImageUploadAndPredict = async (imageSrc) => {
+        setUploadedImage(imageSrc);
+        const img = new Image();
+        img.onload = () => {
+            const canvas = canvasRef.current;
+            if (canvas) {
+                canvas.width = img.width;
+                canvas.height = img.height;
+                const context = canvas.getContext('2d');
+                context.clearRect(0, 0, canvas.width, canvas.height);
+                context.drawImage(img, 0, 0, img.width, img.height);
+                drawBoxes(context); // Draw boxes after drawing the image
+                const resultImageURL = canvas.toDataURL('image/png');
+                setResultImage(resultImageURL);
+            }
+            predictImage(imageSrc);
+        };
+        img.src = imageSrc;
+    };
 
     const handleImageUpload = (event) => {
-        const file = event.target.files[0]; // Get the first file only
+        const file = event.target.files[0];
         if (file) {
             const reader = new FileReader();
             reader.onloadend = () => {
-                setUploadedImg(reader.result);
-                setImgSrc(null); // Clear any existing captured image
-            };
-            reader.onerror = () => {
-                setError('Failed to load the image.');
+                handleImageUploadAndPredict(reader.result);
             };
             reader.readAsDataURL(file);
-        } else {
-            setError('No file selected.');
         }
     };
+
+    useEffect(() => {
+        let intervalId;
+        if (isWebcamActive) {
+            intervalId = setInterval(captureAndPredict, 1000); // Capture every second
+        } else {
+            clearInterval(intervalId);
+        }
+        return () => clearInterval(intervalId);
+    }, [isWebcamActive, captureAndPredict]);
 
     const toggleWebcam = () => {
         setIsWebcamActive(!isWebcamActive);
     };
 
-
-    const updateImage = async () => {
-        let imageToUse = uploadedImg || imgSrc;
-    
-        if (!imageToUse) {
-            // Capture a new photo if neither uploadedImg nor imgSrc is available
-            capture();
-            return; // Exit the function and wait for the new photo to be captured
+    const drawBoundingBoxes = () => {
+        const canvas = canvasRef.current;
+        if (!canvas) {
+            return;
         }
-    
-        const formData = new FormData();
-    
-        // Convert the data URL to a Blob
-        const blob = await fetch(imageToUse).then((res) => res.blob());
-        formData.append('file', blob, 'image.png');
-    
-        // Log the FormData content
-        console.log('FormData Content:', formData.get('file'));
-    
-        try {
-            // Log the image before sending the request
-            // console.log('Image to Use:', imageToUse);
-    
-            const response = await fetch('http://localhost:5000/predict', {
-                method: 'POST',
-                body: formData
-            });
-            const data = await response.json();
-            console.log(data);
-            setX(data.predictions[0].x)
-            setY(data.predictions[0].y)
-            setH(data.predictions[0].h)
-            setW(data.predictions[0].w)
-            setFoodName(data.predictions[0].class)
-            // Handle the predictions received from Flask
-        } catch (error) {
-            console.error('Error:', error);
+        const context = canvas.getContext('2d');
+        const video = webcamRef.current && webcamRef.current.video;
+        const image = uploadedImage ? new Image() : null;
+
+        if (!context || (!video && !image)) {
+            return;
+        }
+
+        // Clear the canvas
+        context.clearRect(0, 0, canvas.width, canvas.height);
+
+        if (uploadedImage && image) {
+            image.onload = () => {
+                context.drawImage(image, 0, 0, canvas.width, canvas.height);
+                drawBoxes(context);
+                const resultImageURL = canvas.toDataURL('image/png');
+                setResultImage(resultImageURL);
+            };
+            image.src = uploadedImage;
+        } else if (video) {
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            drawBoxes(context);
+            const resultImageURL = canvas.toDataURL('image/png');
+            setResultImage(resultImageURL);
         }
     };
-    
-    
-    
 
-    
-    const dataURLtoFile = (dataurl, filename) => {
-        const arr = dataurl.split(',');
-        const mime = arr[0].match(/:(.*?);/)[1];
-        const bstr = atob(arr[1]);
-        let n = bstr.length;
-        const u8arr = new Uint8Array(n);
-        while (n--) {
-            u8arr[n] = bstr.charCodeAt(n);
-        }
-        return new File([u8arr], filename, { type: mime });
-    };
-    
+    const drawBoxes = (context) => {
+        predictions.forEach(prediction => {
+            const { x, y, w, h, class: className, confidence } = prediction;
 
-    const clearData = () => {
-        setImgSrc(null);
-        setUploadedImg(null);
-        setError(null);
+            // Draw bounding box
+            context.beginPath();
+            context.rect(x, y, w, h);
+            context.lineWidth = 3;
+            context.strokeStyle = '#8b92ee';
+            context.fillStyle = '#8b92ee';
+            context.stroke();
+            context.fillText(`${className} (${(confidence * 100).toFixed(2)}%)`, x, y - 5);
+        });
     };
+
+    useEffect(() => {
+        drawBoundingBoxes();
+    }, [predictions, uploadedImage]);
 
     return (
         <>
@@ -145,118 +168,61 @@ const ServicesSec = () => {
                                         videoConstraints={videoConstraints}
                                         onUserMediaError={() => setError('Access Denied!')}
                                     />
+                                    <canvas ref={canvasRef} className="boundingBoxCanvas" />
                                     {error && <div className='webcamErr'>
                                         <span>
                                             {error}
                                         </span>
                                         <FaVideoSlash />
                                     </div>}
-                                    <button className='screenBtn' onClick={capture}>
-                                        <FaCamera />
-                                    </button>
                                 </div>
                             </>
                         )}
                         <div className="WebBtnContainer">
-                            <button onClick={updateImage}>Update</button>
                             <button className='mainWebcamBtn' onClick={toggleWebcam}>
-                                { isWebcamActive ? <FaVideoSlash />  : <FaVideo /> }
+                                {isWebcamActive ? <FaVideoSlash /> : <FaVideo />}
                                 <span>WebCam</span>
                             </button>
 
-                            <input 
-                            className='upload' 
-                            id='file-input' 
-                            type="file" 
-                            accept="image/*" 
-                            onChange={handleImageUpload} 
+                            <input
+                                className='upload'
+                                id='file-input'
+                                type="file"
+                                accept="image/*"
+                                onChange={handleImageUpload}
                             />
-                            <label id="uploadLabel" htmlFor="file-input">
-                                <FaCamera /> | <FaUpload />    
-                            </label>
 
-                            {(imgSrc || uploadedImg) && (
-                                <button className="clearBtn" onClick={clearData} style={{width:"fit-content", height:"30.8px"}}>
-                                    <FaTrashAlt />
-                                </button>
-                            )}
+                            <label id="uploadLabel" htmlFor="file-input">
+                                <FaCamera /> | <FaUpload />
+                            </label>
                         </div>
                     </div>
                     <div className="infoContainer">
                         <div className="partOneWrapper">
                             <div className="imgInfoWrapper">
-                                {imgSrc && (
-                                    <img
-                                    className='webcamImg mainImg'
-                                    src={imgSrc}
-                                    alt="Captured"
-                                    width={200}
-                                    onError={() => setError('Failed to load the captured image.')}
-                                    />
-                                )}
-                                {uploadedImg && (
-                                    <img
-                                    className='uploadedImg mainImg'
-                                    src={uploadedImg}
-                                    alt="Uploaded"
-                                    width={100}
-                                    onError={() => setError('Failed to load the uploaded image.')}
-                                    />
-                                )}
+                            {uploadedImage && (
+                                <>
+                                    {resultImage ? 
+                                        <img src={resultImage} alt="Result" className="resultImage" />
+                                        :
+                                        <img src={uploadedImage} alt="Uploaded" className="uploadedImage" />
+                                    }
+                                    <canvas ref={canvasRef} className="boundingBoxCanvas" style={{ display: 'none' }} />
+                                </>
+                            )}
                             </div>
                             <div className="textWrapper">
                                 <div className="foodName">
                                     {foodName}
                                 </div>
                                 <div className="foodDis">
-                                    Smokey bacon, pieces of chicken, 
+                                    Smokey bacon, pieces of chicken,
                                     gooey melty cheese,
-                                    and creamy ranch were the perfect 
+                                    and creamy ranch were the perfect
                                     combo to pile on a chewy crust!
                                 </div>
                             </div>
                         </div>
-
-                        <ul className="foodDetails">
-                            <li className="detailItem">
-                                {/* <div className="miniTitle">
-                                    <FaFireAlt style={{color:"Red"}} />
-                                    <span>Calories</span>
-                                </div> */}
-                                <div className="titleInfo">
-                                    X: {x}
-                                </div>
-                            </li>
-                            <li className="detailItem">
-                                {/* <div className="miniTitle">
-                                    <FaDumbbell style={{color:"silver"}} />
-                                    <span>Protein</span>
-                                </div> */}
-                                <div className="titleInfo">
-                                    Y: {x}
-                                </div>
-                            </li>
-                            <li className="detailItem">
-                                {/* <div className="miniTitle">
-                                    <FaRadiation style={{color:"yellow"}} /> 
-                                    <span>Fats</span>
-                                </div> */}
-                                <div className="titleInfo">
-                                    H: {h}
-                                </div>
-                            </li>
-                            <li className="detailItem">
-                                {/* <div className="miniTitle">
-                                    <FaShieldHalved style={{color:"lightGreen"}}/>
-                                    <span>Healthy</span>
-                                </div> */}
-                                <div className="titleInfo">
-                                    {/* <FaXmark style={{color:"red"}}/> */}
-                                    W: {w}
-                                </div>
-                            </li>
-                        </ul>
-
                     </div>
                 </SectionWrapper>
             </div>
@@ -265,6 +231,3 @@ const ServicesSec = () => {
 }
 
 export default ServicesSec;
-
-
-
