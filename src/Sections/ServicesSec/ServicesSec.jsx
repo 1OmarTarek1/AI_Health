@@ -131,20 +131,34 @@ const ServicesSec = () => {
         }
     };
 
+
     const drawBoxes = (context) => {
         predictions.forEach(prediction => {
             const { x, y, w, h, class: className, confidence } = prediction;
-
+    
             // Draw bounding box
             context.beginPath();
-            context.rect(x, y, w, h);
+    
+            // Translate the context
+            const translateX = x - 0.5 * w;
+            const translateY = y - 0.5 * h;
+            context.translate(translateX, translateY);
+    
+            context.rect(0, 0, w, h);
             context.lineWidth = 3;
             context.strokeStyle = '#8b92ee';
             context.fillStyle = '#8b92ee';
             context.stroke();
-            context.fillText(`${className} (${(confidence * 100).toFixed(2)}%)`, x, y - 5);
+             // Set font size
+            context.font = '20px Arial';
+            context.fillText(`${className} (${(confidence * 100).toFixed(2)}%)`, 0, -5);
+    
+            // Reset the transformation
+            context.setTransform(1, 0, 0, 1, 0, 0);
         });
-    };
+    }; 
+    
+    
 
     useEffect(() => {
         drawBoundingBoxes();
