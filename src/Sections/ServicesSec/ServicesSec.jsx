@@ -45,7 +45,7 @@ const ServicesSec = () => {
             setFoodName(foodClassName); // Set the food name (class) in the state
     
             // Make a request to your API with Axios
-            axios.get(`http://127.0.0.1:8000/getfit/GetFoodView/${foodClassName}/`)
+            axios.get(`http://127.0.0.1:8000/getfit/get-food-by-name/${foodClassName}/`)
                 .then(response => {
                     // Handle API response data
                     console.log(response.data);
