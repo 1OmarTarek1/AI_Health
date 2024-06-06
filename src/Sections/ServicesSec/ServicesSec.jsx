@@ -41,7 +41,7 @@ const ServicesSec = () => {
 
             // Make a request to your API with Axios for each prediction
             predictions.forEach(prediction => {
-                axios.get(`http://127.0.0.1:8000/getfit/get-food-by-name/${prediction.class}/`)
+                axios.get(`http://127.0.0.1:8000/getfit/get-recipe-by-name/${prediction.class}/`)
                     .then(response => {
                         // Handle API response data
                         console.log(response.data);
