@@ -132,7 +132,7 @@ const ProfileHeader = ({ profilePictureUrl, setProfilePictureUrl }) => {
         setIsEditInfoVisible(false);
         setErrorMessage('');
         try {
-            const response = await axios.post(`http://127.0.0.1:8000/getfit/CalculateCalories/`, {
+            const response = await axios.post(`http://127.0.0.1:8000/getfit/calculate-calories/`, {
                 gender: formGender,
                 activity: formActivity,
                 weight: formWeight,
@@ -153,7 +153,7 @@ const ProfileHeader = ({ profilePictureUrl, setProfilePictureUrl }) => {
         const fetchData = async () => {
             const userID = localStorage.getItem('userID');
             try {
-                const response = await axios.get(`http://127.0.0.1:8000/getfit/GetUserInfo/${userID}/`);
+                const response = await axios.get(`http://127.0.0.1:8000/getfit/get-user-info/${userID}/`);
                 const data = response.data;
                 setFormGender(data.gender);
                 setFormActivity(data.activity);

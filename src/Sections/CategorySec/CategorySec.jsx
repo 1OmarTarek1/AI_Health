@@ -42,7 +42,7 @@ const CategorySec = ({ setFavorites, likedCategories, setLikedCategories }) => {
 
     
     useEffect(() => {
-        axios.get('http://127.0.0.1:8000/getfit/get-foods/')
+        axios.get('http://127.0.0.1:8000/getfit/get-recipes/')
             .then(response => {
                 const fetchedCategories = response.data;
                 setCategories(fetchedCategories);

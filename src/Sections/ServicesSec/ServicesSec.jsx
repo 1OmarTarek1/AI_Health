@@ -3,7 +3,7 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import Webcam from 'react-webcam';
 import { SectionWrapper } from '../../Components';
 import { FaCamera, FaVideo, FaVideoSlash, FaUpload, FaShieldHalved } from 'react-icons/fa6';
-import { FaFireAlt, FaDumbbell, FaRadiation  } from 'react-icons/fa';
+import { FaFireAlt, FaDumbbell, FaRadiation } from 'react-icons/fa';
 
 import './ServicesSec.css';
 import './Media.css';
@@ -15,13 +15,10 @@ const ServicesSec = () => {
     const [error, setError] = useState(null);
     const [isWebcamActive, setIsWebcamActive] = useState(false);
     const [predictions, setPredictions] = useState([]);
-    const [foodName, setFoodName] = useState("...");
     const [uploadedImage, setUploadedImage] = useState(null);
     const [resultImage, setResultImage] = useState(null);
     const [foodData, setFoodData] = useState({});
 
-
-    // Define video constraints for the back camera
     const videoConstraints = {
         width: 1280,
         height: 720,
@@ -32,7 +29,7 @@ const ServicesSec = () => {
         const formData = new FormData();
         const blob = await fetch(imageSrc).then((res) => res.blob());
         formData.append('file', blob, 'image.png');
-    
+
         try {
             const response = await fetch('http://127.0.0.1:5000/predict', {
                 method: 'POST',
@@ -41,27 +38,27 @@ const ServicesSec = () => {
             const data = await response.json();
             const { predictions } = data;
             setPredictions(predictions);
-            const foodClassName = predictions[0].class; // Get the class from predictions
-            setFoodName(foodClassName); // Set the food name (class) in the state
-    
-            // Make a request to your API with Axios
-            axios.get(`http://127.0.0.1:8000/getfit/get-food-by-name/${foodClassName}/`)
-                .then(response => {
-                    // Handle API response data
-                    console.log(response.data);
-                    // Update state with the received food data
-                    setFoodData(response.data);
-                })
-                .catch(error => {
-                    console.error('Error fetching food data:', error);
-                });
+
+            // Make a request to your API with Axios for each prediction
+            predictions.forEach(prediction => {
+                axios.get(`http://127.0.0.1:8000/getfit/get-food-by-name/${prediction.class}/`)
+                    .then(response => {
+                        // Handle API response data
+                        console.log(response.data);
+                        // Update state with the received food data
+                        setFoodData(prevData => ({
+                            ...prevData,
+                            [prediction.class]: response.data
+                        }));
+                    })
+                    .catch(error => {
+                        console.error('Error fetching food data:', error);
+                    });
+            });
         } catch (error) {
             console.error('Error:', error);
         }
     };
-    
-    
-    
 
     const captureAndPredict = useCallback(async () => {
         if (webcamRef.current) {
@@ -85,7 +82,7 @@ const ServicesSec = () => {
                 const context = canvas.getContext('2d');
                 context.clearRect(0, 0, canvas.width, canvas.height);
                 context.drawImage(img, 0, 0, img.width, img.height);
-                drawBoxes(context); // Draw boxes after drawing the image
+                drawBoxes(context);
                 const resultImageURL = canvas.toDataURL('image/png');
                 setResultImage(resultImageURL);
             }
@@ -108,7 +105,7 @@ const ServicesSec = () => {
     useEffect(() => {
         let intervalId;
         if (isWebcamActive) {
-            intervalId = setInterval(captureAndPredict, 1000); // Capture every second
+            intervalId = setInterval(captureAndPredict, 1000);
         } else {
             clearInterval(intervalId);
         }
@@ -132,7 +129,6 @@ const ServicesSec = () => {
             return;
         }
 
-        // Clear the canvas
         context.clearRect(0, 0, canvas.width, canvas.height);
 
         if (uploadedImage && image) {
@@ -152,92 +148,80 @@ const ServicesSec = () => {
         }
     };
 
-
     const drawBoxes = (context) => {
         predictions.forEach(prediction => {
             const { x, y, w, h, class: className, confidence } = prediction;
-    
-            // Draw bounding box
+
             context.beginPath();
-    
-            // Translate the context
+
             const translateX = x - 0.5 * w;
             const translateY = y - 0.5 * h;
             context.translate(translateX, translateY);
-    
+
             context.rect(0, 0, w, h);
             context.lineWidth = 7;
             context.strokeStyle = '#8b92ee';
             context.fillStyle = '#8b92ee';
             context.stroke();
-             // Set font size
             context.font = '20px Arial';
             context.fillText(`${className} (${(confidence * 100).toFixed(2)}%)`, 0, -5);
-    
-            // Reset the transformation
+
             context.setTransform(1, 0, 0, 1, 0, 0);
         });
-    }; 
-    
-    
+    };
 
     useEffect(() => {
         drawBoundingBoxes();
     }, [predictions, uploadedImage]);
 
     return (
-        <>
-            <div className="ServicesSec" id='Services'>
-                <SectionWrapper>
-                    <div className="takenPhotoWrapper">
-                        {isWebcamActive && (
-                            <>
-                                <div className="webcamContainer">
-                                    <Webcam
-                                        className='webcam'
-                                        audio={false}
-                                        height={videoConstraints.height}
-                                        ref={webcamRef}
-                                        screenshotFormat="image/jpeg"
-                                        width={videoConstraints.width}
-                                        videoConstraints={videoConstraints}
-                                        onUserMediaError={() => setError('Access Denied!')}
-                                    />
-                                    {/* <canvas ref={canvasRef} className="boundingBoxCanvas img-fluid" /> */}
-                                    {error && <div className='webcamErr'>
-                                        <span>
-                                            {error}
-                                        </span>
-                                        <FaVideoSlash />
-                                    </div>}
-                                </div>
-                            </>
-                        )}
-                        <div className="WebBtnContainer">
-                            <button className='mainWebcamBtn' onClick={toggleWebcam}>
-                                {isWebcamActive ? <FaVideoSlash /> : <FaVideo />}
-                                <span>WebCam</span>
-                            </button>
-
-                            <input
-                                className='upload'
-                                id='file-input'
-                                type="file"
-                                accept="image/*"
-                                onChange={handleImageUpload}
+        <div className="ServicesSec" id='Services'>
+            <SectionWrapper>
+                <div className="takenPhotoWrapper">
+                    {isWebcamActive && (
+                        <div className="webcamContainer">
+                            <Webcam
+                                className='webcam'
+                                audio={false}
+                                height={videoConstraints.height}
+                                ref={webcamRef}
+                                screenshotFormat="image/jpeg"
+                                width={videoConstraints.width}
+                                videoConstraints={videoConstraints}
+                                onUserMediaError={() => setError('Access Denied!')}
                             />
-
-                            <label id="uploadLabel" htmlFor="file-input">
-                                <FaCamera /> | <FaUpload />
-                            </label>
+                            <canvas ref={canvasRef} className="boundingBoxCanvas img-fluid" />
+                            {error && <div className='webcamErr'>
+                                <span>{error}</span>
+                                <FaVideoSlash />
+                            </div>}
                         </div>
+                    )}
+                    <div className="WebBtnContainer">
+                        <button className='mainWebcamBtn' onClick={toggleWebcam}>
+                            {isWebcamActive ? <FaVideoSlash /> : <FaVideo />}
+                            <span>WebCam</span>
+                        </button>
+
+                        <input
+                            className='upload'
+                            id='file-input'
+                            type="file"
+                            accept="image/*"
+                            onChange={handleImageUpload}
+                        />
+
+                        <label id="uploadLabel" htmlFor="file-input">
+                            <FaCamera /> | <FaUpload />
+                        </label>
                     </div>
-                    <div className="infoContainer">
-                        <div className="partOneWrapper">
-                            <div className="imgInfoWrapper">
+                </div>
+                <div className="infoContainer">
+                    <div className="partOneWrapper">
+                        <div className="imgInfoWrapper">
                             {uploadedImage && (
                                 <>
-                                    {resultImage ? 
+                                    {resultImage ?
                                         <img src={resultImage} alt="Result" className="resultImage" />
                                         :
                                         <img src={uploadedImage} alt="Uploaded" className="uploadedImage" />
@@ -245,25 +229,29 @@ const ServicesSec = () => {
                                     <canvas ref={canvasRef} className="boundingBoxCanvas" style={{ display: 'none' }} />
                                 </>
                             )}
-                            </div>
-                            <div className="textWrapper">
-                                <div className="foodName">
-                                    {foodData.FoodName}
-                                </div>
-                                <div className="foodDis">
-                                    {foodData.TheDescription}
-                                </div>
-                                
-                            </div>
                         </div>
-                        <ul className="foodDetails">
+                        <div className="textWrapper">
+                            {predictions.map((prediction, index) => (
+                                <div key={index} className="predictionItem">
+                                    <div className="foodName">
+                                        {foodData[prediction.class]?.FoodName || prediction.class}
+                                    </div>
+                                    <div className="foodDis">
+                                        {foodData[prediction.class]?.TheDescription}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                    {predictions.map((prediction, index) => (
+                        <ul key={index} className="foodDetails">
                             <li className="detailItem">
                                 <div className="miniTitle">
                                     <FaFireAlt style={{color:"Red"}} />
                                     <span>Calories</span>
                                 </div>
                                 <div className="titleInfo">
-                                    {foodData.Calories}
+                                    {foodData[prediction.class]?.Calories}
                                 </div>
                             </li>
                             <li className="detailItem">
@@ -272,7 +260,7 @@ const ServicesSec = () => {
                                     <span>Protein</span>
                                 </div>
                                 <div className="titleInfo">
-                                    {foodData.Protein}
+                                    {foodData[prediction.class]?.Protein}
                                 </div>
                             </li>
                             <li className="detailItem">
@@ -281,7 +269,7 @@ const ServicesSec = () => {
                                     <span>Fats</span>
                                 </div>
                                 <div className="titleInfo">
-                                    {foodData.Fats}
+                                    {foodData[prediction.class]?.Fats}
                                 </div>
                             </li>
                             <li className="detailItem">
@@ -290,7 +278,7 @@ const ServicesSec = () => {
                                     <span>Carbs</span>
                                 </div>
                                 <div className="titleInfo">
-                                    {foodData.Carbs}
+                                    {foodData[prediction.class]?.Carbs}
                                 </div>
                             </li>
                             <li className="detailItem">
@@ -298,15 +286,16 @@ const ServicesSec = () => {
                                     <span>Link</span>
                                 </div>
                                 <div className="titleInfo">
-                                    <a href={foodData.YoutubeLink}>Watch video</a>
+                                    <a href={foodData[prediction.class]?.YoutubeLink}>Watch video</a>
                                 </div>
                             </li>
                         </ul>
-                    </div>
-                </SectionWrapper>
-            </div>
-        </>
+                    ))}
+                </div>
+            </SectionWrapper>
+        </div>
     );
 }
 
 export default ServicesSec;
+
