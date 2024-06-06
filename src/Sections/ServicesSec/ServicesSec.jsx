@@ -1,7 +1,9 @@
+import axios from 'axios';
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import Webcam from 'react-webcam';
 import { SectionWrapper } from '../../Components';
-import { FaCamera, FaVideo, FaVideoSlash, FaUpload } from 'react-icons/fa6';
+import { FaCamera, FaVideo, FaVideoSlash, FaUpload, FaShieldHalved } from 'react-icons/fa6';
+import { FaFireAlt, FaDumbbell, FaRadiation  } from 'react-icons/fa';
 
 import './ServicesSec.css';
 import './Media.css';
@@ -16,6 +18,8 @@ const ServicesSec = () => {
     const [foodName, setFoodName] = useState("...");
     const [uploadedImage, setUploadedImage] = useState(null);
     const [resultImage, setResultImage] = useState(null);
+    const [foodData, setFoodData] = useState({});
+
 
     // Define video constraints for the back camera
     const videoConstraints = {
@@ -28,19 +32,36 @@ const ServicesSec = () => {
         const formData = new FormData();
         const blob = await fetch(imageSrc).then((res) => res.blob());
         formData.append('file', blob, 'image.png');
-
+    
         try {
             const response = await fetch('http://127.0.0.1:5000/predict', {
                 method: 'POST',
                 body: formData
             });
             const data = await response.json();
-            setPredictions(data.predictions);
-            setFoodName(data.predictions[0].class);
+            const { predictions } = data;
+            setPredictions(predictions);
+            const foodClassName = predictions[0].class; // Get the class from predictions
+            setFoodName(foodClassName); // Set the food name (class) in the state
+    
+            // Make a request to your API with Axios
+            axios.get(`http://127.0.0.1:8000/getfit/GetFoodView/${foodClassName}/`)
+                .then(response => {
+                    // Handle API response data
+                    console.log(response.data);
+                    // Update state with the received food data
+                    setFoodData(response.data);
+                })
+                .catch(error => {
+                    console.error('Error fetching food data:', error);
+                });
         } catch (error) {
             console.error('Error:', error);
         }
     };
+    
+    
+    
 
     const captureAndPredict = useCallback(async () => {
         if (webcamRef.current) {
@@ -227,16 +248,60 @@ const ServicesSec = () => {
                             </div>
                             <div className="textWrapper">
                                 <div className="foodName">
-                                    {foodName}
+                                    {foodData.FoodName}
                                 </div>
                                 <div className="foodDis">
-                                    Smokey bacon, pieces of chicken,
-                                    gooey melty cheese,
-                                    and creamy ranch were the perfect
-                                    combo to pile on a chewy crust!
+                                    {foodData.TheDescription}
                                 </div>
+                                
                             </div>
                         </div>
+                        <ul className="foodDetails">
+                            <li className="detailItem">
+                                <div className="miniTitle">
+                                    <FaFireAlt style={{color:"Red"}} />
+                                    <span>Calories</span>
+                                </div>
+                                <div className="titleInfo">
+                                    {foodData.Calories}
+                                </div>
+                            </li>
+                            <li className="detailItem">
+                                <div className="miniTitle">
+                                    <FaDumbbell style={{color:"silver"}} />
+                                    <span>Protein</span>
+                                </div>
+                                <div className="titleInfo">
+                                    {foodData.Protein}
+                                </div>
+                            </li>
+                            <li className="detailItem">
+                                <div className="miniTitle">
+                                    <FaRadiation style={{color:"yellow"}} /> 
+                                    <span>Fats</span>
+                                </div>
+                                <div className="titleInfo">
+                                    {foodData.Fats}
+                                </div>
+                            </li>
+                            <li className="detailItem">
+                                <div className="miniTitle">
+                                    <FaShieldHalved style={{color:"lightGreen"}}/>
+                                    <span>Carbs</span>
+                                </div>
+                                <div className="titleInfo">
+                                    {foodData.Carbs}
+                                </div>
+                            </li>
+                            <li className="detailItem">
+                                <div className="miniTitle">
+                                    <span>Link</span>
+                                </div>
+                                <div className="titleInfo">
+                                    <a href={foodData.YoutubeLink}>Watch video</a>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
                 </SectionWrapper>
             </div>
