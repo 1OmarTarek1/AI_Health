@@ -9,7 +9,7 @@ import { FaEdit } from 'react-icons/fa'
 const ProfileImage = ({ handleProfileClick, profilePictureUrl, defaultProfilePicture, handleOpenEdit }) => {
     return (
         <>
-            <div className="profilePhotoWrapper">
+            <div className="profilePhotoWrapper" data-aos="zoom-out">
                 <div className="profile-picture" onClick={handleProfileClick}>
                     <img 
                         src={ profilePictureUrl || defaultProfilePicture } 

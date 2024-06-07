@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { Home, ServicesPage, Category, Contact, Profile, Login, NotPage } from './Pages';
 import { Footer, WebNav } from './Sections';
 import { ReloadEffect, ToTopReload, ToTopBtn, DTitle } from './Components';
+import AOS from 'aos'; // Import AOS
 import defImg from './Assets/Images/no_user.png'
 import './App.css';
 
@@ -12,6 +13,12 @@ const App = () => {
     const [favorites, setFavorites] = useState([]);
     const [likedCategories, setLikedCategories] = useState({});
 
+
+    useEffect(() => {
+        AOS.init({
+            duration: 1200, // Set animation duration
+        });
+    }, []);
 
     useEffect(() => {
         // Check local storage for authentication status and profile picture URL

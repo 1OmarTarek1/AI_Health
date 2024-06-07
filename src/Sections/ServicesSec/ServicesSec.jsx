@@ -176,6 +176,24 @@ const ServicesSec = () => {
 
     return (
         <div className="ServicesSec" id='Services'>
+            <div className="WebBtnContainer">
+                <button className='mainWebcamBtn' onClick={toggleWebcam}>
+                    {isWebcamActive ? <FaVideoSlash /> : <FaVideo />}
+                    <span>WebCam</span>
+                </button>
+
+                <input
+                    className='upload'
+                    id='file-input'
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                />
+
+                <label id="uploadLabel" htmlFor="file-input">
+                    <FaCamera /> | <FaUpload />
+                </label>
+            </div>
             <SectionWrapper>
                 <div className="takenPhotoWrapper">
                     {isWebcamActive && (
@@ -197,24 +215,6 @@ const ServicesSec = () => {
                             </div>}
                         </div>
                     )}
-                    <div className="WebBtnContainer">
-                        <button className='mainWebcamBtn' onClick={toggleWebcam}>
-                            {isWebcamActive ? <FaVideoSlash /> : <FaVideo />}
-                            <span>WebCam</span>
-                        </button>
-
-                        <input
-                            className='upload'
-                            id='file-input'
-                            type="file"
-                            accept="image/*"
-                            onChange={handleImageUpload}
-                        />
-
-                        <label id="uploadLabel" htmlFor="file-input">
-                            <FaCamera /> | <FaUpload />
-                        </label>
-                    </div>
                 </div>
                 <div className="infoContainer">
                     <div className="partOneWrapper">
@@ -230,67 +230,79 @@ const ServicesSec = () => {
                                 </>
                             )}
                         </div>
-                        <div className="textWrapper">
+                        <div className="textContainer">
                             {predictions.map((prediction, index) => (
-                                <div key={index} className="predictionItem">
-                                    <div className="foodName">
-                                        {foodData[prediction.class]?.FoodName || prediction.class}
+                                    <div className="aiCard" key={index}>
+                                        {/* this make problem with line */}
+                                        {/* <div className="imgInfoWrapper">
+                                            {uploadedImage && (
+                                                <>
+                                                    {resultImage ?
+                                                        <img src={resultImage} alt="Result" className="resultImage" />
+                                                        :
+                                                        <img src={uploadedImage} alt="Uploaded" className="uploadedImage" />
+                                                    }
+                                                    <canvas ref={canvasRef} className="boundingBoxCanvas" style={{ display: 'none' }} />
+                                                </>
+                                            )}
+                                        </div> */} 
+                                        <div className="textWrapper">
+                                            <div className="predictionItem">
+                                                <div className="foodName">
+                                                    {foodData[prediction.class]?.FoodName || prediction.class}
+                                                </div>
+                                                <div className="foodDis">
+                                                    {foodData[prediction.class]?.TheDescription}
+                                                </div>
+                                            </div>
+                                            <ul className="foodDetails">
+                                                <li className="detailItem">
+                                                    <div className="miniTitle">
+                                                        <span>Calories</span>
+                                                    </div>
+                                                    <div className="titleInfo">
+                                                        {foodData[prediction.class]?.Calories}cal
+                                                    </div>
+                                                </li>
+                                                <li className="detailItem">
+                                                    <div className="miniTitle">
+                                                        <span>Protein</span>
+                                                    </div>
+                                                    <div className="titleInfo">
+                                                        {foodData[prediction.class]?.Protein}gm
+                                                    </div>
+                                                </li>
+                                                <li className="detailItem">
+                                                    <div className="miniTitle">
+                                                        <span>Fats</span>
+                                                    </div>
+                                                    <div className="titleInfo">
+                                                        {foodData[prediction.class]?.Fats}fts
+                                                    </div>
+                                                </li>
+                                                <li className="detailItem">
+                                                    <div className="miniTitle">
+                                                        <span>Carbs</span>
+                                                    </div>
+                                                    <div className="titleInfo">
+                                                        {foodData[prediction.class]?.Carbs}gm
+                                                    </div>
+                                                </li>
+                                                {/* <li className="detailItem">
+                                                    <div className="miniTitle">
+                                                        <span>Link</span>
+                                                    </div>
+                                                    <div className="titleInfo">
+                                                        <a href={foodData[prediction.class]?.YoutubeLink}>Watch video</a>
+                                                    </div>
+                                                </li> */}
+                                            </ul>
+                                        </div>
                                     </div>
-                                    <div className="foodDis">
-                                        {foodData[prediction.class]?.TheDescription}
-                                    </div>
-                                </div>
                             ))}
                         </div>
+
                     </div>
-                    {predictions.map((prediction, index) => (
-                        <ul key={index} className="foodDetails">
-                            <li className="detailItem">
-                                <div className="miniTitle">
-                                    <FaFireAlt style={{color:"Red"}} />
-                                    <span>Calories</span>
-                                </div>
-                                <div className="titleInfo">
-                                    {foodData[prediction.class]?.Calories}
-                                </div>
-                            </li>
-                            <li className="detailItem">
-                                <div className="miniTitle">
-                                    <FaDumbbell style={{color:"silver"}} />
-                                    <span>Protein</span>
-                                </div>
-                                <div className="titleInfo">
-                                    {foodData[prediction.class]?.Protein}
-                                </div>
-                            </li>
-                            <li className="detailItem">
-                                <div className="miniTitle">
-                                    <FaRadiation style={{color:"yellow"}} /> 
-                                    <span>Fats</span>
-                                </div>
-                                <div className="titleInfo">
-                                    {foodData[prediction.class]?.Fats}
-                                </div>
-                            </li>
-                            <li className="detailItem">
-                                <div className="miniTitle">
-                                    <FaShieldHalved style={{color:"lightGreen"}}/>
-                                    <span>Carbs</span>
-                                </div>
-                                <div className="titleInfo">
-                                    {foodData[prediction.class]?.Carbs}
-                                </div>
-                            </li>
-                            <li className="detailItem">
-                                <div className="miniTitle">
-                                    <span>Link</span>
-                                </div>
-                                <div className="titleInfo">
-                                    <a href={foodData[prediction.class]?.YoutubeLink}>Watch video</a>
-                                </div>
-                            </li>
-                        </ul>
-                    ))}
                 </div>
             </SectionWrapper>
         </div>
@@ -298,4 +310,8 @@ const ServicesSec = () => {
 }
 
 export default ServicesSec;
+
+
+
+
 

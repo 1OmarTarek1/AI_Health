@@ -32,7 +32,7 @@ const CategoryCard = ({
     };
 
     return (
-        <div className="CategoryCard">
+        <div className="CategoryCard" data-aos="flip-right">
             <div className="cardHeader">
                 <div className="cardImgWrapper">
                     <img src={imageUrl || defImg} alt={title} className="cardImg" loading="lazy" />

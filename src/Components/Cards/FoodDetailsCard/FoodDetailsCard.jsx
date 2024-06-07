@@ -18,7 +18,7 @@ const FoodDetailsCard = ({ food, onClose }) => {
     }, [food]);
 
     return (
-        <div className="food-details-overlay DetailsParent" onClick={onClose}>
+        <div className="food-details-overlay DetailsParent" onClick={onClose} data-aos="zoom-out">
             <MDBCard className='FoodDetailsCard' onClick={e => e.stopPropagation()}>
                 <div style={{position:"relative" ,maxHeight:"400px", overflow:"hidden"}}>
                     <MDBCardImage src={ food.LinkDrive  || defImg } position='top' alt={food.FoodName} />

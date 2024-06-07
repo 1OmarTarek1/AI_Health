@@ -16,7 +16,6 @@
     flex-direction: column;
     align-items: center;
     gap: 10px;
-    padding-right: 15px;
 }
 .ServicesSec .imgInfoWrapper{
     width: 60%;
@@ -26,25 +25,38 @@
     align-items: center;
     border: 5px solid var(--color-components);
     background-color: var(--color-components);
-    overflow: hidden;
 }
 .ServicesSec .mainImg{
     width: auto;
     height: 145px;
 }
+.textContainer{
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+}
 .ServicesSec .textWrapper{
     display: flex;
+    flex-direction: column;
+    padding-inline: 20px;
+    padding-top: 10px;
 }
 .ServicesSec .foodName{
     font-weight: 500;
+    font-size: 20px;
 }
 .ServicesSec .resultImage{
     width: 100%;
     height: auto;
 }
 .ServicesSec .foodDis{
+    height: 125px;
+    overflow-y: scroll;
+    margin-block: 10px;
+    border-block: 1px solid #ffffff25;
+    padding-block: 10px;
+    padding-right: 5px;
     font-size: 14px;
-    max-width: 210px;
     color: #ffffffa2;
     font-weight: 300;
 }
@@ -85,26 +97,48 @@
     justify-content: space-between;
 }
 .ServicesSec .detailItem{
-    /* width: 100px; */
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 10px;
 }
 .ServicesSec .detailItem .miniTitle{
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 5px;
+    font-size: 15px;
 }
 .ServicesSec .detailItem .titleInfo{
     font-weight: 300;
     font-size: 14px;
-    color: #ffffffa2;
+    color: var(--color-primary);
 }
 
 .imgInfoWrapper img{
     width: 100%;
     height: auto;
+}
+
+
+
+.aiCard{
+    flex: 1 32%;
+    display: flex;
+    flex-direction: column;
+    min-width: 280px;
+    /* max-width: 400px; */
+    background-color: var(--color-components);
+    padding: 10px;
+    overflow: hidden;
+}
+.ServicesSec .aiCard .imgInfoWrapper{
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 5px solid var(--color-components);
+    background-color: var(--color-components);
+    overflow: hidden;
 }

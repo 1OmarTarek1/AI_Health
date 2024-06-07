@@ -10,13 +10,13 @@ const HomeSec = () => {
             <div className="homeSec" id='Home'>
                 <div className="effect">
                     <div className="homeContent">
-                        <div className="homeTitle">
-                            AI HEALTH
+                        <div className="homeTitle" data-aos="zoom-out">
+                            GET FIT
                         </div>
-                        <div className="dis">
-                            Lorem ipsum dolor sit amet consectetur.
+                        <div className="dis" data-aos="zoom-out">
+                        For a healthier tomorrow, start today. Welcome to GET FIT, where every choice fuels your journey to wellness.
                         </div>
-                        <NavLink to="/ServicesPage" className="homeBtn">
+                        <NavLink to="/ServicesPage" className="homeBtn" data-aos="zoom-out">
                             <span>Start</span>
                         </NavLink>
                     </div>

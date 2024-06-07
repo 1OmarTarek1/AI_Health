@@ -1,0 +1,19 @@
+.serTitle{
+    position: absolute;
+    color: #fff;
+    z-index: 100;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 4rem;
+    letter-spacing: 1rem;
+}
+
+
+
+@media screen and (max-width: 768px) {
+    .serTitle{
+        font-size: 2rem;
+        letter-spacing: 1rem;
+    }
+}

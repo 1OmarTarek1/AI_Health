@@ -9,13 +9,11 @@ const CategorySec = ({ setFavorites, likedCategories, setLikedCategories }) => {
     const [searchQuery, setSearchQuery] = useState('');
     const [filteredCategories, setFilteredCategories] = useState([]);
     const [selectedFood, setSelectedFood] = useState(null);
-    
-
+    const [loading, setLoading] = useState(true); // New loading state
 
     useEffect(() => {
         const userId = localStorage.getItem('userID');
         
-        // Load liked states from localStorage
         const savedLikedCategories = JSON.parse(localStorage.getItem('likedCategories')) || {};
         setLikedCategories(savedLikedCategories);
 
@@ -24,11 +22,10 @@ const CategorySec = ({ setFavorites, likedCategories, setLikedCategories }) => {
                 const fetchedFavorites = response.data;
                 setFavorites(fetchedFavorites);
 
-                // Initialize liked states based on the fetched favorites
                 const initialLikedStates = { ...savedLikedCategories };
                 fetchedFavorites.forEach(food => {
                     if (initialLikedStates[food.id] === undefined) {
-                        initialLikedStates[food.id] = true; // assuming fetched favorites are liked
+                        initialLikedStates[food.id] = true;
                     }
                 });
                 setLikedCategories(initialLikedStates);
@@ -39,22 +36,20 @@ const CategorySec = ({ setFavorites, likedCategories, setLikedCategories }) => {
             });
     }, [setFavorites, setLikedCategories]);
 
-
-    
     useEffect(() => {
+        setLoading(true); // Set loading to true before fetching
         axios.get('http://127.0.0.1:8000/getfit/get-recipes/')
             .then(response => {
                 const fetchedCategories = response.data;
                 setCategories(fetchedCategories);
                 setFilteredCategories(fetchedCategories);
+                setLoading(false); // Set loading to false after fetching
             })
             .catch(error => {
                 console.error('Error fetching categories:', error);
+                setLoading(false); // Set loading to false on error
             });
-    }, [setLikedCategories]);
-
-
-
+    }, []);
 
     useEffect(() => {
         const result = categories.filter(category =>
@@ -62,8 +57,6 @@ const CategorySec = ({ setFavorites, likedCategories, setLikedCategories }) => {
         );
         setFilteredCategories(result);
     }, [searchQuery, categories]);
-
-
 
     const handleMoreClick = (id) => {
         const selectedFood = categories.find(category => category.id === id);
@@ -112,7 +105,11 @@ const CategorySec = ({ setFavorites, likedCategories, setLikedCategories }) => {
                 </div>
                 <SectionWrapper>
                     <div className="categoryCards">
-                        {filteredCategories.length > 0 ? (
+                        {loading ? ( // Conditional rendering based on loading state
+                            <div className="loading-indicator w-100" >
+                                <p style={{textAlign:"center"}}>Loading...</p>
+                            </div>
+                        ) : filteredCategories.length > 0 ? (
                             filteredCategories.map(category => (
                                 <CategoryCard
                                     key={category.id}

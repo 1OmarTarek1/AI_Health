@@ -224,14 +224,14 @@ const ProfileHeader = ({ profilePictureUrl, setProfilePictureUrl }) => {
                         profilePictureUrl={profilePictureUrl || defaultProfilePicture}
                         handleOpenEdit={handleOpenEdit}
                     />
-                    <div className="userInfo">
+                    <div className="userInfo" data-aos="zoom-out">
                         <div className="infoItem full-name">
                             {localStorage.getItem('usernameDB') || "Username"}
                         </div>
                         <div className="infoItem bio"></div>
                     </div>
 
-                    <div className="profile-details" onClick={toggleEditInfo}>
+                    <div className="profile-details" onClick={toggleEditInfo} data-aos="zoom-out">
                         <div className='details-item'>
                             <div className="detTitle">
                                 <FaTransgender />
