@@ -30,9 +30,9 @@ const CategoryCard = ({
         setLikesCount(likeBtn ? likesCount - 1 : likesCount + 1); // Increment or decrement the likes count
         onLikeClick(id); // Pass the id prop to the onLikeClick function
     };
-
+// data-aos="flip-right"
     return (
-        <div className="CategoryCard" data-aos="flip-right">
+        <div className="CategoryCard" data-aos="fade-up">
             <div className="cardHeader">
                 <div className="cardImgWrapper">
                     <img src={imageUrl || defImg} alt={title} className="cardImg" loading="lazy" />
