@@ -7,7 +7,7 @@ import image_3 from '../../Assets/Images/Food-4.jpg'
 const ServicesHeader = () => {
   return (
     <>
-        <MDBCarousel showIndicators showControls fade>
+        <MDBCarousel showIndicators showControls fade  data-aos="fade">
             <div className="serTitle">
                 Services
             </div>

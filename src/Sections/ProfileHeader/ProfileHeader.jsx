@@ -230,64 +230,65 @@ const ProfileHeader = ({ profilePictureUrl, setProfilePictureUrl }) => {
                         </div>
                         <div className="infoItem bio"></div>
                     </div>
-
-                    <div className="profile-details" onClick={toggleEditInfo} data-aos="zoom-out">
-                        <div className='details-item'>
-                            <div className="detTitle">
-                                <FaTransgender />
-                                <span>Gender</span>
-                            </div>
-                            <div className="detVal">
-                                {formGender || "..."}
-                            </div>
-                        </div>
-                        <div className='details-item'>
-                            <div className="detTitle">
-                                <FaRunning />
-                                <span>Activity</span>
-                            </div>
-                            <div className="detVal">
-                                {formActivity || "..."}
-                            </div>
-                        </div>
-                        <div className='details-item'>
-                            <div className="detTitle">
-                                <FaWeight />
-                                <span>Weight</span>
-                            </div>
-                            <div className="detVal">
-                                {formWeight ? `${formWeight}kg` : "..."}
-                            </div>
-                        </div>
-                        <div className='details-item'>
-                            <div className="detTitle">
-                                <IoManSharp />
-                                <span>Height</span>
-                            </div>
-                            <div className="detVal">
-                                {formHeight ? `${formHeight}cm` : "..."}
-                            </div>
-                        </div>
-                        {cal && <>
+                    <div className="" data-aos="zoom-out">
+                        <div className="profile-details" onClick={toggleEditInfo} >
                             <div className='details-item'>
                                 <div className="detTitle">
-                                    <FaFireAlt />
-                                    <span>Calories</span>
+                                    <FaTransgender />
+                                    <span>Gender</span>
                                 </div>
                                 <div className="detVal">
-                                    {`${cal}cal` || "..."}
+                                    {formGender || "..."}
                                 </div>
                             </div>
                             <div className='details-item'>
                                 <div className="detTitle">
-                                    <FaCheck />
-                                    <span>Perfect</span>
+                                    <FaRunning />
+                                    <span>Activity</span>
                                 </div>
                                 <div className="detVal">
-                                    {`${perfWei}kg` || "..."}
+                                    {formActivity || "..."}
                                 </div>
                             </div>
-                        </>}
+                            <div className='details-item'>
+                                <div className="detTitle">
+                                    <FaWeight />
+                                    <span>Weight</span>
+                                </div>
+                                <div className="detVal">
+                                    {formWeight ? `${formWeight}kg` : "..."}
+                                </div>
+                            </div>
+                            <div className='details-item'>
+                                <div className="detTitle">
+                                    <IoManSharp />
+                                    <span>Height</span>
+                                </div>
+                                <div className="detVal">
+                                    {formHeight ? `${formHeight}cm` : "..."}
+                                </div>
+                            </div>
+                            {cal && <>
+                                <div className='details-item'>
+                                    <div className="detTitle">
+                                        <FaFireAlt />
+                                        <span>Calories</span>
+                                    </div>
+                                    <div className="detVal">
+                                        {`${cal}cal` || "..."}
+                                    </div>
+                                </div>
+                                <div className='details-item'>
+                                    <div className="detTitle">
+                                        <FaCheck />
+                                        <span>Perfect</span>
+                                    </div>
+                                    <div className="detVal">
+                                        {`${perfWei}kg` || "..."}
+                                    </div>
+                                </div>
+                            </>}
+                        </div>
                     </div>
                 </div>
             </div>

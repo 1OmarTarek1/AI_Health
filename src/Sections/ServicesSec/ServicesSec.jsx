@@ -175,136 +175,138 @@ const ServicesSec = () => {
     }, [predictions, uploadedImage]);
 
     return (
-        <div className="ServicesSec" id='Services'>
-            <div className="WebBtnContainer">
-                <button className='mainWebcamBtn' onClick={toggleWebcam}>
-                    {isWebcamActive ? <FaVideoSlash /> : <FaVideo />}
-                    <span>WebCam</span>
-                </button>
+        <div className=""  data-aos="fade-up">
+            <div className="ServicesSec" id='Services'>
+                <div className="WebBtnContainer">
+                    <button className='mainWebcamBtn' onClick={toggleWebcam}>
+                        {isWebcamActive ? <FaVideoSlash /> : <FaVideo />}
+                        <span>WebCam</span>
+                    </button>
 
-                <input
-                    className='upload'
-                    id='file-input'
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImageUpload}
-                />
+                    <input
+                        className='upload'
+                        id='file-input'
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageUpload}
+                    />
 
-                <label id="uploadLabel" htmlFor="file-input">
-                    <FaCamera /> | <FaUpload />
-                </label>
-            </div>
-            <SectionWrapper>
-                <div className="takenPhotoWrapper">
-                    {isWebcamActive && (
-                        <div className="webcamContainer">
-                            <Webcam
-                                className='webcam'
-                                audio={false}
-                                height={videoConstraints.height}
-                                ref={webcamRef}
-                                screenshotFormat="image/jpeg"
-                                width={videoConstraints.width}
-                                videoConstraints={videoConstraints}
-                                onUserMediaError={() => setError('Access Denied!')}
-                            />
-                            <canvas ref={canvasRef} className="boundingBoxCanvas img-fluid" />
-                            {error && <div className='webcamErr'>
-                                <span>{error}</span>
-                                <FaVideoSlash />
-                            </div>}
-                        </div>
-                    )}
+                    <label id="uploadLabel" htmlFor="file-input">
+                        <FaCamera /> | <FaUpload />
+                    </label>
                 </div>
-                <div className="infoContainer">
-                    <div className="partOneWrapper">
-                        <div className="imgInfoWrapper">
-                            {uploadedImage && (
-                                <>
-                                    {resultImage ?
-                                        <img src={resultImage} alt="Result" className="resultImage" />
-                                        :
-                                        <img src={uploadedImage} alt="Uploaded" className="uploadedImage" />
-                                    }
-                                    <canvas ref={canvasRef} className="boundingBoxCanvas" style={{ display: 'none' }} />
-                                </>
-                            )}
-                        </div>
-                        <div className="textContainer">
-                            {predictions.map((prediction, index) => (
-                                    <div className="aiCard" key={index}>
-                                        {/* this make problem with line */}
-                                        {/* <div className="imgInfoWrapper">
-                                            {uploadedImage && (
-                                                <>
-                                                    {resultImage ?
-                                                        <img src={resultImage} alt="Result" className="resultImage" />
-                                                        :
-                                                        <img src={uploadedImage} alt="Uploaded" className="uploadedImage" />
-                                                    }
-                                                    <canvas ref={canvasRef} className="boundingBoxCanvas" style={{ display: 'none' }} />
-                                                </>
-                                            )}
-                                        </div> */} 
-                                        <div className="textWrapper">
-                                            <div className="predictionItem">
-                                                <div className="foodName">
-                                                    {foodData[prediction.class]?.FoodName || prediction.class}
-                                                </div>
-                                                <div className="foodDis">
-                                                    {foodData[prediction.class]?.TheDescription}
-                                                </div>
-                                            </div>
-                                            <ul className="foodDetails">
-                                                <li className="detailItem">
-                                                    <div className="miniTitle">
-                                                        <span>Calories</span>
-                                                    </div>
-                                                    <div className="titleInfo">
-                                                        {foodData[prediction.class]?.Calories}cal
-                                                    </div>
-                                                </li>
-                                                <li className="detailItem">
-                                                    <div className="miniTitle">
-                                                        <span>Protein</span>
-                                                    </div>
-                                                    <div className="titleInfo">
-                                                        {foodData[prediction.class]?.Protein}gm
-                                                    </div>
-                                                </li>
-                                                <li className="detailItem">
-                                                    <div className="miniTitle">
-                                                        <span>Fats</span>
-                                                    </div>
-                                                    <div className="titleInfo">
-                                                        {foodData[prediction.class]?.Fats}fts
-                                                    </div>
-                                                </li>
-                                                <li className="detailItem">
-                                                    <div className="miniTitle">
-                                                        <span>Carbs</span>
-                                                    </div>
-                                                    <div className="titleInfo">
-                                                        {foodData[prediction.class]?.Carbs}gm
-                                                    </div>
-                                                </li>
-                                                {/* <li className="detailItem">
-                                                    <div className="miniTitle">
-                                                        <span>Link</span>
-                                                    </div>
-                                                    <div className="titleInfo">
-                                                        <a href={foodData[prediction.class]?.YoutubeLink}>Watch video</a>
-                                                    </div>
-                                                </li> */}
-                                            </ul>
-                                        </div>
-                                    </div>
-                            ))}
-                        </div>
-
+                <SectionWrapper>
+                    <div className="takenPhotoWrapper">
+                        {isWebcamActive && (
+                            <div className="webcamContainer">
+                                <Webcam
+                                    className='webcam'
+                                    audio={false}
+                                    height={videoConstraints.height}
+                                    ref={webcamRef}
+                                    screenshotFormat="image/jpeg"
+                                    width={videoConstraints.width}
+                                    videoConstraints={videoConstraints}
+                                    onUserMediaError={() => setError('Access Denied!')}
+                                />
+                                <canvas ref={canvasRef} className="boundingBoxCanvas img-fluid" />
+                                {error && <div className='webcamErr'>
+                                    <span>{error}</span>
+                                    <FaVideoSlash />
+                                </div>}
+                            </div>
+                        )}
                     </div>
-                </div>
-            </SectionWrapper>
+                    <div className="infoContainer">
+                        <div className="partOneWrapper">
+                            <div className="imgInfoWrapper">
+                                {uploadedImage && (
+                                    <>
+                                        {resultImage ?
+                                            <img src={resultImage} alt="Result" className="resultImage" />
+                                            :
+                                            <img src={uploadedImage} alt="Uploaded" className="uploadedImage" />
+                                        }
+                                        <canvas ref={canvasRef} className="boundingBoxCanvas" style={{ display: 'none' }} />
+                                    </>
+                                )}
+                            </div>
+                            <div className="textContainer">
+                                {predictions.map((prediction, index) => (
+                                        <div className="aiCard" key={index}>
+                                            {/* this make problem with line */}
+                                            {/* <div className="imgInfoWrapper">
+                                                {uploadedImage && (
+                                                    <>
+                                                        {resultImage ?
+                                                            <img src={resultImage} alt="Result" className="resultImage" />
+                                                            :
+                                                            <img src={uploadedImage} alt="Uploaded" className="uploadedImage" />
+                                                        }
+                                                        <canvas ref={canvasRef} className="boundingBoxCanvas" style={{ display: 'none' }} />
+                                                    </>
+                                                )}
+                                            </div> */} 
+                                            <div className="textWrapper">
+                                                <div className="predictionItem">
+                                                    <div className="foodName">
+                                                        {foodData[prediction.class]?.FoodName || prediction.class}
+                                                    </div>
+                                                    <div className="foodDis">
+                                                        {foodData[prediction.class]?.TheDescription}
+                                                    </div>
+                                                </div>
+                                                <ul className="foodDetails">
+                                                    <li className="detailItem">
+                                                        <div className="miniTitle">
+                                                            <span>Calories</span>
+                                                        </div>
+                                                        <div className="titleInfo">
+                                                            {foodData[prediction.class]?.Calories}cal
+                                                        </div>
+                                                    </li>
+                                                    <li className="detailItem">
+                                                        <div className="miniTitle">
+                                                            <span>Protein</span>
+                                                        </div>
+                                                        <div className="titleInfo">
+                                                            {foodData[prediction.class]?.Protein}gm
+                                                        </div>
+                                                    </li>
+                                                    <li className="detailItem">
+                                                        <div className="miniTitle">
+                                                            <span>Fats</span>
+                                                        </div>
+                                                        <div className="titleInfo">
+                                                            {foodData[prediction.class]?.Fats}fts
+                                                        </div>
+                                                    </li>
+                                                    <li className="detailItem">
+                                                        <div className="miniTitle">
+                                                            <span>Carbs</span>
+                                                        </div>
+                                                        <div className="titleInfo">
+                                                            {foodData[prediction.class]?.Carbs}gm
+                                                        </div>
+                                                    </li>
+                                                    {/* <li className="detailItem">
+                                                        <div className="miniTitle">
+                                                            <span>Link</span>
+                                                        </div>
+                                                        <div className="titleInfo">
+                                                            <a href={foodData[prediction.class]?.YoutubeLink}>Watch video</a>
+                                                        </div>
+                                                    </li> */}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                ))}
+                            </div>
+
+                        </div>
+                    </div>
+                </SectionWrapper>
+            </div>
         </div>
     );
 }

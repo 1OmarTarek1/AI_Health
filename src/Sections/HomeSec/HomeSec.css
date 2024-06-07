@@ -47,11 +47,11 @@
     color: #ffffffa2;
 }
 
-.homeBtn {
+.homeBtn span{
+    display: block;
     text-align: center;
     padding: 8px 0px;
-    width: 120px;
-    /* Removed backdrop-filter from here */
+    width: 110px;
     font-size: 15px;
     font-weight: 500;
     border-radius: 5px;
@@ -59,17 +59,16 @@
     text-transform: uppercase;
     color: #fff;
     letter-spacing: .2rem;
-    transition: all .2s;
     box-shadow: 0px 1px 3px 0px #0000008a;
-    background: rgba(255, 255, 255, 0.1); /* Added a fallback background */
+    background: rgba(255, 255, 255, 0.1); 
+    transition: all .2s ;
 }
 
-.homeBtn:hover {
-    width: 125px;
+.homeBtn span:hover{
+    width: 120px;
     letter-spacing: .4rem;
     padding-left: 5px;
     border-radius: 5px;
-    /* Added backdrop-filter here for hover effect */
     backdrop-filter: blur(10px);
     color: #fff;
 }
